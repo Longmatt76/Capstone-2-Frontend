@@ -9,7 +9,10 @@ class YourStoreAPI {
     console.log("API CALL:", endpoint, data, method);
 
     const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${YourStoreAPI.token}` };
+    const headers = {
+      Authorization: `Bearer ${YourStoreAPI.token}`,
+      "Content-Type": "application/json"
+    };
     const params = method === "get" ? data : {};
 
     try {
@@ -68,7 +71,7 @@ class YourStoreAPI {
 
   static async addAddress(userId, data) {
     let res = await this.request(`users/address/${userId}`, data, "post");
-    res.address;
+    return res.address;
   }
 
   static async editAddress(userId, updatedData) {

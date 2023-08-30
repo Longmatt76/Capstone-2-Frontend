@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Typography,
   Grid,
@@ -11,10 +11,38 @@ import {
   Link,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 
-const SignUpOwner = () => {
-  const theme = useTheme();
+const SignUpOwner = ({handleOwnerSignup}) => {
+  
+    const theme = useTheme();
+    const navigate = useNavigate();
+    const INITIALSTATE = {
+        firstName: "",
+        lastName: "",
+        email: "",
+        username: "",
+        password: "",
+      };
+    
+      const [formData, setFormData] = useState(INITIALSTATE);
+    
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((fdata) => ({
+          ...fdata,
+          [name]: value,
+        }));
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        await handleOwnerSignup(formData);
+        setFormData(INITIALSTATE);
+        navigate("/");
+      };
+
   return (
     <>
       <Container maxWidth="sm" sx={{alignItems: 'center', justifyContent:'center', minHeight: '100vh'}}>
@@ -43,7 +71,7 @@ const SignUpOwner = () => {
               mt={5}
             >
               <Grid xs={12} sm={12} item>
-                <form>
+                <form onSubmit={handleSubmit}>
                 <TextField
                     sx={{
                       backgroundColor: theme.palette.primary.contrastText,
@@ -53,8 +81,11 @@ const SignUpOwner = () => {
                     placeholder="enter first name"
                     fullWidth
                     type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
                   />
-                <TextField
+                  <TextField
                     sx={{
                       backgroundColor: theme.palette.primary.contrastText,
                       marginBottom: 1,
@@ -63,8 +94,11 @@ const SignUpOwner = () => {
                     placeholder="enter last name"
                     fullWidth
                     type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
                   />
-                <TextField
+                  <TextField
                     sx={{
                       backgroundColor: theme.palette.primary.contrastText,
                       marginBottom: 1,
@@ -73,6 +107,9 @@ const SignUpOwner = () => {
                     placeholder="enter email"
                     fullWidth
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
                   <TextField
                     sx={{
@@ -82,6 +119,10 @@ const SignUpOwner = () => {
                     label="username"
                     placeholder="create a unique username"
                     fullWidth
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    autoComplete="username"
                   />
                   <TextField
                     sx={{ backgroundColor: theme.palette.primary.contrastText }}
@@ -89,13 +130,18 @@ const SignUpOwner = () => {
                     type="password"
                     placeholder="create a password with at least 6 characters"
                     fullWidth
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    autoComplete="current-password"
                   />
-                  
+
                   <Button
                     color="primary"
                     fullWidth
                     variant="contained"
                     sx={{ marginTop: 3 }}
+                    type="submit"
                   >
                     Sign Up
                   </Button>

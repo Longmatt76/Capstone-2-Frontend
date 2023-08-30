@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Stack, Badge, Divider } from "@mui/material";
 import StoreIcon from '@mui/icons-material/Store';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SearchBar from "./SearchBar";
 import { NavLink } from "react-router-dom"
 import UserContext from '../contexts/UserContext';
@@ -22,7 +23,7 @@ const Navbar = ({ logOut }) => {
         }}
       >
         <Stack direction="row" alignItems="center" spacing={2}>
-          <IconButton size="large" edge="" color="inherit">
+          <IconButton size="large" color="inherit">
             <StoreIcon />
           </IconButton>
           <NavLink to="/" className="homeTitle">
@@ -58,9 +59,16 @@ const Navbar = ({ logOut }) => {
               <NavLink to="/login">Login</NavLink>{" "}
             </>
           ) : (
+            <>
+            <NavLink to={currentUser.roles === 'owner' ? '/owners-profile' : '/users-profile'}>
+              <Stack direction='row' spacing={1} alignItems='center'>
+            <AccountCircleIcon/>&nbsp;{currentUser.firstName}
+            </Stack>
+          </NavLink>
             <NavLink onClick={logOut} to="/">
               Logout
             </NavLink>
+            </>
           )}
 
           <IconButton size="large" color="inherit">
