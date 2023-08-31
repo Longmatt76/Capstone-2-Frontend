@@ -11,7 +11,7 @@ class YourStoreAPI {
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {
       Authorization: `Bearer ${YourStoreAPI.token}`,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json", 
     };
     const params = method === "get" ? data : {};
 
@@ -41,7 +41,7 @@ class YourStoreAPI {
 
   static async editUser(userId, updatedData) {
     let res = await this.request(`users/${userId}`, updatedData, "put");
-    return res.user;
+    return res;
   }
 
   static async removeUser(userId) {

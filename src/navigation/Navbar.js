@@ -1,17 +1,39 @@
-import React, { useContext } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, Stack, Badge, Divider } from "@mui/material";
-import StoreIcon from '@mui/icons-material/Store';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import React, { useContext, useState } from "react";
+import StoreIcon from "@mui/icons-material/Store";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchBar from "./SearchBar";
-import { NavLink } from "react-router-dom"
-import UserContext from '../contexts/UserContext';
-import '../css/Navbar.css';
+import { NavLink } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+import "../css/Navbar.css";
+import { useTheme } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Stack,
+  Badge,
+  Divider,
+  Menu,
+  MenuItem,
+  Button,
+} from "@mui/material";
 
 const Navbar = ({ logOut }) => {
+  const theme = useTheme();
   const cartItemCount = 1;
 
   const { currentUser } = useContext(UserContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar position="static">
@@ -39,7 +61,6 @@ const Navbar = ({ logOut }) => {
           <NavLink to="/register-owner">Create Store</NavLink>
         </Stack>
 
-        {/* Center Section */}
         <Stack
           sx={{
             display: "flex",
@@ -60,14 +81,161 @@ const Navbar = ({ logOut }) => {
             </>
           ) : (
             <>
-            <NavLink to={currentUser.roles === 'owner' ? '/owners-profile' : '/users-profile'}>
-              <Stack direction='row' spacing={1} alignItems='center'>
-            <AccountCircleIcon/>&nbsp;{currentUser.firstName}
-            </Stack>
-          </NavLink>
-            <NavLink onClick={logOut} to="/">
-              Logout
-            </NavLink>
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="flex-end"
+                onClick={handleMenuOpen}
+                sx={{
+                  cursor: "pointer",
+                }}
+              >
+                Profile
+              </Stack>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                sx={{ marginTop: 2.5 }}
+                disableAutoFocusItem
+              >
+                <MenuItem onClick={handleMenuClose}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: theme.palette.primary.main }}
+                  >
+                    Username
+                  </Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Typography variant="body2">
+                    {currentUser.username}
+                  </Typography>
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleMenuClose}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: theme.palette.primary.main }}
+                  >
+                    Email
+                  </Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Typography variant="body2">{currentUser.email}</Typography>
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleMenuClose}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: theme.palette.primary.main }}
+                  >
+                    First Name
+                  </Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Typography variant="body2">
+                    {currentUser.firstName}
+                  </Typography>
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleMenuClose}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ color: theme.palette.primary.main }}
+                  >
+                    Last Name
+                  </Typography>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <Typography variant="body2">
+                    {currentUser.lastName}
+                  </Typography>
+                </MenuItem>
+                <Divider />
+                {!currentUser.roles ? (
+                  <MenuItem onClick={handleMenuClose}>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ color: theme.palette.primary.main }}
+                    >
+                      Address
+                    </Typography>
+                    &nbsp;
+                    <Typography variant="body2">
+                      {currentUser.addresses[0] ? (
+                        currentUser.addresses.map((property) => (
+                          <MenuItem onClick={handleMenuClose}>
+                            <Typography variant="body2">
+                              {property.streetAddress}
+                              <br />
+                              {property.city}&nbsp;{property.state}
+                              <br />
+                              {property.zipCode}
+                            </Typography>
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <>
+                          <NavLink
+                            style={{ opacity: 1 }}
+                            to={`/users-address/:${currentUser.username}`}
+                          >
+                            <Button
+                              sx={{ opacity: 1 }}
+                              size="small"
+                              variant="outlined"
+                              color="error"
+                              id="addButt"
+                            >
+                              Add
+                            </Button>
+                          </NavLink>
+                        </>
+                      )}
+                    </Typography>
+                  </MenuItem>
+                ) : null}
+
+                <Divider />
+                <MenuItem sx={{ justifyContent: "center" }}>
+                  <NavLink
+                    style={{ opacity: 1 }}
+                    to={
+                     currentUser.roles === "owner"
+                        ? `/edit-owner/:${currentUser.username}`
+                        : `/edit-user/:${currentUser.username}`
+                    }
+                  >
+                    <Button
+                      onClick={handleMenuClose}
+                      variant="outlined"
+                      fullWidth
+                      color="error"
+                      size="small"
+                      sx={{ opacity: 1 }}
+                    >
+                      Edit Profile
+                    </Button>
+                  </NavLink>
+                  {!currentUser.roles ? (
+                    <NavLink
+                      style={{ opacity: 1 }}
+                      to={`/edit-address/:${currentUser.username}`}
+                    >
+                      <Button
+                        onClick={handleMenuClose}
+                        variant="outlined"
+                        fullWidth
+                        color="error"
+                        size="small"
+                        sx={{ opacity: 1 }}
+                      >
+                        Edit Address
+                      </Button>
+                    </NavLink>
+                  ) : null}
+                </MenuItem>
+              </Menu>
+              <NavLink onClick={logOut} to="/">
+                Logout
+              </NavLink>
             </>
           )}
 
@@ -78,12 +246,10 @@ const Navbar = ({ logOut }) => {
           </IconButton>
         </Stack>
       </Toolbar>
-      <Divider/>
-      <Stack>
-      </Stack>
+      <Divider />
+      <Stack></Stack>
     </AppBar>
   );
 };
 
 export default Navbar;
-

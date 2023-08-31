@@ -13,3 +13,11 @@
 .homeTitle {
     opacity: 1;
 }
+
+a #addButt {
+    opacity: 1;
+}
+
+a #editButt {
+    opacity: 1;
+}

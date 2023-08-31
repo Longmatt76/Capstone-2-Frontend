@@ -12,6 +12,7 @@ import { ThemeOne } from "./themes";
 
 
 
+
 function App() {
 
   const [token, setToken] = useLocalStorage('token', 'app');
@@ -39,6 +40,7 @@ function App() {
     getInfo();
   }, [token]);
 
+
   const handleLogOut = () => {
     setCurrentUser(null);
     setToken(null);
@@ -63,10 +65,12 @@ function App() {
   }
 
   async function handleEditUserProfile(userId, updatedData) {
-    const updatedUser = await YourStoreAPI.editUser(userId, updatedData);
-    setCurrentUser(updatedUser);
+    await YourStoreAPI.editUser(userId, updatedData);
+    const updatedUser = await YourStoreAPI.getUser(userId);
+    setCurrentUser(updatedUser); 
     return updatedUser;
   }
+  
 
   async function handleEditOwnerProfile(ownerId, updatedData) {
     const updatedOwner = await YourStoreAPI.editOwner(ownerId, updatedData);
@@ -74,11 +78,23 @@ function App() {
     return updatedOwner;
   }
 
+  async function handleUserAddress(userId, data) {
+    const address = await YourStoreAPI.addAddress(userId, data);
+    return address
+  }
+
+  async function handleUserEditAddress(userId, data) {
+    await YourStoreAPI.editAddress(userId, data);
+    const updatedUser = await YourStoreAPI.getUser(userId);
+    setCurrentUser(updatedUser);
+    return updatedUser; 
+  }
+
   return (
     <div className="App">
       <ThemeProvider theme={ThemeOne}>
         <BrowserRouter>
-          <UserContext.Provider value={{ currentUser: currentUser }}>
+          <UserContext.Provider value={{ currentUser: currentUser, setCurrentUser }}>
             <Navbar logOut={handleLogOut} />
             <AppRoutes
               handleLogIn={handleLogIn}
@@ -86,6 +102,8 @@ function App() {
               handleEditUserProfile={handleEditUserProfile}
               handleEditOwnerProfile={handleEditOwnerProfile}
               handleOwnerSignup={handleOwnerSignup}
+              handleUserAddress={handleUserAddress}
+              handleUserEditAddress={handleUserEditAddress}
             />
           </UserContext.Provider>
         </BrowserRouter>

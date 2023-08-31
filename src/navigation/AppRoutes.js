@@ -4,7 +4,10 @@ import LogIn from "../forms/LogIn";
 import SignUpUser from "../forms/SignUpUser";
 import SignUpOwner from "../forms/SignUpOwner";
 import CreateStore from "../forms/CreateStore";
+import EditUser from "../forms/EditUser";
+import AddAddress from "../forms/AddAddress";
 import Home from "../Home";
+import EditAddress from "../forms/EditAddress";
 
 
 
@@ -14,6 +17,8 @@ const AppRoutes = ({
   handleEditUserProfile,
   handleEditOwnerProfile,
   handleOwnerSignup,
+  handleUserAddress,
+  handleUserEditAddress
 }) => {
   return (
     <Routes>
@@ -23,6 +28,22 @@ const AppRoutes = ({
         path="/register-user"
         element={<SignUpUser handleUserSignUp={handleUserSignUp} />}
       />
+      <Route
+        path="/edit-user/:username"
+        element={<EditUser handleEditUserProfile={handleEditUserProfile}/>}
+        />
+      <Route
+        path="/edit-owner/:username"
+        element={<EditOwner handleEditOwnerProfile={handleEditOwnerProfile}/>}
+        />
+      <Route 
+        path="/users-address/:username"
+        element={<AddAddress handleUserAddress={handleUserAddress}/>}
+        />
+      <Route 
+        path="/edit-address/:username"
+        element={<EditAddress handleUserEditAddress={handleUserEditAddress}/>}
+        />
       <Route
         path="/register-owner"
         element={<SignUpOwner handleOwnerSignup={handleOwnerSignup} />}
