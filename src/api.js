@@ -7,22 +7,24 @@ class YourStoreAPI {
 
   static async request(endpoint, data = {}, method = "get") {
     console.log("API CALL:", endpoint, data, method);
-
+  
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {
       Authorization: `Bearer ${YourStoreAPI.token}`,
       "Content-Type": "application/json", 
     };
-    const params = method === "get" ? data : {};
-
+    
+    const requestData = method === "get" ? { params: data } : { data };
+  
     try {
-      return (await axios({ url, method, data, params, headers })).data;
+      return (await axios({ url, method, headers, ...requestData })).data;
     } catch (err) {
       console.error("API error", err.response);
       let message = err.response.data.error.message;
       throw Array.isArray(message) ? message : [message];
     }
   }
+  
 
   static async loginUserOrOwner(data) {
     let res = await this.request(`auth/token`, data, "post");
@@ -44,8 +46,8 @@ class YourStoreAPI {
     return res;
   }
 
-  static async removeUser(userId) {
-    let res = await this.request(`users/${userId}`, {}, "delete");
+  static async removeUser(userId, data=undefined) {
+    let res = await this.request(`users/${userId}`, data, "delete");
     return res;
   }
 
@@ -64,8 +66,8 @@ class YourStoreAPI {
     return res.updatedOwner;
   }
 
-  static async removeOwner(ownerId) {
-    let res = await this.request(`owners/${ownerId}`, {}, "delete");
+  static async removeOwner(ownerId, data= undefined) {
+    let res = await this.request(`owners/${ownerId}`, data , "delete");
     return res;
   }
 
@@ -79,8 +81,8 @@ class YourStoreAPI {
     return res.updatedAddress;
   }
 
-  static async removeAddress(userId) {
-    let res = await this.request(`users/address/${userId}`, "delete");
+  static async removeAddress(userId, data=undefined) {
+    let res = await this.request(`users/address/${userId}`,data, "delete");
     return res;
   }
 }

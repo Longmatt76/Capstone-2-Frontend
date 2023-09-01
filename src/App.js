@@ -70,17 +70,32 @@ function App() {
     setCurrentUser(updatedUser); 
     return updatedUser;
   }
+
+  async function handleDeleteUserProfile(userId) {
+    const res = await YourStoreAPI.removeUser(userId);
+    handleLogOut(currentUser);
+    return res;  
+  }
   
 
   async function handleEditOwnerProfile(ownerId, updatedData) {
-    const updatedOwner = await YourStoreAPI.editOwner(ownerId, updatedData);
+    await YourStoreAPI.editOwner(ownerId, updatedData);
+    const updatedOwner = await YourStoreAPI.getOwner(ownerId); 
     setCurrentUser(updatedOwner);
     return updatedOwner;
   }
 
+  async function handleDeleteOwnerProfile(ownerId) {
+    const res = await YourStoreAPI.removeOwner(ownerId);
+    handleLogOut(currentUser);
+    return res;
+  }
+
   async function handleUserAddress(userId, data) {
-    const address = await YourStoreAPI.addAddress(userId, data);
-    return address
+    await YourStoreAPI.addAddress(userId, data);
+    const updatedUser = await YourStoreAPI.getUser(userId);
+    setCurrentUser(updatedUser);
+    return updatedUser; 
   }
 
   async function handleUserEditAddress(userId, data) {
@@ -88,6 +103,13 @@ function App() {
     const updatedUser = await YourStoreAPI.getUser(userId);
     setCurrentUser(updatedUser);
     return updatedUser; 
+  }
+
+  async function handleUserDeleteAddress(userId) {
+     await YourStoreAPI.removeAddress(userId);
+     const updatedUser = await YourStoreAPI.getUser(userId);
+     setCurrentUser(updatedUser);
+     return updatedUser; 
   }
 
   return (
@@ -104,6 +126,9 @@ function App() {
               handleOwnerSignup={handleOwnerSignup}
               handleUserAddress={handleUserAddress}
               handleUserEditAddress={handleUserEditAddress}
+              handleUserDeleteAddress={handleUserDeleteAddress}
+              handleDeleteUserProfile={handleDeleteUserProfile}
+              handleDeleteOwnerProfile={handleDeleteOwnerProfile}
             />
           </UserContext.Provider>
         </BrowserRouter>

@@ -160,8 +160,8 @@ const Navbar = ({ logOut }) => {
                     &nbsp;
                     <Typography variant="body2">
                       {currentUser.addresses[0] ? (
-                        currentUser.addresses.map((property) => (
-                          <MenuItem onClick={handleMenuClose}>
+                        currentUser.addresses.map((property, index) => (
+                          <MenuItem key={index} onClick={handleMenuClose}>
                             <Typography variant="body2">
                               {property.streetAddress}
                               <br />
@@ -176,8 +176,9 @@ const Navbar = ({ logOut }) => {
                           <NavLink
                             style={{ opacity: 1 }}
                             to={`/users-address/:${currentUser.username}`}
+              
                           >
-                            <Button
+                            &nbsp; &nbsp; &nbsp;<Button
                               sx={{ opacity: 1 }}
                               size="small"
                               variant="outlined"

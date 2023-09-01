@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 
 
-const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
+const EditOwner= ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
   const { currentUser } = useContext(UserContext);
   const theme = useTheme();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleEditUserProfile(currentUser.userId ,formData);
+    await handleEditOwnerProfile(currentUser.ownerId ,formData);
     setFormData(INITIALSTATE);
     navigate("/");
   };
@@ -71,7 +71,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
               Edit Profile
             </Typography>
             <Typography gutterBottom variant="subtitle2">
-              Update basic account settings
+              Update basic store owner account settings
             </Typography>
             <Divider />
 
@@ -147,17 +147,16 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                     Update
                   </Button>
                 </form>
-                
                 <Button
                     color="error"
                     fullWidth
                     variant="contained"
                     sx={{ marginTop: 3 }}
-                    onClick={()=> {
-                      handleDeleteUserProfile(currentUser.userId);
+                    onClick={() => {
+                      handleDeleteOwnerProfile(currentUser.ownerId);
                       navigate('/');
                     }}
-                    
+                 
                   >
                     Delete Profile
                   </Button>
@@ -181,4 +180,4 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
   );
 };
 
-export default EditUser;
+export default EditOwner;

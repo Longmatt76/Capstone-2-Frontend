@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import LogIn from "../forms/LogIn";
 import SignUpUser from "../forms/SignUpUser";
 import SignUpOwner from "../forms/SignUpOwner";
@@ -8,8 +8,7 @@ import EditUser from "../forms/EditUser";
 import AddAddress from "../forms/AddAddress";
 import Home from "../Home";
 import EditAddress from "../forms/EditAddress";
-
-
+import EditOwner from "../forms/EditOwner";
 
 const AppRoutes = ({
   handleLogIn,
@@ -18,7 +17,10 @@ const AppRoutes = ({
   handleEditOwnerProfile,
   handleOwnerSignup,
   handleUserAddress,
-  handleUserEditAddress
+  handleUserEditAddress,
+  handleUserDeleteAddress,
+  handleDeleteUserProfile,
+  handleDeleteOwnerProfile,
 }) => {
   return (
     <Routes>
@@ -30,20 +32,35 @@ const AppRoutes = ({
       />
       <Route
         path="/edit-user/:username"
-        element={<EditUser handleEditUserProfile={handleEditUserProfile}/>}
-        />
+        element={
+          <EditUser
+            handleEditUserProfile={handleEditUserProfile}
+            handleDeleteUserProfile={handleDeleteUserProfile}
+          />
+        }
+      />
       <Route
         path="/edit-owner/:username"
-        element={<EditOwner handleEditOwnerProfile={handleEditOwnerProfile}/>}
-        />
-      <Route 
+        element={
+          <EditOwner
+            handleEditOwnerProfile={handleEditOwnerProfile}
+            handleDeleteOwnerProfile={handleDeleteOwnerProfile}
+          />
+        }
+      />
+      <Route
         path="/users-address/:username"
-        element={<AddAddress handleUserAddress={handleUserAddress}/>}
-        />
-      <Route 
+        element={<AddAddress handleUserAddress={handleUserAddress} />}
+      />
+      <Route
         path="/edit-address/:username"
-        element={<EditAddress handleUserEditAddress={handleUserEditAddress}/>}
-        />
+        element={
+          <EditAddress
+            handleUserEditAddress={handleUserEditAddress}
+            handleUserDeleteAddress={handleUserDeleteAddress}
+          />
+        }
+      />
       <Route
         path="/register-owner"
         element={<SignUpOwner handleOwnerSignup={handleOwnerSignup} />}
@@ -53,4 +70,4 @@ const AppRoutes = ({
   );
 };
 
-export default AppRoutes; 
+export default AppRoutes;

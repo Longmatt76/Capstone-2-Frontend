@@ -19,7 +19,7 @@ import {
   MenuItem,
 } from "@mui/material";
 
-const EditAddress = ({ handleUserEditAddress }) => {
+const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { currentUser } = useContext(UserContext);
@@ -43,7 +43,7 @@ const EditAddress = ({ handleUserEditAddress }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleUserEditAddress(currentUser.userId ,formData);
+    await handleUserEditAddress(currentUser.userId, formData);
     setFormData(INITIALSTATE);
     navigate("/");
   };
@@ -116,26 +116,24 @@ const EditAddress = ({ handleUserEditAddress }) => {
                   />
                   <FormControl fullWidth>
                     <InputLabel>State</InputLabel>
-                      <Select
-                
-                        sx={{
-                          backgroundColor: theme.palette.primary.contrastText,
-                          marginBottom: 1,
-                        }}
-                        label="state"
-                        fullWidth
-                        type="select"
-                        name="state"
-                        value={formData.state}
-                        onChange={handleChange}
-                       
-                      >
-                        {states.map((state, index) => (
-                          <MenuItem key={index} value={state}>
-                            {state}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                    <Select
+                      sx={{
+                        backgroundColor: theme.palette.primary.contrastText,
+                        marginBottom: 1,
+                      }}
+                      label="state"
+                      fullWidth
+                      type="select"
+                      name="state"
+                      value={formData.state}
+                      onChange={handleChange}
+                    >
+                      {states.map((state, index) => (
+                        <MenuItem key={index} value={state}>
+                          {state}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   </FormControl>
 
                   <TextField
@@ -161,6 +159,18 @@ const EditAddress = ({ handleUserEditAddress }) => {
                     Update Address
                   </Button>
                 </form>
+                <Button
+                  color="error"
+                  fullWidth
+                  variant="contained"
+                  sx={{ marginTop: 3 }}
+                  onClick={() => {
+                    handleUserDeleteAddress(currentUser.userId);
+                    navigate("/");
+                  }}
+                >
+                  Delete Address
+                </Button>
                 <Typography
                   mt={2}
                   align="center"
