@@ -17,9 +17,11 @@ function App() {
 
   const [token, setToken] = useLocalStorage('token', 'app');
   const [currentUser, setCurrentUser] = useState();
+  const [currentStore, setCurrentStore] = useState();
+
 
   useEffect(() => {
-    async function getInfo() {
+    async function getUserInfo() {
       if (token) {
         const decodedToken = jwt.decode(token);
         YourStoreAPI.token = token;
@@ -37,8 +39,29 @@ function App() {
         setCurrentUser(currentUserData);
       }
     }
-    getInfo();
+    getUserInfo();
   }, [token]);
+
+ 
+  useEffect(() => {
+    async function getStoreInfo() {
+      if (token) {
+        const decodedToken = jwt.decode(token);
+        YourStoreAPI.token = token;
+        let currentStoreData;
+        if (decodedToken.ownerId) {
+          try {
+            currentStoreData = await YourStoreAPI.getStore(decodedToken.ownerId);
+            setCurrentStore(currentStoreData);
+          } catch (error) {
+            setCurrentStore(undefined);
+          }    
+        }
+      }
+    }
+    getStoreInfo();
+  }, [token]);
+  
 
 
   const handleLogOut = () => {
@@ -112,11 +135,31 @@ function App() {
      return updatedUser; 
   }
 
+  async function handleAddStoreDetails(ownerId, data){
+    await YourStoreAPI.createStore(ownerId, data);
+    const store = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(store);
+    return store
+  }
+
+  async function handleEditStoreDetails(ownerId, updatedData) {
+    await YourStoreAPI.updateStore(ownerId, updatedData);
+    const updatedStore = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(updatedStore);
+    return updatedStore;
+  }
+
+  async function handleDeleteStore(ownerId) {
+   const res = await YourStoreAPI.removeStore(ownerId);
+   setCurrentStore(null)
+   return res; 
+  }
+
   return (
     <div className="App">
       <ThemeProvider theme={ThemeOne}>
         <BrowserRouter>
-          <UserContext.Provider value={{ currentUser: currentUser, setCurrentUser }}>
+          <UserContext.Provider value={{ currentUser: currentUser, setCurrentUser, currentStore: currentStore, setCurrentStore }}>
             <Navbar logOut={handleLogOut} />
             <AppRoutes
               handleLogIn={handleLogIn}
@@ -129,6 +172,9 @@ function App() {
               handleUserDeleteAddress={handleUserDeleteAddress}
               handleDeleteUserProfile={handleDeleteUserProfile}
               handleDeleteOwnerProfile={handleDeleteOwnerProfile}
+              handleAddStoreDetails={handleAddStoreDetails}
+              handleEditStoreDetails={handleEditStoreDetails}
+              handleDeleteStore={handleDeleteStore}
             />
           </UserContext.Provider>
         </BrowserRouter>

@@ -59,7 +59,7 @@ const AddAddress = ({ handleUserAddress }) => {
         }}
       >
         <Card
-          sx={{ backgroundColor: theme.palette.secondary.light, marginTop: 10 }}
+          sx={{ marginTop: 20 }}
         >
           <CardContent>
             <Typography
@@ -90,7 +90,7 @@ const AddAddress = ({ handleUserAddress }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="street address"
@@ -103,7 +103,7 @@ const AddAddress = ({ handleUserAddress }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="city"
@@ -119,7 +119,7 @@ const AddAddress = ({ handleUserAddress }) => {
                       <Select
                 
                         sx={{
-                          backgroundColor: theme.palette.primary.contrastText,
+                         
                           marginBottom: 1,
                         }}
                         label="state"
@@ -140,7 +140,7 @@ const AddAddress = ({ handleUserAddress }) => {
 
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                    
                       marginBottom: 1,
                     }}
                     label="zip code"

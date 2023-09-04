@@ -55,7 +55,7 @@ const EditOwner= ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
         }}
       >
         <Card
-          sx={{ backgroundColor: theme.palette.secondary.light, marginTop: 10 }}
+          sx={{  marginTop: 20 }}
         >
           <CardContent>
             <Typography
@@ -86,7 +86,7 @@ const EditOwner= ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="first name"
@@ -99,7 +99,7 @@ const EditOwner= ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="last name"
@@ -112,7 +112,7 @@ const EditOwner= ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="email"
@@ -125,7 +125,7 @@ const EditOwner= ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                    
                       marginBottom: 1,
                     }}
                     label="username"
@@ -150,7 +150,7 @@ const EditOwner= ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                 <Button
                     color="error"
                     fullWidth
-                    variant="contained"
+                    variant="outlined"
                     sx={{ marginTop: 3 }}
                     onClick={() => {
                       handleDeleteOwnerProfile(currentUser.ownerId);

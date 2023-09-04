@@ -3,7 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import LogIn from "../forms/LogIn";
 import SignUpUser from "../forms/SignUpUser";
 import SignUpOwner from "../forms/SignUpOwner";
-import CreateStore from "../forms/CreateStore";
+import AddStoreDetails from "../forms/AddStoreDetails";
+import EditStoreDetails from "../forms/EditStoreDetails";
 import EditUser from "../forms/EditUser";
 import AddAddress from "../forms/AddAddress";
 import Home from "../Home";
@@ -21,6 +22,9 @@ const AppRoutes = ({
   handleUserDeleteAddress,
   handleDeleteUserProfile,
   handleDeleteOwnerProfile,
+  handleAddStoreDetails,
+  handleEditStoreDetails,
+  handleDeleteStore,
 }) => {
   return (
     <Routes>
@@ -65,7 +69,21 @@ const AppRoutes = ({
         path="/register-owner"
         element={<SignUpOwner handleOwnerSignup={handleOwnerSignup} />}
       />
-      <Route path="/create-store" element={<CreateStore />} />
+      <Route
+        path="/stores/add-details/:ownerId"
+        element={
+          <AddStoreDetails handleAddStoreDetails={handleAddStoreDetails} />
+        }
+      />
+      <Route
+        path="/stores/edit-details/:ownerId"
+        element={
+          <EditStoreDetails
+            handleEditStoreDetails={handleEditStoreDetails}
+            handleDeleteStore={handleDeleteStore}
+          />
+        }
+      />
     </Routes>
   );
 };

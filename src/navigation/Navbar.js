@@ -1,5 +1,9 @@
 import React, { useContext, useState } from "react";
 import StoreIcon from "@mui/icons-material/Store";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import CategoryIcon from "@mui/icons-material/Category";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchBar from "./SearchBar";
 import { NavLink } from "react-router-dom";
@@ -17,15 +21,19 @@ import {
   Menu,
   MenuItem,
   Button,
+  Drawer,
+  Avatar,
 } from "@mui/material";
 
 const Navbar = ({ logOut }) => {
   const theme = useTheme();
   const cartItemCount = 1;
 
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, currentStore } = useContext(UserContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleMenuOpen = (e) => {
     setAnchorEl(e.currentTarget);
@@ -36,7 +44,7 @@ const Navbar = ({ logOut }) => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
       <Toolbar
         sx={{
           display: "flex",
@@ -45,22 +53,142 @@ const Navbar = ({ logOut }) => {
         }}
       >
         <Stack direction="row" alignItems="center" spacing={2}>
-          <IconButton size="large" color="inherit">
-            <StoreIcon />
-          </IconButton>
-          <NavLink to="/" className="homeTitle">
-            <Typography
-              variant="h5"
-              component="div"
-              sx={{ fontWeight: "bold" }}
-            >
-              YOUR
-              <span style={{ opacity: 0.8, fontWeight: "normal" }}>STORE</span>
-            </Typography>
-          </NavLink>
-          <NavLink to="/register-owner">Create Store</NavLink>
-        </Stack>
+          {!currentStore ? (
+            <IconButton size="large" color="inherit">
+              <StoreIcon />
+            </IconButton>
+          ) : (
+            <Avatar src={`${currentStore.logo}`} />
+          )}
 
+          {!currentStore ? (
+            <NavLink to="/" className="homeTitle">
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{ fontWeight: "bold" }}
+              >
+                YOUR
+                <span style={{ opacity: 0.8, fontWeight: "normal" }}>
+                  STORE
+                </span>
+              </Typography>
+            </NavLink>
+          ) : (
+            <NavLink to="/" className="homeTitle">
+              <Typography
+                variant="h5"
+                component="div"
+                sx={{ fontWeight: "bold" }}
+              >
+                {currentStore.storeName}
+              </Typography>
+            </NavLink>
+          )}
+
+          {!currentUser ? (
+            <NavLink to="/register-owner"><Typography>Create Store</Typography></NavLink>
+          ) : (
+            <>
+              {currentUser.roles === "owner" ? (
+                <>
+                  <NavLink onClick={() => setIsDrawerOpen(true)}>
+                    <Typography>Manage Store</Typography>
+                  </NavLink>
+                  <Drawer
+                    anchor="left"
+                    open={isDrawerOpen}
+                    onClose={() => setIsDrawerOpen(false)}
+                   
+                  >
+                    {" "}
+                    <Stack
+                      direction={"column"}
+                      p={4}
+                      spacing={4}
+                      textAlign="center"
+                    >
+                      <Typography variant="h6"></Typography>
+                      <Divider />
+                      <Stack alignItems="center" direction="row">
+                        {" "}
+                        <MenuItem>
+                          <StoreIcon />
+                          &nbsp;&nbsp;
+                          <NavLink
+                            to={
+                              !currentStore
+                                ? `/stores/add-details/${currentUser.ownerId}`
+                                : `/stores/edit-details/${currentUser.ownerId}`
+                            }
+      
+                            onClick={() => setIsDrawerOpen(false)}
+                          >
+                            <Typography color={theme.palette.text.primary} variant="h6">Store Details</Typography>
+                          </NavLink>{" "}
+                        </MenuItem>
+                      </Stack>
+                      <Divider />
+                      <Stack alignItems="center" direction="row">
+                        {" "}
+                        <MenuItem>
+                          <InventoryIcon /> &nbsp;&nbsp;
+                          <NavLink
+                            to="/stores/products"
+                            color={theme.palette.text.primary}
+                          >
+                            <Typography color={theme.palette.text.primary}  variant="h6">Products</Typography>
+                          </NavLink>
+                        </MenuItem>
+                      </Stack>
+                      <Divider />
+                      <Stack alignItems="center" direction="row">
+                        <MenuItem>
+                          <CategoryIcon /> &nbsp;&nbsp;
+                          <NavLink
+                            to="/stores/categories"
+                            
+                          >
+                            <Typography color={theme.palette.text.primary}  variant="h6">Categories</Typography>
+                          </NavLink>
+                        </MenuItem>
+                      </Stack>
+                      <Divider />
+                      <Stack alignItems="center" direction="row">
+                        <MenuItem>
+                          <LocalOfferIcon /> &nbsp;&nbsp;
+                          <NavLink
+                            to="/stores/promotions"
+                           
+                          >
+                            <Typography color={theme.palette.text.primary} variant="h6">Promotions</Typography>
+                          </NavLink>
+                        </MenuItem>
+                      </Stack>
+                      <Divider />
+                      <Stack alignItems="center" direction="row">
+                        <MenuItem>
+                          <AssignmentIcon /> &nbsp;&nbsp;
+                          <NavLink
+                            to="/stores/orders"
+                           
+                          >
+                            <Typography color={theme.palette.text.primary} variant="h6">Orders</Typography>
+                          </NavLink>
+                        </MenuItem>
+                      </Stack>
+                      <Divider />
+                    </Stack>
+                  </Drawer>
+                </>
+              ) : (
+                <Stack>
+                  <Typography width={60}></Typography>
+                </Stack>
+              )}
+            </>
+          )}
+        </Stack>
         <Stack
           sx={{
             display: "flex",
@@ -75,9 +203,9 @@ const Navbar = ({ logOut }) => {
         <Stack direction="row" spacing={2} alignItems="center">
           {!currentUser ? (
             <>
-              <NavLink to="/register-user">Register</NavLink> &nbsp;
-              <span style={{ opacity: 0.7 }}>|</span>
-              <NavLink to="/login">Login</NavLink>{" "}
+              <NavLink to="/register-user"><Typography>Register</Typography></NavLink> 
+              <span style={{ opacity: 0.7 }}><Typography>|</Typography></span>
+              <NavLink to="/login"><Typography>Login</Typography></NavLink>{" "}
             </>
           ) : (
             <>
@@ -90,7 +218,7 @@ const Navbar = ({ logOut }) => {
                   cursor: "pointer",
                 }}
               >
-                Profile
+               <Typography> Profile</Typography>
               </Stack>
               <Menu
                 anchorEl={anchorEl}
@@ -176,9 +304,9 @@ const Navbar = ({ logOut }) => {
                           <NavLink
                             style={{ opacity: 1 }}
                             to={`/users-address/:${currentUser.username}`}
-              
                           >
-                            &nbsp; &nbsp; &nbsp;<Button
+                            &nbsp; &nbsp; &nbsp;
+                            <Button
                               sx={{ opacity: 1 }}
                               size="small"
                               variant="outlined"
@@ -199,7 +327,7 @@ const Navbar = ({ logOut }) => {
                   <NavLink
                     style={{ opacity: 1 }}
                     to={
-                     currentUser.roles === "owner"
+                      currentUser.roles === "owner"
                         ? `/edit-owner/:${currentUser.username}`
                         : `/edit-user/:${currentUser.username}`
                     }
@@ -215,7 +343,7 @@ const Navbar = ({ logOut }) => {
                       Edit Profile
                     </Button>
                   </NavLink>
-                  {!currentUser.roles ? (
+                  {!currentUser.roles && currentUser.addresses[0] ? (
                     <NavLink
                       style={{ opacity: 1 }}
                       to={`/edit-address/:${currentUser.username}`}
@@ -235,7 +363,7 @@ const Navbar = ({ logOut }) => {
                 </MenuItem>
               </Menu>
               <NavLink onClick={logOut} to="/">
-                Logout
+               <Typography>Logout</Typography> 
               </NavLink>
             </>
           )}

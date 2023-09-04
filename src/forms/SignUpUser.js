@@ -54,7 +54,7 @@ const SignUpUser = ({ handleUserSignUp }) => {
         }}
       >
         <Card
-          sx={{ backgroundColor: theme.palette.secondary.light, marginTop: 10 }}
+          sx={{ marginTop: 20 }}
         >
           <CardContent>
             <Typography
@@ -85,7 +85,7 @@ const SignUpUser = ({ handleUserSignUp }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                 
                       marginBottom: 1,
                     }}
                     label="first name"
@@ -98,7 +98,7 @@ const SignUpUser = ({ handleUserSignUp }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                    
                       marginBottom: 1,
                     }}
                     label="last name"
@@ -111,7 +111,7 @@ const SignUpUser = ({ handleUserSignUp }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+               
                       marginBottom: 1,
                     }}
                     label="email"
@@ -124,7 +124,7 @@ const SignUpUser = ({ handleUserSignUp }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="username"
@@ -136,7 +136,7 @@ const SignUpUser = ({ handleUserSignUp }) => {
                     autoComplete="username"
                   />
                   <TextField
-                    sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                  
                     label="password"
                     type="password"
                     placeholder="create a password with at least 6 characters"

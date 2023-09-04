@@ -59,7 +59,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
         }}
       >
         <Card
-          sx={{ backgroundColor: theme.palette.secondary.light, marginTop: 10 }}
+          sx={{marginTop: 20 }}
         >
           <CardContent>
             <Typography
@@ -90,7 +90,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                   
                       marginBottom: 1,
                     }}
                     label="street address"
@@ -103,7 +103,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="city"
@@ -118,7 +118,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                     <InputLabel>State</InputLabel>
                     <Select
                       sx={{
-                        backgroundColor: theme.palette.primary.contrastText,
+                      
                         marginBottom: 1,
                       }}
                       label="state"
@@ -138,7 +138,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
 
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                    
                       marginBottom: 1,
                     }}
                     label="zip code"
@@ -162,7 +162,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                 <Button
                   color="error"
                   fullWidth
-                  variant="contained"
+                  variant="outlined"
                   sx={{ marginTop: 3 }}
                   onClick={() => {
                     handleUserDeleteAddress(currentUser.userId);

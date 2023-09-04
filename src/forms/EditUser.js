@@ -55,7 +55,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
         }}
       >
         <Card
-          sx={{ backgroundColor: theme.palette.secondary.light, marginTop: 10 }}
+          sx={{ marginTop: 20 }}
         >
           <CardContent>
             <Typography
@@ -86,7 +86,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                    
                       marginBottom: 1,
                     }}
                     label="first name"
@@ -99,7 +99,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="last name"
@@ -112,7 +112,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="email"
@@ -125,7 +125,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                   
                       marginBottom: 1,
                     }}
                     label="username"
@@ -151,7 +151,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                 <Button
                     color="error"
                     fullWidth
-                    variant="contained"
+                    variant="outlined"
                     sx={{ marginTop: 3 }}
                     onClick={()=> {
                       handleDeleteUserProfile(currentUser.userId);

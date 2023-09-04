@@ -46,7 +46,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
   return (
     <>
       <Container maxWidth="sm" sx={{alignItems: 'center', justifyContent:'center', minHeight: '100vh'}}>
-        <Card sx={{ backgroundColor: theme.palette.secondary.light, marginTop: 10 }}>
+        <Card sx={{ marginTop: 20 }}>
           <CardContent>
             <Typography
               sx={{
@@ -74,7 +74,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
                 <form onSubmit={handleSubmit}>
                 <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                    
                       marginBottom: 1,
                     }}
                     label="first name"
@@ -87,7 +87,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="last name"
@@ -100,7 +100,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                    
                       marginBottom: 1,
                     }}
                     label="email"
@@ -113,7 +113,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                     
                       marginBottom: 1,
                     }}
                     label="username"
@@ -125,7 +125,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
                     autoComplete="username"
                   />
                   <TextField
-                    sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                  
                     label="password"
                     type="password"
                     placeholder="create a password with at least 6 characters"

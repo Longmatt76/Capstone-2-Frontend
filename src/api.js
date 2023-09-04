@@ -7,15 +7,15 @@ class YourStoreAPI {
 
   static async request(endpoint, data = {}, method = "get") {
     console.log("API CALL:", endpoint, data, method);
-  
+
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {
       Authorization: `Bearer ${YourStoreAPI.token}`,
-      "Content-Type": "application/json", 
+      "Content-Type": "application/json",
     };
-    
+
     const requestData = method === "get" ? { params: data } : { data };
-  
+
     try {
       return (await axios({ url, method, headers, ...requestData })).data;
     } catch (err) {
@@ -24,7 +24,6 @@ class YourStoreAPI {
       throw Array.isArray(message) ? message : [message];
     }
   }
-  
 
   static async loginUserOrOwner(data) {
     let res = await this.request(`auth/token`, data, "post");
@@ -46,7 +45,7 @@ class YourStoreAPI {
     return res;
   }
 
-  static async removeUser(userId, data=undefined) {
+  static async removeUser(userId, data = undefined) {
     let res = await this.request(`users/${userId}`, data, "delete");
     return res;
   }
@@ -66,8 +65,8 @@ class YourStoreAPI {
     return res.updatedOwner;
   }
 
-  static async removeOwner(ownerId, data= undefined) {
-    let res = await this.request(`owners/${ownerId}`, data , "delete");
+  static async removeOwner(ownerId, data = undefined) {
+    let res = await this.request(`owners/${ownerId}`, data, "delete");
     return res;
   }
 
@@ -81,8 +80,28 @@ class YourStoreAPI {
     return res.updatedAddress;
   }
 
-  static async removeAddress(userId, data=undefined) {
-    let res = await this.request(`users/address/${userId}`,data, "delete");
+  static async removeAddress(userId, data = undefined) {
+    let res = await this.request(`users/address/${userId}`, data, "delete");
+    return res;
+  }
+
+  static async createStore(ownerId, data) {
+    let res = await this.request(`stores/${ownerId}`, data, "post");
+    return res.store;
+  }
+
+  static async getStore(ownerId) {
+    let res = await this.request(`stores/${ownerId}`);
+    return res.store;
+  }
+
+  static async updateStore(ownerId, updatedData) {
+    let res = await this.request(`stores/${ownerId}`, updatedData, "put");
+    return res.updatedStore;
+  }
+
+  static async removeStore(ownerId, data = undefined) {
+    let res = await this.request(`stores/${ownerId}`, data, "delete");
     return res;
   }
 }

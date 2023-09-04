@@ -43,7 +43,7 @@ const LogIn = ({ handleLogIn }) => {
   return (
     <>
       <Container maxWidth="sm" sx={{ marginTop: 20 }}>
-        <Card sx={{ backgroundColor: theme.palette.secondary.light }}>
+        <Card >
           <CardContent>
             <Typography
               sx={{
@@ -73,7 +73,7 @@ const LogIn = ({ handleLogIn }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                      backgroundColor: theme.palette.primary.contrastText,
+                   
                       marginBottom: 1,
                     }}
                     label="username"
@@ -85,7 +85,7 @@ const LogIn = ({ handleLogIn }) => {
                     autoComplete="username"
                   />
                   <TextField
-                    sx={{ backgroundColor: theme.palette.primary.contrastText }}
+                 
                     label="password"
                     type="password"
                     placeholder="enter password"

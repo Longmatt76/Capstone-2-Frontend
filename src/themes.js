@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material";
 
 const ThemeOne = createTheme({
     palette: {
+        mode: 'dark',
        primary: { 
         main: '#1976d2',
         light: '#e3f2fd',
@@ -18,11 +19,17 @@ const ThemeOne = createTheme({
     
 },
 typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Merriweather"',
 },
 });
+
+
+
+
+
 
 
 export {
     ThemeOne
 }
+
