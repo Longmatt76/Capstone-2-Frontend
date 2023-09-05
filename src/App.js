@@ -8,169 +8,17 @@ import YourStoreAPI from "./api";
 import useLocalStorage from "./hooks/useLocalStorage";
 import UserContext from "./contexts/UserContext";
 import { ThemeProvider } from "@emotion/react";
-import { createTheme } from "@mui/material";
-
+import themes from "./themes";
 
 function App() {
-
-  const [token, setToken] = useLocalStorage('token', 'app');
+  const [token, setToken] = useLocalStorage("token", "app");
   const [currentUser, setCurrentUser] = useState();
   const [currentStore, setCurrentStore] = useState();
 
-  
-const ThemeOne = createTheme({
-  palette: {
-      mode: 'light',
-     primary: { 
-      main: '#1976d2',
-      light: '#e3f2fd',
-      dark: '#1565c0',
-      contrastText: '#fff'
-  },
-  secondary: {
-    main: '#202124',
-    light: '#e5e5e5',
-    dark: '#000000',
-    contrastText: '#fff'
-},
-  
-},
-typography: {
-  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
-}
+  const currentThemeKey = currentStore?.theme || "ThemeOne";
+  const currentTheme = themes[currentThemeKey];
+  const theme = currentTheme(currentStore);
 
-});
-
-
-
-const ThemeTwo = createTheme({
-  palette: {
-      mode: 'light',
-     primary: { 
-      main: '#e33e3b',
-      light: '#ed9b9d',
-      dark: '#b42423',
-      contrastText: '#fff'
-  },
-  secondary: {
-      main: '#202124',
-      light: '#e5e5e5',
-      dark: '#000000',
-      contrastText: '#fff'
-  },
- 
-},
-typography: {
-  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
-},
-
-});
-
-const ThemeThree = createTheme({
-  palette: {
-      mode: 'light',
-     primary: { 
-      main: '#ff633c',
-      light: '#ffa58c',
-      dark: '#d82f0a',
-      contrastText: '#fff'
-  },
-  secondary: {
-    main: '#202124',
-    light: '#e5e5e5',
-    dark: '#000000',
-    contrastText: '#fff'
-},
-  
-},
-typography: {
-  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
-}
-
-
-});
-
-const ThemeFour = createTheme({
-  palette: {
-      mode: 'light',
-     primary: { 
-      main: '#e2c505',
-      light: '#f6f3bc',
-      dark: '#e09600',
-      contrastText: '#fff'
-  },
-  secondary: {
-    main: '#202124',
-    light: '#e5e5e5',
-    dark: '#000000',
-    contrastText: '#fff'
-},
-  
-  
-},
-typography: {
-  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
-}
-
-});
-const ThemeFive = createTheme({
-  palette: {
-      mode: 'light',
-     primary: { 
-      main: '#238470',
-      light: '#b4ddd6',
-      dark: '#144839',
-      contrastText: '#fff'
-  },
-  secondary: {
-    main: '#202124',
-    light: '#e5e5e5',
-    dark: '#000000',
-    contrastText: '#fff'
-},
-  
-},
-typography: {
-  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
-}
-
-});
-
-const ThemeSix = createTheme({
-  palette: {
-      mode: 'dark',
-     primary: { 
-      main: '#fff',
-      light: '#e9e9e9',
-      dark: '#144839',
-      contrastText: '#000000'
-  },
-  secondary: {
-    main: '#202124',
-    light: '#202124',
-    dark: '#000000',
-    contrastText: '#000000'
-},
-  
-},
-typography: {
-  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
-}
-
-});
-
-const themes = {
-  ThemeOne,
-  ThemeTwo,
-  ThemeThree,
-  ThemeFour,
-  ThemeFive,
-  ThemeSix
-}
-  
-  const currentTheme = currentStore ? themes[currentStore.theme] : ThemeOne
-
-console.log("currentTheme", currentTheme)
   useEffect(() => {
     async function getUserInfo() {
       if (token) {
@@ -180,13 +28,9 @@ console.log("currentTheme", currentTheme)
         let currentUserData;
 
         if (decodedToken.userId) {
-          currentUserData = await YourStoreAPI.getUser(
-            decodedToken.userId
-          );
+          currentUserData = await YourStoreAPI.getUser(decodedToken.userId);
         } else if (decodedToken.ownerId) {
-          currentUserData = await YourStoreAPI.getOwner(
-            decodedToken.ownerId
-          );
+          currentUserData = await YourStoreAPI.getOwner(decodedToken.ownerId);
         }
         setCurrentUser(currentUserData);
       }
@@ -194,7 +38,6 @@ console.log("currentTheme", currentTheme)
     getUserInfo();
   }, [token]);
 
- 
   useEffect(() => {
     async function getStoreInfo() {
       if (token) {
@@ -203,18 +46,18 @@ console.log("currentTheme", currentTheme)
         let currentStoreData;
         if (decodedToken.ownerId) {
           try {
-            currentStoreData = await YourStoreAPI.getStore(decodedToken.ownerId);
+            currentStoreData = await YourStoreAPI.getStore(
+              decodedToken.ownerId
+            );
             setCurrentStore(currentStoreData);
           } catch (error) {
             setCurrentStore(undefined);
-          }    
+          }
         }
       }
     }
     getStoreInfo();
   }, [token]);
-  
-
 
   const handleLogOut = () => {
     setCurrentUser(null);
@@ -242,20 +85,19 @@ console.log("currentTheme", currentTheme)
   async function handleEditUserProfile(userId, updatedData) {
     await YourStoreAPI.editUser(userId, updatedData);
     const updatedUser = await YourStoreAPI.getUser(userId);
-    setCurrentUser(updatedUser); 
+    setCurrentUser(updatedUser);
     return updatedUser;
   }
 
   async function handleDeleteUserProfile(userId) {
     const res = await YourStoreAPI.removeUser(userId);
     handleLogOut(currentUser);
-    return res;  
+    return res;
   }
-  
 
   async function handleEditOwnerProfile(ownerId, updatedData) {
     await YourStoreAPI.editOwner(ownerId, updatedData);
-    const updatedOwner = await YourStoreAPI.getOwner(ownerId); 
+    const updatedOwner = await YourStoreAPI.getOwner(ownerId);
     setCurrentUser(updatedOwner);
     return updatedOwner;
   }
@@ -270,28 +112,28 @@ console.log("currentTheme", currentTheme)
     await YourStoreAPI.addAddress(userId, data);
     const updatedUser = await YourStoreAPI.getUser(userId);
     setCurrentUser(updatedUser);
-    return updatedUser; 
+    return updatedUser;
   }
 
   async function handleUserEditAddress(userId, data) {
     await YourStoreAPI.editAddress(userId, data);
     const updatedUser = await YourStoreAPI.getUser(userId);
     setCurrentUser(updatedUser);
-    return updatedUser; 
+    return updatedUser;
   }
 
   async function handleUserDeleteAddress(userId) {
-     await YourStoreAPI.removeAddress(userId);
-     const updatedUser = await YourStoreAPI.getUser(userId);
-     setCurrentUser(updatedUser);
-     return updatedUser; 
+    await YourStoreAPI.removeAddress(userId);
+    const updatedUser = await YourStoreAPI.getUser(userId);
+    setCurrentUser(updatedUser);
+    return updatedUser;
   }
 
-  async function handleAddStoreDetails(ownerId, data){
+  async function handleAddStoreDetails(ownerId, data) {
     await YourStoreAPI.createStore(ownerId, data);
     const store = await YourStoreAPI.getStore(ownerId);
     setCurrentStore(store);
-    return store
+    return store;
   }
 
   async function handleEditStoreDetails(ownerId, updatedData) {
@@ -302,16 +144,23 @@ console.log("currentTheme", currentTheme)
   }
 
   async function handleDeleteStore(ownerId) {
-   const res = await YourStoreAPI.removeStore(ownerId);
-   setCurrentStore(null)
-   return res; 
+    const res = await YourStoreAPI.removeStore(ownerId);
+    setCurrentStore(null);
+    return res;
   }
 
   return (
     <div className="App">
-       <ThemeProvider theme={currentTheme}>
+      <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <UserContext.Provider value={{ currentUser: currentUser, setCurrentUser, currentStore: currentStore, setCurrentStore }}>
+          <UserContext.Provider
+            value={{
+              currentUser: currentUser,
+              setCurrentUser,
+              currentStore: currentStore,
+              setCurrentStore,
+            }}
+          >
             <Navbar logOut={handleLogOut} />
             <AppRoutes
               handleLogIn={handleLogIn}
