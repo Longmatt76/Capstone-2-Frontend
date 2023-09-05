@@ -79,7 +79,7 @@ const Navbar = ({ logOut }) => {
               <Typography
                 variant="h5"
                 component="div"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: "bold", textShadow: '1.5px 1.5px 1px black' }}
               >
                 {currentStore.storeName}
               </Typography>
@@ -99,21 +99,24 @@ const Navbar = ({ logOut }) => {
                     anchor="left"
                     open={isDrawerOpen}
                     onClose={() => setIsDrawerOpen(false)}
-                   
+              
                   >
+    
                     {" "}
                     <Stack
                       direction={"column"}
                       p={4}
+                      pb={40}
                       spacing={4}
                       textAlign="center"
+                      sx={{backgroundColor: theme.palette.secondary.main}}
                     >
                       <Typography variant="h6"></Typography>
                       <Divider />
                       <Stack alignItems="center" direction="row">
                         {" "}
                         <MenuItem>
-                          <StoreIcon />
+                          <StoreIcon sx={{color: theme.palette.primary.contrastText}} />
                           &nbsp;&nbsp;
                           <NavLink
                             to={
@@ -124,61 +127,62 @@ const Navbar = ({ logOut }) => {
       
                             onClick={() => setIsDrawerOpen(false)}
                           >
-                            <Typography color={theme.palette.text.primary} variant="h6">Store Details</Typography>
+                            <Typography color={theme.palette.text.contrastText} variant="h6">Store Details</Typography>
                           </NavLink>{" "}
                         </MenuItem>
                       </Stack>
-                      <Divider />
+                      <Divider sx={{backgroundColor: theme.palette.primary.contrastText}} />
                       <Stack alignItems="center" direction="row">
                         {" "}
                         <MenuItem>
-                          <InventoryIcon /> &nbsp;&nbsp;
+                          <InventoryIcon sx={{color: theme.palette.primary.contrastText}} /> &nbsp;&nbsp;
                           <NavLink
                             to="/stores/products"
                             color={theme.palette.text.primary}
                           >
-                            <Typography color={theme.palette.text.primary}  variant="h6">Products</Typography>
+                            <Typography color={theme.palette.text.contrastText}  variant="h6">Products</Typography>
                           </NavLink>
                         </MenuItem>
                       </Stack>
-                      <Divider />
+                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}}/>
                       <Stack alignItems="center" direction="row">
                         <MenuItem>
-                          <CategoryIcon /> &nbsp;&nbsp;
+                          <CategoryIcon  sx={{color: theme.palette.primary.contrastText}}/> &nbsp;&nbsp;
                           <NavLink
                             to="/stores/categories"
                             
                           >
-                            <Typography color={theme.palette.text.primary}  variant="h6">Categories</Typography>
+                            <Typography color={theme.palette.text.contrastText}  variant="h6">Categories</Typography>
                           </NavLink>
                         </MenuItem>
                       </Stack>
-                      <Divider />
+                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}} />
                       <Stack alignItems="center" direction="row">
                         <MenuItem>
-                          <LocalOfferIcon /> &nbsp;&nbsp;
+                          <LocalOfferIcon  sx={{color: theme.palette.primary.contrastText}}/> &nbsp;&nbsp;
                           <NavLink
                             to="/stores/promotions"
                            
                           >
-                            <Typography color={theme.palette.text.primary} variant="h6">Promotions</Typography>
+                            <Typography color={theme.palette.text.contrastText} variant="h6">Promotions</Typography>
                           </NavLink>
                         </MenuItem>
                       </Stack>
-                      <Divider />
+                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}}/>
                       <Stack alignItems="center" direction="row">
                         <MenuItem>
-                          <AssignmentIcon /> &nbsp;&nbsp;
+                          <AssignmentIcon  sx={{color: theme.palette.primary.contrastText}} /> &nbsp;&nbsp;
                           <NavLink
                             to="/stores/orders"
                            
                           >
-                            <Typography color={theme.palette.text.primary} variant="h6">Orders</Typography>
+                            <Typography color={theme.palette.text.contrastText} variant="h6">Orders</Typography>
                           </NavLink>
                         </MenuItem>
                       </Stack>
-                      <Divider />
+                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}} />
                     </Stack>
+                   
                   </Drawer>
                 </>
               ) : (

@@ -8,9 +8,7 @@ import YourStoreAPI from "./api";
 import useLocalStorage from "./hooks/useLocalStorage";
 import UserContext from "./contexts/UserContext";
 import { ThemeProvider } from "@emotion/react";
-import { ThemeOne } from "./themes";
-
-
+import { createTheme } from "@mui/material";
 
 
 function App() {
@@ -19,7 +17,160 @@ function App() {
   const [currentUser, setCurrentUser] = useState();
   const [currentStore, setCurrentStore] = useState();
 
+  
+const ThemeOne = createTheme({
+  palette: {
+      mode: 'light',
+     primary: { 
+      main: '#1976d2',
+      light: '#e3f2fd',
+      dark: '#1565c0',
+      contrastText: '#fff'
+  },
+  secondary: {
+    main: '#202124',
+    light: '#e5e5e5',
+    dark: '#000000',
+    contrastText: '#fff'
+},
+  
+},
+typography: {
+  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
+}
 
+});
+
+
+
+const ThemeTwo = createTheme({
+  palette: {
+      mode: 'light',
+     primary: { 
+      main: '#e33e3b',
+      light: '#ed9b9d',
+      dark: '#b42423',
+      contrastText: '#fff'
+  },
+  secondary: {
+      main: '#202124',
+      light: '#e5e5e5',
+      dark: '#000000',
+      contrastText: '#fff'
+  },
+ 
+},
+typography: {
+  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
+},
+
+});
+
+const ThemeThree = createTheme({
+  palette: {
+      mode: 'light',
+     primary: { 
+      main: '#ff633c',
+      light: '#ffa58c',
+      dark: '#d82f0a',
+      contrastText: '#fff'
+  },
+  secondary: {
+    main: '#202124',
+    light: '#e5e5e5',
+    dark: '#000000',
+    contrastText: '#fff'
+},
+  
+},
+typography: {
+  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
+}
+
+
+});
+
+const ThemeFour = createTheme({
+  palette: {
+      mode: 'light',
+     primary: { 
+      main: '#e2c505',
+      light: '#f6f3bc',
+      dark: '#e09600',
+      contrastText: '#fff'
+  },
+  secondary: {
+    main: '#202124',
+    light: '#e5e5e5',
+    dark: '#000000',
+    contrastText: '#fff'
+},
+  
+  
+},
+typography: {
+  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
+}
+
+});
+const ThemeFive = createTheme({
+  palette: {
+      mode: 'light',
+     primary: { 
+      main: '#238470',
+      light: '#b4ddd6',
+      dark: '#144839',
+      contrastText: '#fff'
+  },
+  secondary: {
+    main: '#202124',
+    light: '#e5e5e5',
+    dark: '#000000',
+    contrastText: '#fff'
+},
+  
+},
+typography: {
+  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
+}
+
+});
+
+const ThemeSix = createTheme({
+  palette: {
+      mode: 'dark',
+     primary: { 
+      main: '#fff',
+      light: '#e9e9e9',
+      dark: '#144839',
+      contrastText: '#000000'
+  },
+  secondary: {
+    main: '#202124',
+    light: '#202124',
+    dark: '#000000',
+    contrastText: '#000000'
+},
+  
+},
+typography: {
+  fontFamily: `${currentStore ? currentStore.siteFont : "Roboto"}`
+}
+
+});
+
+const themes = {
+  ThemeOne,
+  ThemeTwo,
+  ThemeThree,
+  ThemeFour,
+  ThemeFive,
+  ThemeSix
+}
+  
+  const currentTheme = currentStore ? themes[currentStore.theme] : ThemeOne
+
+console.log("currentTheme", currentTheme)
   useEffect(() => {
     async function getUserInfo() {
       if (token) {
@@ -27,6 +178,7 @@ function App() {
         YourStoreAPI.token = token;
 
         let currentUserData;
+
         if (decodedToken.userId) {
           currentUserData = await YourStoreAPI.getUser(
             decodedToken.userId
@@ -157,7 +309,7 @@ function App() {
 
   return (
     <div className="App">
-      <ThemeProvider theme={ThemeOne}>
+       <ThemeProvider theme={currentTheme}>
         <BrowserRouter>
           <UserContext.Provider value={{ currentUser: currentUser, setCurrentUser, currentStore: currentStore, setCurrentStore }}>
             <Navbar logOut={handleLogOut} />

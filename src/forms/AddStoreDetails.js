@@ -30,7 +30,7 @@ const AddStoreDetails = ({handleAddStoreDetails}) => {
     const INITIALSTATE = {
         storeName: "",
         logo: "",
-        colorScheme: "",
+        theme: "",
         siteFont: "",
       };
     
@@ -116,15 +116,16 @@ const AddStoreDetails = ({handleAddStoreDetails}) => {
                     label="color scheme"
                     placeholder="choose a color scheme"
                     type="select"
-                    name="colorScheme"
-                    value={formData.colorScheme}
+                    name="theme"
+                    value={formData.theme}
                     onChange={handleChange}
                   >
-                  <MenuItem value={'themeOne'}>Blue based theme</MenuItem>
-                  <MenuItem value={'themeTwo'}>Grey based theme</MenuItem>
-                  <MenuItem value={'themeThree'}>Orange based theme</MenuItem>
-                  <MenuItem value={'themeFour'}>Green based theme</MenuItem>
-                  <MenuItem value={'themeFive'}>Dark mode theme</MenuItem>
+                  <MenuItem value={'ThemeOne'}>Blue based theme</MenuItem>
+                  <MenuItem value={'ThemeTwo'}>Red based theme</MenuItem>
+                  <MenuItem value={'ThemeThree'}>Orange based theme</MenuItem>
+                  <MenuItem value={'ThemeFour'}>Yellow based theme</MenuItem>
+                  <MenuItem value={'ThemeFive'}>Green based theme</MenuItem>
+                  <MenuItem value={'ThemeSix'}>Dark mode theme</MenuItem>
                 </Select>
                 </FormControl>
                   <FormControl fullWidth>
@@ -146,6 +147,7 @@ const AddStoreDetails = ({handleAddStoreDetails}) => {
                   <MenuItem value={'Merriweather'}>Merriweather</MenuItem>
                   <MenuItem value={'Lato'}>Lato</MenuItem>
                   <MenuItem value={'Oswald'}>Oswald</MenuItem>
+                  <MenuItem value={'Playfair Display'}>Playfair Display</MenuItem>
                 </Select>
                 </FormControl>
                   <Button

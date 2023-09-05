@@ -1,6 +1,6 @@
 import React, {useContext, useState} from "react";
 import { useTheme } from "@mui/material/styles";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import {
   Typography,
@@ -15,6 +15,7 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  alpha,
 
 } from "@mui/material";
 
@@ -30,6 +31,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
         storeName: `${currentStore.storeName}`,
         logo: `${currentStore.logo}`,
         theme: `${currentStore.theme}`,
+        siteFont: `${currentStore.siteFont}`,
       };
     
       const [formData, setFormData] = useState(INITIALSTATE);
@@ -52,21 +54,27 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
   return (
     <>
       <Container maxWidth="sm" sx={{alignItems: 'center', justifyContent:'center', minHeight: '100vh'}}>
-        <Card sx={{  marginTop: 20 }}>
+        <Card sx={{backgroundColor: theme.palette.secondary.light,  marginTop: 20, border: `1px solid black` }}>
           <CardContent>
             <Typography
               sx={{
-                color: theme.palette.primary.dark,
-                textShadow: ".5px .5px 1px black",
+                color: theme.palette.primary.main,
+                textShadow: "2px 2px 1px black",
+                backgroundColor: alpha(theme.palette.primary.light,.6),
+                padding: 2,
+                border: '1px solid black',
+                borderRadius: '5px'
+               
               }}
               mt={2}
               gutterBottom
               variant="h4"
-              align="left"
+              align="center"
             >
              Update Store Details
+        
             </Typography>
-            <Typography gutterBottom variant="subtitle2">Update {currentStore.storeName}'s basic configuration</Typography>
+            <Typography textAlign='center' fontStyle='italic' gutterBottom variant="body2">Update {currentStore.storeName}'s basic configuration</Typography>
             <Divider />
 
             <Grid
@@ -80,9 +88,10 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                 <form onSubmit={handleSubmit}>
                 <TextField
                     sx={{
-                    
-                      marginBottom: 1,
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
+                      marginBottom: 1
                     }}
+                   
                     label="store name"
                     placeholder="enter store name"
                     fullWidth
@@ -93,9 +102,10 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                   />
                   <TextField
                     sx={{
-                   
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
                       marginBottom: 1,
                     }}
+                 
                     label="logo"
                     placeholder="enter store logo url"
                     fullWidth
@@ -105,32 +115,36 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                     onChange={handleChange}
                   />
                   <FormControl fullWidth>
-                    <InputLabel>color scheme</InputLabel>
+                    <InputLabel >theme</InputLabel>
                   <Select
                     sx={{
-                    
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
                       marginBottom: 1,
                     }}
-                    label="color scheme"
+                    InputLabelProps={{
+                      style: {color: 'black'}
+                    }}
+                    label="theme"
                     placeholder="choose a color scheme"
                     type="select"
-                    name="colorScheme"
-                    value={formData.colorScheme}
+                    name="theme"
+                    value={formData.theme}
                     onChange={handleChange}
                   >
-                  <MenuItem value={'themeOne'}>Blue based theme</MenuItem>
-                  <MenuItem value={'themeTwo'}>Grey based theme</MenuItem>
-                  <MenuItem value={'themeThree'}>Orange based theme</MenuItem>
-                  <MenuItem value={'themeFour'}>Green based theme</MenuItem>
-                  <MenuItem value={'themeFive'}>Dark mode theme</MenuItem>
+                  <MenuItem value={'ThemeOne'}>Blue based theme</MenuItem>
+                  <MenuItem value={'ThemeTwo'}>Red based theme</MenuItem>
+                  <MenuItem value={'ThemeThree'}>Orange based theme</MenuItem>
+                  <MenuItem value={'ThemeFour'}>Yellow based theme</MenuItem>
+                  <MenuItem value={'ThemeFive'}>Green based theme</MenuItem>
+                  <MenuItem value={'ThemeSix'}>Dark mode theme</MenuItem>
                 </Select>
                 </FormControl>
                   <FormControl fullWidth>
-                    <InputLabel>site font</InputLabel>
+                    <InputLabel  >site font</InputLabel>
                   <Select
                     sx={{
-                    
-                      marginBottom: 1,
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
+                      marginBottom: 1, 
                     }}
                     label="site font"
                     placeholder="choose a main font"
@@ -144,10 +158,11 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                   <MenuItem value={'Merriweather'}>Merriweather</MenuItem>
                   <MenuItem value={'Lato'}>Lato</MenuItem>
                   <MenuItem value={'Oswald'}>Oswald</MenuItem>
+                  <MenuItem value={'Playfair Display'}>Playfair Display</MenuItem>
                 </Select>
                 </FormControl>
                   <Button
-                    color="primary"
+                    color="secondary"
                     fullWidth
                     variant="contained"
                     sx={{ marginTop: 3 }}
@@ -157,10 +172,10 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                   </Button>
                 </form>
                 <Button
-                    color="error"
+                    
                     fullWidth
                     variant="outlined"
-                    sx={{ marginTop: 3 }}
+                    sx={{ marginTop: 3, backgroundColor: alpha(theme.palette.primary.contrastText, 0.5) }}
                     onClick={() => {
                       handleDeleteStore(currentUser.ownerId);
                       navigate('/');
@@ -175,7 +190,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                   gutterBottom
                   variant="subtitle2"
                 >
-                  <Divider> or return <NavLink style={{color: theme.palette.primary.dark}} to={'/'}>home</NavLink></Divider>
+                  {/* <Divider> or return <Link sx={{color: theme.palette.error.main, textDecoration: 'none'}} href={'/'}>home</Link></Divider> */}
                 </Typography>
               </Grid>
             </Grid>
