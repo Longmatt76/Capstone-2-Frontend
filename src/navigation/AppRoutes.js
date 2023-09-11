@@ -10,6 +10,12 @@ import AddAddress from "../forms/AddAddress";
 import Home from "../Home";
 import EditAddress from "../forms/EditAddress";
 import EditOwner from "../forms/EditOwner";
+import Products from "../Products";
+import AddProduct from "../forms/AddProduct";
+import Categories from "../Categories";
+import AddCategory from "../forms/AddCategory";
+import EditCategory from "../forms/EditCategory";
+
 
 const AppRoutes = ({
   handleLogIn,
@@ -25,6 +31,12 @@ const AppRoutes = ({
   handleAddStoreDetails,
   handleEditStoreDetails,
   handleDeleteStore,
+  handleAddProduct,
+  handleEditProduct,
+  handleDeleteProduct,
+  handleAddCategory, 
+  handleEditCategory,
+  handleDeleteCategory,
 }) => {
   return (
     <Routes>
@@ -83,6 +95,23 @@ const AppRoutes = ({
             handleDeleteStore={handleDeleteStore}
           />
         }
+      />
+      <Route path="/stores/products" element={<Products />} />
+      <Route
+        path="/stores/:ownerId/add-products/:storeId"
+        element={<AddProduct handleAddProduct={handleAddProduct} />}
+      />
+
+      <Route path="/stores/categories" element={<Categories />} />
+      <Route
+        path="/stores/:ownerId/add-categories/:storeId"
+        element={<AddCategory handleAddCategory={handleAddCategory}/>}
+      />
+      <Route
+        path="/stores/:ownerId/edit-categories/:storeId"
+        element={<EditCategory
+           handleEditCategory={handleEditCategory}
+           handleDeleteCategory={handleDeleteCategory}/>}
       />
     </Routes>
   );

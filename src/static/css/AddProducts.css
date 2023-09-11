@@ -1,0 +1,18 @@
+
+
+  .custom-file-input {
+    background-color: #e5e5e5; 
+    color: black;
+    padding: 8px;
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer;
+    margin-left: 100;
+  }
+  
+
+  .custom-file-label {
+    padding: px; /* Adjust padding as needed */
+  }
+
+ 

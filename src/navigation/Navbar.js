@@ -8,7 +8,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import SearchBar from "./SearchBar";
 import { NavLink } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-import "../css/Navbar.css";
+import "../static/css/Navbar.css";
 import { useTheme } from "@mui/material";
 import {
   AppBar,
@@ -139,6 +139,7 @@ const Navbar = ({ logOut }) => {
                           <NavLink
                             to="/stores/products"
                             color={theme.palette.text.primary}
+                            onClick={() => setIsDrawerOpen(false)}
                           >
                             <Typography color={theme.palette.text.contrastText}  variant="h6">Products</Typography>
                           </NavLink>
@@ -150,6 +151,7 @@ const Navbar = ({ logOut }) => {
                           <CategoryIcon  sx={{color: theme.palette.primary.contrastText}}/> &nbsp;&nbsp;
                           <NavLink
                             to="/stores/categories"
+                            onClick={() => setIsDrawerOpen(false)}
                             
                           >
                             <Typography color={theme.palette.text.contrastText}  variant="h6">Categories</Typography>
@@ -194,6 +196,7 @@ const Navbar = ({ logOut }) => {
           )}
         </Stack>
         <Stack
+         direction='column'
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -202,6 +205,7 @@ const Navbar = ({ logOut }) => {
           }}
         >
           <SearchBar />
+          
         </Stack>
 
         <Stack direction="row" spacing={2} alignItems="center">

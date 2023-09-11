@@ -1,4 +1,4 @@
-import "./App.css";
+import "./static/css/App.css";
 import React, { useState, useEffect } from "react";
 import Navbar from "./navigation/Navbar";
 import { BrowserRouter } from "react-router-dom";
@@ -149,6 +149,48 @@ function App() {
     return res;
   }
 
+  async function handleAddProduct(ownerId, storeId, data) {
+     await YourStoreAPI.createProduct(ownerId, storeId, data);
+     const updatedStore = await YourStoreAPI.getStore(ownerId);
+     setCurrentStore(updatedStore);
+     return updatedStore;
+  }
+
+  async function handleEditProduct(ownerId, productId, updatedData) {
+    await YourStoreAPI.updateProduct(ownerId, productId, updatedData);
+    const updatedStore = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(updatedStore);
+    return updatedStore;
+  }
+
+  async function handleDeleteProduct(ownerId, productId) {
+    await YourStoreAPI.removeProduct(ownerId, productId);
+    const updatedStore = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(updatedStore);
+    return updatedStore;
+  }
+
+  async function handleAddCategory(ownerId, storeId, data) {
+    await YourStoreAPI.createCategory(ownerId, storeId, data);
+    const updatedStore = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(updatedStore);
+    return updatedStore;
+  }
+
+  async function handleEditCategory(ownerId, categoryId, updatedData) {
+    await YourStoreAPI.updateCategory(ownerId, categoryId, updatedData);
+    const updatedStore = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(updatedStore);
+    return updatedStore;
+  }
+
+  async function handleDeleteCategory(ownerId, categoryId) {
+    await YourStoreAPI.removeCategory(ownerId, categoryId);
+    const updatedStore = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(updatedStore);
+    return updatedStore;
+  }
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -176,6 +218,12 @@ function App() {
               handleAddStoreDetails={handleAddStoreDetails}
               handleEditStoreDetails={handleEditStoreDetails}
               handleDeleteStore={handleDeleteStore}
+              handleAddProduct={handleAddProduct}
+              handleEditProduct={handleEditProduct}
+              handleDeleteProduct={handleDeleteProduct}
+              handleAddCategory={handleAddCategory}
+              handleEditCategory={handleEditCategory}
+              handleDeleteCategory={handleDeleteCategory}
             />
           </UserContext.Provider>
         </BrowserRouter>
