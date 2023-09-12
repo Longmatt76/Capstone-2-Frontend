@@ -15,6 +15,7 @@ import AddProduct from "../forms/AddProduct";
 import Categories from "../Categories";
 import AddCategory from "../forms/AddCategory";
 import EditCategory from "../forms/EditCategory";
+import EditProduct from "../forms/EditProduct";
 
 
 const AppRoutes = ({
@@ -100,6 +101,12 @@ const AppRoutes = ({
       <Route
         path="/stores/:ownerId/add-products/:storeId"
         element={<AddProduct handleAddProduct={handleAddProduct} />}
+      />
+      <Route
+        path="/stores/:ownerId/edit-products/:storeId"
+        element={<EditProduct
+           handleEditProduct={handleEditProduct} 
+           handleDeleteProduct={handleDeleteProduct} />}
       />
 
       <Route path="/stores/categories" element={<Categories />} />

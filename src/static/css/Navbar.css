@@ -21,3 +21,9 @@ a #addButt {
 a #editButt {
     opacity: 1;
 }
+
+a:hover {
+    color: white;
+    opacity: 1;
+}
+

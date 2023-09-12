@@ -127,7 +127,7 @@ const Navbar = ({ logOut }) => {
       
                             onClick={() => setIsDrawerOpen(false)}
                           >
-                            <Typography color={theme.palette.text.contrastText} variant="h6">Store Details</Typography>
+                            <Typography color={theme.palette.text.contrastText}mt={3} variant="h6">Store Details</Typography>
                           </NavLink>{" "}
                         </MenuItem>
                       </Stack>
