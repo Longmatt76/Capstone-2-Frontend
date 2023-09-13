@@ -17,7 +17,7 @@ import {
 const AddCategory = ({ handleAddCategory }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { currentUser, currentStore } = useContext(UserContext);
+  const { currentStore } = useContext(UserContext);
 
   const INITIALSTATE = {
     categoryName: "",
@@ -35,7 +35,7 @@ const AddCategory = ({ handleAddCategory }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleAddCategory(currentUser.ownerId, currentStore.storeId, formData);
+    await handleAddCategory(currentStore.ownerId, currentStore.storeId, formData);
     setFormData(INITIALSTATE);
     navigate("/");
   };

@@ -21,7 +21,7 @@ import {
 const EditCategory = ({ handleEditCategory, handleDeleteCategory }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { currentUser, currentStore } = useContext(UserContext);
+  const { currentStore } = useContext(UserContext);
 
   const INITIALSTATE = {
     categoryName: "",
@@ -49,14 +49,14 @@ const EditCategory = ({ handleEditCategory, handleDeleteCategory }) => {
     );
 
     if (result) {
-      handleDeleteCategory(currentUser.ownerId, selectedCategoryId);
+      handleDeleteCategory(currentStore.ownerId, selectedCategoryId);
       navigate("/");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleEditCategory(currentUser.ownerId, selectedCategoryId, {
+    await handleEditCategory(currentStore.ownerId, selectedCategoryId, {
       categoryName: formData.categoryName,
     });
     setFormData(INITIALSTATE);

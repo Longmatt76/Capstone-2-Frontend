@@ -10,12 +10,14 @@ import AddAddress from "../forms/AddAddress";
 import Home from "../Home";
 import EditAddress from "../forms/EditAddress";
 import EditOwner from "../forms/EditOwner";
-import Products from "../Products";
+import Products from "../products/Products";
 import AddProduct from "../forms/AddProduct";
 import Categories from "../Categories";
 import AddCategory from "../forms/AddCategory";
 import EditCategory from "../forms/EditCategory";
 import EditProduct from "../forms/EditProduct";
+import ProductList from "../products/ProductList";
+import ProductDetails from "../products/ProductDetails";
 
 
 const AppRoutes = ({
@@ -41,7 +43,7 @@ const AppRoutes = ({
 }) => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home/>} />
       <Route path="/login" element={<LogIn handleLogIn={handleLogIn} />} />
       <Route
         path="/register-user"
@@ -119,6 +121,10 @@ const AppRoutes = ({
         element={<EditCategory
            handleEditCategory={handleEditCategory}
            handleDeleteCategory={handleDeleteCategory}/>}
+      />
+      <Route
+        path="/stores/:storeId/product-details/:productId"
+        element={<ProductDetails/>}
       />
     </Routes>
   );

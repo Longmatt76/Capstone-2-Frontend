@@ -27,3 +27,13 @@ a:hover {
     opacity: 1;
 }
 
+.productCards {
+ color: white;
+ text-decoration: none;
+ opacity: 1;
+}
+
+.productCards:hover {
+ color: white;
+ opacity: .8;
+}

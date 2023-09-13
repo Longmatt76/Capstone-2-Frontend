@@ -1,25 +1,13 @@
-import { Container, Paper, Typography, Grid, alpha } from "@mui/material";
+import { Container, Paper, Typography, Grid, alpha, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Carousel from "./Carousel";
+import ProductList from "./products/ProductList";
 
 const Home = () => {
   const theme = useTheme();
   return (
     <>
-      <Container maxWidth="md" sx={{ marginTop: 20 }}>
-        <Paper p={1}
-              sx={{
-                backgroundColor: alpha(theme.palette.secondary.main, 0.8),
-                border: `1px solid darkgrey`,
-              }}>
-        {" "}
-        <Grid container justifyContent='center'>
-            <Grid item xs="12">
-          <Carousel  />
-          </Grid>
-        </Grid>
-        </Paper>
-      </Container>
+      <Carousel />
       <Container sx={{ marginTop: 5 }} maxWidth="lg">
         <Paper sx={{ padding: 0 }}>
           <Grid container>
@@ -42,6 +30,7 @@ const Home = () => {
           </Grid>
         </Paper>
       </Container>
+      <ProductList />
     </>
   );
 };

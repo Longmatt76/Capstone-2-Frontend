@@ -25,7 +25,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
   
     const theme = useTheme();
     const navigate = useNavigate();
-    const { currentUser, currentStore } = useContext(UserContext)
+    const { currentStore } = useContext(UserContext)
 
     const INITIALSTATE = {
         storeName: `${currentStore.storeName}`,
@@ -46,7 +46,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
     
       const handleSubmit = async (e) => {
         e.preventDefault();
-        await handleEditStoreDetails(currentUser.ownerId , formData);
+        await handleEditStoreDetails(currentStore.ownerId , formData);
         setFormData(INITIALSTATE);
         navigate("/");
       };
@@ -177,7 +177,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                     variant="outlined"
                     sx={{ marginTop: 3, backgroundColor: alpha(theme.palette.primary.contrastText, 0.5) }}
                     onClick={() => {
-                      handleDeleteStore(currentUser.ownerId);
+                      handleDeleteStore(currentStore.ownerId);
                       navigate('/');
                     }}
                  

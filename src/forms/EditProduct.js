@@ -23,7 +23,7 @@ import {
 const EditProduct = ({ handleEditProduct, handleDeleteProduct }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { currentUser, currentStore } = useContext(UserContext);
+  const { currentStore } = useContext(UserContext);
 
   const INITIALSTATE = {
     productName: "",
@@ -82,7 +82,7 @@ const EditProduct = ({ handleEditProduct, handleDeleteProduct }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await handleEditProduct(currentUser.ownerId, selectedProduct.id, formData);
+    await handleEditProduct(currentStore.ownerId, selectedProduct.id, formData);
     setFormData(INITIALSTATE);
     navigate("/");
   };

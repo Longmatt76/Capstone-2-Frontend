@@ -27,7 +27,7 @@ import {
 const AddProduct = ({ handleAddProduct }) => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { currentUser, currentStore } = useContext(UserContext);
+  const { currentStore } = useContext(UserContext);
 
   const INITIALSTATE = {
     productName: "",
@@ -77,7 +77,7 @@ const AddProduct = ({ handleAddProduct }) => {
     const selectedCategoryName = categorySelected
       ? formData.categoryName
       : formData.createCategoryName;
-    await handleAddProduct(currentUser.ownerId, currentStore.storeId, {
+    await handleAddProduct(currentStore.ownerId, currentStore.storeId, {
       ...formData,
       categoryName: selectedCategoryName,
     });

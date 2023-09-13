@@ -44,7 +44,7 @@ const Navbar = ({ logOut }) => {
   };
 
   return (
-    <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
+    <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1, borderBottom: '1px solid grey'}}>
       <Toolbar
         sx={{
           display: "flex",
@@ -79,7 +79,7 @@ const Navbar = ({ logOut }) => {
               <Typography
                 variant="h5"
                 component="div"
-                sx={{ fontWeight: "bold", textShadow: '1.5px 1.5px 1px black' }}
+                sx={{ fontWeight: "bold", textShadow: "1.5px 1.5px 1px black" }}
               >
                 {currentStore.storeName}
               </Typography>
@@ -87,7 +87,9 @@ const Navbar = ({ logOut }) => {
           )}
 
           {!currentUser ? (
-            <NavLink to="/register-owner"><Typography>Create Store</Typography></NavLink>
+            <NavLink to="/register-owner">
+              <Typography>Create Store</Typography>
+            </NavLink>
           ) : (
             <>
               {currentUser.roles === "owner" ? (
@@ -99,24 +101,21 @@ const Navbar = ({ logOut }) => {
                     anchor="left"
                     open={isDrawerOpen}
                     onClose={() => setIsDrawerOpen(false)}
-              
                   >
-    
                     {" "}
                     <Stack
                       direction={"column"}
                       p={4}
-                      pb={40}
+                      pb={100}
                       spacing={4}
                       textAlign="center"
-                      sx={{backgroundColor: theme.palette.secondary.main}}
+                      sx={{ backgroundColor: theme.palette.secondary.main }}
                     >
                       <Typography variant="h6"></Typography>
                       <Divider />
                       <Stack alignItems="center" direction="row">
                         {" "}
                         <MenuItem>
-                          <StoreIcon sx={{color: theme.palette.primary.contrastText}} />
                           &nbsp;&nbsp;
                           <NavLink
                             to={
@@ -124,67 +123,142 @@ const Navbar = ({ logOut }) => {
                                 ? `/stores/add-details/${currentUser.ownerId}`
                                 : `/stores/edit-details/${currentUser.ownerId}`
                             }
-      
                             onClick={() => setIsDrawerOpen(false)}
                           >
-                            <Typography color={theme.palette.text.contrastText}mt={3} variant="h6">Store Details</Typography>
+                            <Stack direction="row" ml={-1} alignItems="center">
+                              <StoreIcon
+                                sx={{
+                                  color: theme.palette.primary.contrastText,
+                                  marginTop: 2.5,
+                          
+                                }}
+                              />{" "}
+                              &nbsp;&nbsp;{" "}
+                              <Typography
+                                color={theme.palette.text.contrastText}
+                                mt={3}
+                                variant="h6"
+                              >
+                                Store Details
+                              </Typography>
+                            </Stack>
                           </NavLink>{" "}
                         </MenuItem>
                       </Stack>
-                      <Divider sx={{backgroundColor: theme.palette.primary.contrastText}} />
-                      <Stack alignItems="center" direction="row">
-                        {" "}
-                        <MenuItem>
-                          <InventoryIcon sx={{color: theme.palette.primary.contrastText}} /> &nbsp;&nbsp;
-                          <NavLink
-                            to="/stores/products"
-                            color={theme.palette.text.primary}
-                            onClick={() => setIsDrawerOpen(false)}
-                          >
-                            <Typography color={theme.palette.text.contrastText}  variant="h6">Products</Typography>
-                          </NavLink>
-                        </MenuItem>
-                      </Stack>
-                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}}/>
-                      <Stack alignItems="center" direction="row">
-                        <MenuItem>
-                          <CategoryIcon  sx={{color: theme.palette.primary.contrastText}}/> &nbsp;&nbsp;
-                          <NavLink
-                            to="/stores/categories"
-                            onClick={() => setIsDrawerOpen(false)}
-                            
-                          >
-                            <Typography color={theme.palette.text.contrastText}  variant="h6">Categories</Typography>
-                          </NavLink>
-                        </MenuItem>
-                      </Stack>
-                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}} />
-                      <Stack alignItems="center" direction="row">
-                        <MenuItem>
-                          <LocalOfferIcon  sx={{color: theme.palette.primary.contrastText}}/> &nbsp;&nbsp;
-                          <NavLink
-                            to="/stores/promotions"
-                           
-                          >
-                            <Typography color={theme.palette.text.contrastText} variant="h6">Promotions</Typography>
-                          </NavLink>
-                        </MenuItem>
-                      </Stack>
-                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}}/>
-                      <Stack alignItems="center" direction="row">
-                        <MenuItem>
-                          <AssignmentIcon  sx={{color: theme.palette.primary.contrastText}} /> &nbsp;&nbsp;
-                          <NavLink
-                            to="/stores/orders"
-                           
-                          >
-                            <Typography color={theme.palette.text.contrastText} variant="h6">Orders</Typography>
-                          </NavLink>
-                        </MenuItem>
-                      </Stack>
-                      <Divider  sx={{backgroundColor: theme.palette.primary.contrastText}} />
+                      <Divider
+                        sx={{
+                          backgroundColor: theme.palette.primary.contrastText,
+                        }}
+                      />
+                      {currentStore && (
+                        <>
+                          {" "}
+                          <Stack alignItems="center" direction="row">
+                            <MenuItem>
+                              <InventoryIcon
+                                sx={{
+                                  color: theme.palette.primary.contrastText,
+                                }}
+                              />{" "}
+                              &nbsp;&nbsp;
+                              <NavLink
+                                to="/stores/products"
+                                color={theme.palette.text.primary}
+                                onClick={() => setIsDrawerOpen(false)}
+                              >
+                                <Typography
+                                  color={theme.palette.text.contrastText}
+                                  variant="h6"
+                                >
+                                  Products
+                                </Typography>
+                              </NavLink>
+                            </MenuItem>
+                          </Stack>
+                          <Divider
+                            sx={{
+                              backgroundColor:
+                                theme.palette.primary.contrastText,
+                            }}
+                          />
+                          <Stack alignItems="center" direction="row">
+                            <MenuItem>
+                              <CategoryIcon
+                                sx={{
+                                  color: theme.palette.primary.contrastText,
+                                }}
+                              />{" "}
+                              &nbsp;&nbsp;
+                              <NavLink
+                                to="/stores/categories"
+                                onClick={() => setIsDrawerOpen(false)}
+                              >
+                                <Typography
+                                  color={theme.palette.text.contrastText}
+                                  variant="h6"
+                                >
+                                  Categories
+                                </Typography>
+                              </NavLink>
+                            </MenuItem>
+                          </Stack>
+                          <Divider
+                            sx={{
+                              backgroundColor:
+                                theme.palette.primary.contrastText,
+                            }}
+                          />
+                          <Stack alignItems="center" direction="row">
+                            <MenuItem>
+                              <LocalOfferIcon
+                                sx={{
+                                  color: theme.palette.primary.contrastText,
+                                }}
+                              />{" "}
+                              &nbsp;&nbsp;
+                              <NavLink to="/stores/promotions">
+                                <Typography
+                                  color={theme.palette.text.contrastText}
+                                  variant="h6"
+                                >
+                                  Promotions
+                                </Typography>
+                              </NavLink>
+                            </MenuItem>
+                          </Stack>
+                          <Divider
+                            sx={{
+                              backgroundColor:
+                                theme.palette.primary.contrastText,
+                            }}
+                          />
+                          <Stack alignItems="center" direction="row">
+                            <MenuItem>
+                              <AssignmentIcon
+                                sx={{
+                                  color: theme.palette.primary.contrastText,
+                                }}
+                              />{" "}
+                              &nbsp;&nbsp;
+                              <NavLink to="/stores/orders">
+                                <Typography
+                                  color={theme.palette.text.contrastText}
+                                  variant="h6"
+                                >
+                                  Orders
+                                </Typography>
+                              </NavLink>
+                            </MenuItem>
+                          </Stack>
+                          <Divider
+                            sx={{
+                              backgroundColor:
+                                theme.palette.primary.contrastText,
+                            }}
+                          />
+                        </>
+                      )}
                     </Stack>
-                   
                   </Drawer>
                 </>
               ) : (
@@ -196,7 +270,7 @@ const Navbar = ({ logOut }) => {
           )}
         </Stack>
         <Stack
-         direction='column'
+          direction="column"
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -205,15 +279,20 @@ const Navbar = ({ logOut }) => {
           }}
         >
           <SearchBar />
-          
         </Stack>
 
         <Stack direction="row" spacing={2} alignItems="center">
           {!currentUser ? (
             <>
-              <NavLink to="/register-user"><Typography>Register</Typography></NavLink> 
-              <span style={{ opacity: 0.7 }}><Typography>|</Typography></span>
-              <NavLink to="/login"><Typography>Login</Typography></NavLink>{" "}
+              <NavLink to="/register-user">
+                <Typography>Register</Typography>
+              </NavLink>
+              <span style={{ opacity: 0.7 }}>
+                <Typography>|</Typography>
+              </span>
+              <NavLink to="/login">
+                <Typography>Login</Typography>
+              </NavLink>{" "}
             </>
           ) : (
             <>
@@ -226,7 +305,7 @@ const Navbar = ({ logOut }) => {
                   cursor: "pointer",
                 }}
               >
-               <Typography> Profile</Typography>
+                <Typography> Profile</Typography>
               </Stack>
               <Menu
                 anchorEl={anchorEl}
@@ -371,7 +450,7 @@ const Navbar = ({ logOut }) => {
                 </MenuItem>
               </Menu>
               <NavLink onClick={logOut} to="/">
-               <Typography>Logout</Typography> 
+                <Typography>Logout</Typography>
               </NavLink>
             </>
           )}

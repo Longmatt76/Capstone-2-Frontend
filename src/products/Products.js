@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import UserContext from "./contexts/UserContext";
+import UserContext from "../contexts/UserContext";
 import { useTheme } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ const Products = () => {
             <CardMedia
               component="img"
               height="inherit"
-              image={require("./static/images/find-trending-products-sell-ecommerce.png")}
+              image={require("../static/images/find-trending-products-sell-ecommerce.png")}
             />
             <Stack
               direction="row"
