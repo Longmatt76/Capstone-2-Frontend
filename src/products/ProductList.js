@@ -1,23 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
-import { Grid, useTheme } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
+import { Grid } from "@mui/material";
 import Loading from "../helpers/Loading";
 import ProductCard from "./ProductCard";
-import { v4 as uuid} from 'uuid';
-import {
-  Typography,
-  Card,
-  Button,
-  Container,
-  Divider,
-  Link,
-  Paper,
-  CardMedia,
-  Stack,
-} from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { v4 as uuid } from "uuid";
+import { Container } from "@mui/material";
 import YourStoreAPI from "../api";
 
 const ProductList = () => {
@@ -30,7 +17,7 @@ const ProductList = () => {
   }
 
   useEffect(() => {
-    if (currentStore?.products.length) {
+    if (currentStore) {
       searchProducts(currentStore.ownerId, currentStore.storeId);
     }
   }, [currentStore]);
@@ -39,7 +26,7 @@ const ProductList = () => {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{marginTop: 3, marginBottom:5}}>
+      <Container maxWidth="lg" sx={{ marginTop: 3, marginBottom: 5 }}>
         <Grid container spacing={3}>
           {storeProducts.map((p) => (
             <Grid item xs={3}>

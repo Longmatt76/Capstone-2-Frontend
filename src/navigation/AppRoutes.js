@@ -16,7 +16,7 @@ import Categories from "../Categories";
 import AddCategory from "../forms/AddCategory";
 import EditCategory from "../forms/EditCategory";
 import EditProduct from "../forms/EditProduct";
-import ProductList from "../products/ProductList";
+import CategoryProducts from "../products/CategoryProducts";
 import ProductDetails from "../products/ProductDetails";
 
 
@@ -125,6 +125,10 @@ const AppRoutes = ({
       <Route
         path="/stores/:storeId/product-details/:productId"
         element={<ProductDetails/>}
+      />
+      <Route
+        path="/stores/:storeId/categories/:categoryId"
+        element={<CategoryProducts/>}
       />
     </Routes>
   );

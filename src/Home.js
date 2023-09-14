@@ -1,4 +1,4 @@
-import { Container, Paper, Typography, Grid, alpha, Box } from "@mui/material";
+import { Container, Paper, Typography, Grid, alpha, } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Carousel from "./Carousel";
 import ProductList from "./products/ProductList";
@@ -31,6 +31,7 @@ const Home = () => {
         </Paper>
       </Container>
       <ProductList />
+    
     </>
   );
 };
