@@ -5,11 +5,13 @@ import CategoryIcon from "@mui/icons-material/Category";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ShoppingCart from "../shoppingCart/ShoppingCart";
+import { CartContex } from "../contexts/CartContext";
 import SearchBar from "./SearchBar";
 import { NavLink } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import "../static/css/Navbar.css";
-import { useTheme } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import {
   AppBar,
   Toolbar,
@@ -23,11 +25,12 @@ import {
   Button,
   Drawer,
   Avatar,
+  Modal
 } from "@mui/material";
 
 const Navbar = ({ logOut }) => {
   const theme = useTheme();
-  const cartItemCount = 1;
+  const { cartItems } = useContext(CartContex);
 
   const { currentUser, currentStore } = useContext(UserContext);
 
@@ -43,8 +46,17 @@ const Navbar = ({ logOut }) => {
     setAnchorEl(null);
   };
 
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
+  console.log("cartItems", cartItems);
+
   return (
-    <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1, borderBottom: '1px solid grey'}}>
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: theme.zIndex.drawer + 1, borderBottom: "1px solid grey" }}
+    >
       <Toolbar
         sx={{
           display: "flex",
@@ -130,7 +142,6 @@ const Navbar = ({ logOut }) => {
                                 sx={{
                                   color: theme.palette.primary.contrastText,
                                   marginTop: 2.5,
-                          
                                 }}
                               />{" "}
                               &nbsp;&nbsp;{" "}
@@ -455,11 +466,16 @@ const Navbar = ({ logOut }) => {
             </>
           )}
 
-          <IconButton size="large" color="inherit">
-            <Badge badgeContent={cartItemCount} color="error">
+          <IconButton size="large" color="inherit" onClick={handleOpenModal}>
+            <Badge badgeContent={cartItems.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
+          <Modal 
+          open={openModal}
+          onClose={handleCloseModal}>
+           <ShoppingCart/>
+          </Modal>
         </Stack>
       </Toolbar>
       <Divider />

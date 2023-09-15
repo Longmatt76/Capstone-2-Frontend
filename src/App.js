@@ -9,6 +9,8 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import UserContext from "./contexts/UserContext";
 import { ThemeProvider } from "@emotion/react";
 import themes from "./themes";
+import CartProvider from "./contexts/CartContext";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [token, setToken] = useLocalStorage("token", "app");
@@ -203,7 +205,9 @@ function App() {
               setCurrentStore,
             }}
           >
+            <CartProvider>
             <Navbar logOut={handleLogOut} />
+            <Toaster/>
             <AppRoutes
               handleLogIn={handleLogIn}
               handleUserSignUp={handleUserSignUp}
@@ -225,6 +229,7 @@ function App() {
               handleEditCategory={handleEditCategory}
               handleDeleteCategory={handleDeleteCategory}
             />
+            </CartProvider>
           </UserContext.Provider>
         </BrowserRouter>
       </ThemeProvider>

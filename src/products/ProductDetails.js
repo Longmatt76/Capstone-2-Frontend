@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
+import { CartContex } from "../contexts/CartContext";
 import { useTheme } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import YourStoreAPI from "../api";
@@ -22,14 +23,13 @@ import {
   Stack,
 } from "@mui/material";
 
-
 const ProductDetails = () => {
   const theme = useTheme();
   const { productId } = useParams();
   const { currentStore } = useContext(UserContext);
+  const { qty, addQty, subQty, onAdd } = useContext(CartContex);
 
-  const [product, setProduct] = useState([]);
-  const [count, setCount] = useState(0);
+  const [product, setProduct] = useState({});
 
   async function mountProduct(ownerId, productId) {
     let product = await YourStoreAPI.getProduct(ownerId, productId);
@@ -92,7 +92,9 @@ const ProductDetails = () => {
                   Brand:
                 </Typography>
 
-                <Typography variant="subtitle1">{product.brand ? product.brand : 'Unknown'}</Typography>
+                <Typography variant="subtitle1">
+                  {product.brand ? product.brand : "Unknown"}
+                </Typography>
                 <Typography
                   variant="h6"
                   sx={{ color: theme.palette.primary.main }}
@@ -147,7 +149,7 @@ const ProductDetails = () => {
                     paddingBottom: 0,
                   }}
                   color="inherit"
-                  onClick={count !== 0 ? () => setCount(count - 1) : null}
+                  onClick={subQty}
                   size="small"
                 >
                   <RemoveIcon />
@@ -160,7 +162,7 @@ const ProductDetails = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  {count}
+                  {qty}
                 </Box>
                 <IconButton
                   sx={{
@@ -170,14 +172,18 @@ const ProductDetails = () => {
                     paddingBottom: 0,
                   }}
                   color="inherit"
-                  onClick={() => setCount(count + 1)}
+                  onClick={addQty}
                   size="small"
                 >
                   <AddIcon />
                 </IconButton>
               </Stack>
               <Stack mt={4} direction="row" spacing={3} justifyContent="center">
-                <Button variant="outlined" startIcon={<ShoppingCartIcon />}>
+                <Button
+                  variant="outlined"
+                  startIcon={<ShoppingCartIcon />}
+                  onClick={() => onAdd(product, qty)}
+                >
                   Add to Cart
                 </Button>
                 <Button variant="contained" startIcon={<PointOfSaleIcon />}>
@@ -189,7 +195,7 @@ const ProductDetails = () => {
           </Grid>
         </Paper>
       </Container>
-      <Footer/>
+      <Footer />
     </>
   );
 };
