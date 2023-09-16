@@ -30,7 +30,7 @@ import {
 
 const Navbar = ({ logOut }) => {
   const theme = useTheme();
-  const { cartItems } = useContext(CartContex);
+  const { cartItems, showCart, setShowCart } = useContext(CartContex);
 
   const { currentUser, currentStore } = useContext(UserContext);
 
@@ -46,11 +46,6 @@ const Navbar = ({ logOut }) => {
     setAnchorEl(null);
   };
 
-  const [openModal, setOpenModal] = useState(false);
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
-
-  console.log("cartItems", cartItems);
 
   return (
     <AppBar
@@ -466,16 +461,17 @@ const Navbar = ({ logOut }) => {
             </>
           )}
 
-          <IconButton size="large" color="inherit" onClick={handleOpenModal}>
+          <IconButton size="large" color="inherit" onClick={() => setShowCart(true)}>
             <Badge badgeContent={cartItems.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <Modal 
-          open={openModal}
-          onClose={handleCloseModal}>
+          {cartItems.length > 0 && showCart &&  <Modal 
+          open={showCart}
+          onClose={() => setShowCart(false)}>
            <ShoppingCart/>
-          </Modal>
+          </Modal>}
+        
         </Stack>
       </Toolbar>
       <Divider />

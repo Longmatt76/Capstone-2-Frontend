@@ -25,7 +25,15 @@ import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 
 const ShoppingCart = () => {
   const theme = useTheme();
-  const { qty, addQty, subQty, onAdd, cartItems } = useContext(CartContex);
+  const {
+    totalPrice,
+    totalQuantities,
+    cartItems,
+    deleteFromCart,
+    clearCart,
+    setShowCart,
+    toggleCartItemQty, 
+  } = useContext(CartContex);
   return (
     <>
       <Container maxWidth="md" sx={{ marginTop: 20 }}>
@@ -87,7 +95,7 @@ const ShoppingCart = () => {
                             paddingBottom: 0,
                           }}
                           color="inherit"
-                          onClick={subQty}
+                          onClick={() => toggleCartItemQty(item.productId, 'sub')}
                           size="small"
                         >
                           <RemoveIcon fontSize="small" />
@@ -100,7 +108,7 @@ const ShoppingCart = () => {
                             fontWeight: "bold",
                           }}
                         >
-                          {qty}
+                          {item.quantity > 0 ? item.quantity: 0}
                         </Box>
                         <IconButton
                           sx={{
@@ -110,15 +118,19 @@ const ShoppingCart = () => {
                             paddingBottom: 0,
                           }}
                           color="inherit"
-                          onClick={addQty}
+                          onClick={() => toggleCartItemQty(item.productId, 'add')}
                           size="small"
                         >
                           <AddIcon fontSize="small" />
                         </IconButton>
                       </Stack>
                     </TableCell>
-                    <TableCell align="center">$1444</TableCell>
-                    <TableCell align="center">delete</TableCell>
+                    <TableCell align="center">{(item.price * item.quantity).toFixed(2)}</TableCell>
+                    <TableCell align="center">
+                      <Button onClick={() => deleteFromCart(item)}>
+                        delete
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -126,15 +138,33 @@ const ShoppingCart = () => {
             <Divider />
             <Box mt={2}>
               <Paper>
-                <Stack direction="row" alignItems="center" justifyContent="space-between">
-                  <Button variant="outlined" startIcon={<DeleteIcon />} size="large" sx={{marginTop: 4}}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      clearCart();
+                      setShowCart(false);
+                    }}
+                    startIcon={<DeleteIcon />}
+                    size="large"
+                    sx={{ marginTop: 4 }}
+                  >
                     Clear Cart
                   </Button>
                   <Stack>
-                    <Typography variant="h6" fontWeight='bold'>Total ({cartItems.length} items): <span style={{color: theme.palette.primary.main}}>$89.43</span> </Typography>
-                  <Button variant="contained" startIcon={<PointOfSaleIcon/>}>
-                    Checkout
-                  </Button>
+                    <Typography variant="h6" fontWeight="bold">
+                      Total ({totalQuantities} items):{" "}
+                      <span style={{ color: theme.palette.primary.main }}>
+                         {totalPrice.toFixed(2)}
+                      </span>{" "}
+                    </Typography>
+                    <Button variant="contained" startIcon={<PointOfSaleIcon />}>
+                      Checkout
+                    </Button>
                   </Stack>
                 </Stack>
               </Paper>

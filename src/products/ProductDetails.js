@@ -10,6 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import Footer from "../navigation/Footer";
+import { useNavigate } from "react-router-dom";
 import {
   Typography,
   Box,
@@ -24,12 +25,13 @@ import {
 } from "@mui/material";
 
 const ProductDetails = () => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const { productId } = useParams();
   const { currentStore } = useContext(UserContext);
-  const { qty, addQty, subQty, onAdd } = useContext(CartContex);
+  const { qty, setQty, addQty, subQty, onAdd } = useContext(CartContex);
 
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState([]);
 
   async function mountProduct(ownerId, productId) {
     let product = await YourStoreAPI.getProduct(ownerId, productId);
@@ -182,7 +184,11 @@ const ProductDetails = () => {
                 <Button
                   variant="outlined"
                   startIcon={<ShoppingCartIcon />}
-                  onClick={() => onAdd(product, qty)}
+                  onClick={async function () {
+                    await onAdd(product, qty);
+                    setQty(0);
+                    navigate('/');
+                  }}
                 >
                   Add to Cart
                 </Button>
