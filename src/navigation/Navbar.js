@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import StoreIcon from "@mui/icons-material/Store";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CategoryIcon from "@mui/icons-material/Category";
@@ -28,7 +28,7 @@ import {
   Modal
 } from "@mui/material";
 
-const Navbar = ({ logOut }) => {
+const Navbar = ({ logOut, handleCheckout }) => {
   const theme = useTheme();
   const { cartItems, showCart, setShowCart } = useContext(CartContex);
 
@@ -469,7 +469,7 @@ const Navbar = ({ logOut }) => {
           {cartItems.length > 0 && showCart &&  <Modal 
           open={showCart}
           onClose={() => setShowCart(false)}>
-           <ShoppingCart/>
+           <ShoppingCart handleCheckout={handleCheckout}/>
           </Modal>}
         
         </Stack>

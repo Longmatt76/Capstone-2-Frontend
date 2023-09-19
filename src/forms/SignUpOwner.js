@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React  from "react";
 import {
   Typography,
   Grid,
@@ -12,36 +12,42 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
 
 
 const SignUpOwner = ({handleOwnerSignup}) => {
   
     const theme = useTheme();
     const navigate = useNavigate();
-    const INITIALSTATE = {
-        firstName: "",
-        lastName: "",
-        email: "",
-        username: "",
-        password: "",
-      };
+  
+    const validationSchema = Yup.object().shape({
+      firstName: Yup.string().required('First Name is required'),
+      lastName: Yup.string().required('Last Name is required'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      username: Yup.string().required('Username is required'),
+      password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
+    });
     
-      const [formData, setFormData] = useState(INITIALSTATE);
+    const formik = useFormik({
+      initialValues: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        username: '',
+        password: '',
+      },
+      validationSchema: validationSchema,
+      onSubmit: async (values) => {
+        await handleOwnerSignup(values);
+        formik.resetForm();
+        navigate('/');
+      },
+    });
     
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((fdata) => ({
-          ...fdata,
-          [name]: value,
-        }));
-      };
-    
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        await handleOwnerSignup(formData);
-        setFormData(INITIALSTATE);
-        navigate("/");
-      };
 
   return (
     <>
@@ -71,81 +77,87 @@ const SignUpOwner = ({handleOwnerSignup}) => {
               mt={5}
             >
               <Grid xs={12} sm={12} item>
-                <form onSubmit={handleSubmit}>
-                <TextField
-                    sx={{
-                    
-                      marginBottom: 1,
-                    }}
-                    label="first name"
-                    placeholder="enter first name"
-                    fullWidth
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                  />
-                  <TextField
-                    sx={{
-                     
-                      marginBottom: 1,
-                    }}
-                    label="last name"
-                    placeholder="enter last name"
-                    fullWidth
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                  />
-                  <TextField
-                    sx={{
-                    
-                      marginBottom: 1,
-                    }}
-                    label="email"
-                    placeholder="enter email"
-                    fullWidth
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                  <TextField
-                    sx={{
-                     
-                      marginBottom: 1,
-                    }}
-                    label="username"
-                    placeholder="create a unique username"
-                    fullWidth
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    autoComplete="username"
-                  />
-                  <TextField
-                  
-                    label="password"
-                    type="password"
-                    placeholder="create a password with at least 6 characters"
-                    fullWidth
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    autoComplete="current-password"
-                  />
+              <form onSubmit={formik.handleSubmit}>
+  <TextField
+    sx={{
+      marginBottom: 1,
+    }}
+    label="first name"
+    placeholder="enter first name"
+    fullWidth
+    type="text"
+    name="firstName"
+    value={formik.values.firstName}
+    onChange={formik.handleChange}
+    error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+    helperText={formik.touched.firstName && formik.errors.firstName}
+  />
+  <TextField
+    sx={{
+      marginBottom: 1,
+    }}
+    label="last name"
+    placeholder="enter last name"
+    fullWidth
+    type="text"
+    name="lastName"
+    value={formik.values.lastName}
+    onChange={formik.handleChange}
+    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+    helperText={formik.touched.lastName && formik.errors.lastName}
+  />
+  <TextField
+    sx={{
+      marginBottom: 1,
+    }}
+    label="email"
+    placeholder="enter email"
+    fullWidth
+    type="email"
+    name="email"
+    value={formik.values.email}
+    onChange={formik.handleChange}
+    error={formik.touched.email && Boolean(formik.errors.email)}
+    helperText={formik.touched.email && formik.errors.email}
+  />
+  <TextField
+    sx={{
+      marginBottom: 1,
+    }}
+    label="username"
+    placeholder="create a unique username"
+    fullWidth
+    name="username"
+    value={formik.values.username}
+    onChange={formik.handleChange}
+    error={formik.touched.username && Boolean(formik.errors.username)}
+    helperText={formik.touched.username && formik.errors.username}
+    autoComplete="username"
+  />
+  <TextField
+    label="password"
+    type="password"
+    placeholder="create a password with at least 6 characters"
+    fullWidth
+    name="password"
+    value={formik.values.password}
+    onChange={formik.handleChange}
+    error={formik.touched.password && Boolean(formik.errors.password)}
+    helperText={formik.touched.password && formik.errors.password}
+    autoComplete="current-password"
+  />
 
-                  <Button
-                    color="primary"
-                    fullWidth
-                    variant="contained"
-                    sx={{ marginTop: 3 }}
-                    type="submit"
-                  >
-                    Sign Up
-                  </Button>
-                </form>
+  <Button
+    color="primary"
+    fullWidth
+    variant="contained"
+    sx={{ marginTop: 3 }}
+    type="submit"
+  >
+    Sign Up
+  </Button>
+</form>
+
                 <Typography
                   mt={2}
                   align="center"
@@ -153,18 +165,20 @@ const SignUpOwner = ({handleOwnerSignup}) => {
                   variant="subtitle2"
                 >
                   <Divider> already registered as a store owner? </Divider>
-                  <Link href="/login">
+               
                     <Button
+                    onClick={() => navigate('/login')}
+                    variant="outlined"
+                    color="secondary"
                       fullWidth
                       sx={{
                         marginTop: 2,
-                        backgroundColor: theme.palette.secondary.main,
-                        color: "black",
+                
                       }}
                     >
                       Log In
                     </Button>
-                  </Link>
+             
                 </Typography>
               </Grid>
             </Grid>

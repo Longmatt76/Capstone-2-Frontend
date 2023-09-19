@@ -18,7 +18,9 @@ import EditCategory from "../forms/EditCategory";
 import EditProduct from "../forms/EditProduct";
 import CategoryProducts from "../products/CategoryProducts";
 import ProductDetails from "../products/ProductDetails";
-
+import NotFound from "./NotFound";
+import CheckoutSuccess from "./CheckoutSuccess";
+import CheckoutCancel from "./CheckoutCancel";
 
 const AppRoutes = ({
   handleLogIn,
@@ -129,6 +131,18 @@ const AppRoutes = ({
       <Route
         path="/stores/:storeId/categories/:categoryId"
         element={<CategoryProducts/>}
+      />
+      <Route
+        path="/checkout-success"
+        element={<CheckoutSuccess/>}
+      />
+      <Route
+        path="/checkout-cancel"
+        element={<CheckoutCancel/>}
+      />
+      <Route
+        path="*"
+        element={<NotFound/>}
       />
     </Routes>
   );

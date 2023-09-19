@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 class YourStoreAPI {
@@ -106,55 +107,86 @@ class YourStoreAPI {
   }
 
   static async createProduct(ownerId, storeId, data) {
-    let res = await this.request(`stores/${ownerId}/products/${storeId}`, data, "post");
+    let res = await this.request(
+      `stores/${ownerId}/products/${storeId}`,
+      data,
+      "post"
+    );
     return res.product;
   }
 
   static async getProduct(ownerId, productId) {
     let res = await this.request(`stores/${ownerId}/products/${productId}`);
-    return res.product
+    return res.product;
   }
 
   static async getProducts(ownerId, storeId) {
     let res = await this.request(`stores/${ownerId}/products/all/${storeId}`);
-    return res.products
+    return res.products;
   }
 
   static async updateProduct(ownerId, productId, updatedData) {
-    let res = await this.request(`stores/${ownerId}/products/${productId}`,updatedData, "put" );
-    return res.updatedProduct
+    let res = await this.request(
+      `stores/${ownerId}/products/${productId}`,
+      updatedData,
+      "put"
+    );
+    return res.updatedProduct;
   }
 
-  static async removeProduct(ownerId, productId, data= undefined) {
-    let res = await this.request(`stores/${ownerId}/products/${productId}`, data, "delete");
+  static async removeProduct(ownerId, productId, data = undefined) {
+    let res = await this.request(
+      `stores/${ownerId}/products/${productId}`,
+      data,
+      "delete"
+    );
     return res;
   }
   static async createCategory(ownerId, storeId, data) {
-    let res = await this.request(`stores/${ownerId}/categories/${storeId}`, data, "post");
+    let res = await this.request(
+      `stores/${ownerId}/categories/${storeId}`,
+      data,
+      "post"
+    );
     return res.category;
   }
 
   static async getCategory(ownerId, categoryId) {
     let res = await this.request(`stores/${ownerId}/categories/${categoryId}`);
-    return res.category
+    return res.category;
   }
 
   static async getCategories(ownerId, storeId) {
     let res = await this.request(`stores/${ownerId}/categories/all/${storeId}`);
-    return res.categories
+    return res.categories;
   }
 
   static async updateCategory(ownerId, categoryId, updatedData) {
-    let res = await this.request(`stores/${ownerId}/categories/${categoryId}`,updatedData, "put" );
-    return res.updatedCategory
+    let res = await this.request(
+      `stores/${ownerId}/categories/${categoryId}`,
+      updatedData,
+      "put"
+    );
+    return res.updatedCategory;
   }
 
-  static async removeCategory(ownerId, categoryId, data= undefined) {
-    let res = await this.request(`stores/${ownerId}/categories/${categoryId}`, data, "delete");
+  static async removeCategory(ownerId, categoryId, data = undefined) {
+    let res = await this.request(
+      `stores/${ownerId}/categories/${categoryId}`,
+      data,
+      "delete"
+    );
     return res;
   }
 
-
+  static async checkout(ownerId, userId, data) {
+    let res = await this.request(
+      `checkout/${ownerId}/create-session/${userId}`,
+      data,
+      "post"
+    );
+    return res;
+  }
 }
 
 export default YourStoreAPI;

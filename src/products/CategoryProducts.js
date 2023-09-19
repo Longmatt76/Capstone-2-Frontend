@@ -55,9 +55,9 @@ const CategoryProducts = () => {
       <Container maxWidth="lg" sx={{ marginTop: 3, marginBottom: 5 }}>
         <Grid container spacing={3}>
           {category && category.products && category.products.map((p) => (
-            <Grid item xs={3}>
+            <Grid item key={uuid()} xs={3}>
               <ProductCard
-                key={uuid()}
+                key={p.productName}
                 productId={p.id}
                 brand={p.brand}
                 title={p.name}

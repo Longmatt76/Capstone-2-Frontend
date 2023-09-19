@@ -29,9 +29,9 @@ const ProductList = () => {
       <Container maxWidth="lg" sx={{ marginTop: 3, marginBottom: 5 }}>
         <Grid container spacing={3}>
           {storeProducts.map((p) => (
-            <Grid item xs={3}>
+            <Grid item key={uuid()} xs={3}>
               <ProductCard
-                key={uuid()}
+                key={p.productName}
                 storeId={p.storeId}
                 productId={p.productId}
                 brand={p.brand}

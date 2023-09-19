@@ -40,7 +40,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     if (currentStore) {
-      mountCategories(currentStore.ownerId, currentStore.storeId);
+      mountCategories(currentStore.ownerId, currentStore?.storeId);
     }
   }, [currentStore]);
 
@@ -66,7 +66,7 @@ const SearchBar = () => {
       {categories && (
         <Stack direction="row" spacing={3} my={0.5} alignContent="flex-start">
           {categories.map((category) => (
-            <NavLink key={category.categoryId} to={`/stores/${currentStore.storeId}/categories/${category.categoryId}`}>
+            <NavLink key={category.categoryId} to={`/stores/${currentStore?.storeId}/categories/${category.categoryId}`}>
               <Typography variant="subtitle2">{category.categoryName}</Typography>
             </NavLink>
           ))}

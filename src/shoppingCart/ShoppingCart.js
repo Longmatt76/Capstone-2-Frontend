@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { CartContex } from "../contexts/CartContext";
+import UserContext from "../contexts/UserContext";
 import { useContext } from "react";
 import { useTheme } from "@mui/material/styles";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -23,8 +24,9 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 
-const ShoppingCart = () => {
+const ShoppingCart = ({ handleCheckout }) => {
   const theme = useTheme();
+  const { currentUser, currentStore } = useContext(UserContext);
   const {
     totalPrice,
     totalQuantities,
@@ -32,7 +34,7 @@ const ShoppingCart = () => {
     deleteFromCart,
     clearCart,
     setShowCart,
-    toggleCartItemQty, 
+    toggleCartItemQty,
   } = useContext(CartContex);
   return (
     <>
@@ -76,7 +78,7 @@ const ShoppingCart = () => {
                       {idx + 1}
                     </TableCell>
                     <TableCell align="right">
-                      <img src={`${item.image}`} height="40"></img>
+                      <img alt={item.productName} src={`${item.image}`} height="40"></img>
                     </TableCell>
                     <TableCell align="center">{item.productName}</TableCell>
                     <TableCell align="center">${item.price}</TableCell>
@@ -95,7 +97,9 @@ const ShoppingCart = () => {
                             paddingBottom: 0,
                           }}
                           color="inherit"
-                          onClick={() => toggleCartItemQty(item.productId, 'sub')}
+                          onClick={() =>
+                            toggleCartItemQty(item.productId, "sub")
+                          }
                           size="small"
                         >
                           <RemoveIcon fontSize="small" />
@@ -108,7 +112,7 @@ const ShoppingCart = () => {
                             fontWeight: "bold",
                           }}
                         >
-                          {item.quantity > 0 ? item.quantity: 0}
+                          {item.quantity > 0 ? item.quantity : 0}
                         </Box>
                         <IconButton
                           sx={{
@@ -118,14 +122,18 @@ const ShoppingCart = () => {
                             paddingBottom: 0,
                           }}
                           color="inherit"
-                          onClick={() => toggleCartItemQty(item.productId, 'add')}
+                          onClick={() =>
+                            toggleCartItemQty(item.productId, "add")
+                          }
                           size="small"
                         >
                           <AddIcon fontSize="small" />
                         </IconButton>
                       </Stack>
                     </TableCell>
-                    <TableCell align="center">{(item.price * item.quantity).toFixed(2)}</TableCell>
+                    <TableCell align="center">
+                      {(item.price * item.quantity).toFixed(2)}
+                    </TableCell>
                     <TableCell align="center">
                       <Button onClick={() => deleteFromCart(item)}>
                         delete
@@ -159,10 +167,22 @@ const ShoppingCart = () => {
                     <Typography variant="h6" fontWeight="bold">
                       Total ({totalQuantities} items):{" "}
                       <span style={{ color: theme.palette.primary.main }}>
-                         {totalPrice.toFixed(2)}
+                        {totalPrice.toFixed(2)}
                       </span>{" "}
                     </Typography>
-                    <Button variant="contained" startIcon={<PointOfSaleIcon />}>
+                    <Button
+                      onClick={() =>
+                        handleCheckout(
+                          currentStore.ownerId,
+                          currentUser.userId
+                            ? currentUser.userId
+                            : currentUser.ownerId,
+                          {cartItems}
+                        )
+                      }
+                      variant="contained"
+                      startIcon={<PointOfSaleIcon />}
+                    >
                       Checkout
                     </Button>
                   </Stack>

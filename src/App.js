@@ -53,7 +53,7 @@ function App() {
             );
             setCurrentStore(currentStoreData);
           } catch (error) {
-            setCurrentStore(undefined);
+            console.log(error);
           }
         }
       }
@@ -152,10 +152,10 @@ function App() {
   }
 
   async function handleAddProduct(ownerId, storeId, data) {
-     await YourStoreAPI.createProduct(ownerId, storeId, data);
-     const updatedStore = await YourStoreAPI.getStore(ownerId);
-     setCurrentStore(updatedStore);
-     return updatedStore;
+    await YourStoreAPI.createProduct(ownerId, storeId, data);
+    const updatedStore = await YourStoreAPI.getStore(ownerId);
+    setCurrentStore(updatedStore);
+    return updatedStore;
   }
 
   async function handleEditProduct(ownerId, productId, updatedData) {
@@ -193,6 +193,16 @@ function App() {
     return updatedStore;
   }
 
+  async function handleCheckout(ownerId, userId, data) {
+    await YourStoreAPI.checkout(ownerId, userId, data)
+      .then((res) => {
+        if (res.url) {
+          window.location.href = res.url;
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -206,29 +216,29 @@ function App() {
             }}
           >
             <CartProvider>
-            <Navbar logOut={handleLogOut} />
-            <Toaster/>
-            <AppRoutes
-              handleLogIn={handleLogIn}
-              handleUserSignUp={handleUserSignUp}
-              handleEditUserProfile={handleEditUserProfile}
-              handleEditOwnerProfile={handleEditOwnerProfile}
-              handleOwnerSignup={handleOwnerSignup}
-              handleUserAddress={handleUserAddress}
-              handleUserEditAddress={handleUserEditAddress}
-              handleUserDeleteAddress={handleUserDeleteAddress}
-              handleDeleteUserProfile={handleDeleteUserProfile}
-              handleDeleteOwnerProfile={handleDeleteOwnerProfile}
-              handleAddStoreDetails={handleAddStoreDetails}
-              handleEditStoreDetails={handleEditStoreDetails}
-              handleDeleteStore={handleDeleteStore}
-              handleAddProduct={handleAddProduct}
-              handleEditProduct={handleEditProduct}
-              handleDeleteProduct={handleDeleteProduct}
-              handleAddCategory={handleAddCategory}
-              handleEditCategory={handleEditCategory}
-              handleDeleteCategory={handleDeleteCategory}
-            />
+              <Navbar logOut={handleLogOut} handleCheckout={handleCheckout} />
+              <Toaster />
+              <AppRoutes
+                handleLogIn={handleLogIn}
+                handleUserSignUp={handleUserSignUp}
+                handleEditUserProfile={handleEditUserProfile}
+                handleEditOwnerProfile={handleEditOwnerProfile}
+                handleOwnerSignup={handleOwnerSignup}
+                handleUserAddress={handleUserAddress}
+                handleUserEditAddress={handleUserEditAddress}
+                handleUserDeleteAddress={handleUserDeleteAddress}
+                handleDeleteUserProfile={handleDeleteUserProfile}
+                handleDeleteOwnerProfile={handleDeleteOwnerProfile}
+                handleAddStoreDetails={handleAddStoreDetails}
+                handleEditStoreDetails={handleEditStoreDetails}
+                handleDeleteStore={handleDeleteStore}
+                handleAddProduct={handleAddProduct}
+                handleEditProduct={handleEditProduct}
+                handleDeleteProduct={handleDeleteProduct}
+                handleAddCategory={handleAddCategory}
+                handleEditCategory={handleEditCategory}
+                handleDeleteCategory={handleDeleteCategory}
+              />
             </CartProvider>
           </UserContext.Provider>
         </BrowserRouter>

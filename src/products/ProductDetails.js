@@ -8,7 +8,6 @@ import Loading from "../helpers/Loading";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
 import Footer from "../navigation/Footer";
 import { useNavigate } from "react-router-dom";
 import {
@@ -182,18 +181,15 @@ const ProductDetails = () => {
               </Stack>
               <Stack mt={4} direction="row" spacing={3} justifyContent="center">
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   startIcon={<ShoppingCartIcon />}
                   onClick={async function () {
                     await onAdd(product, qty);
                     setQty(0);
-                    navigate('/');
+                    navigate("/");
                   }}
                 >
                   Add to Cart
-                </Button>
-                <Button variant="contained" startIcon={<PointOfSaleIcon />}>
-                  Buy Now
                 </Button>
               </Stack>
               <Divider sx={{ marginTop: 3 }} />

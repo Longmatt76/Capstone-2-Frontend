@@ -13,7 +13,7 @@ export const CartProvider = ({ children }) => {
   const [qty, setQty] = useState(0);
 
   let foundProduct;
-  let index;
+
 
   const onAdd = (product, quantity) => {
     const checkProductInCart = cartItems.find((item) => item.productId === product.productId);
@@ -22,12 +22,17 @@ export const CartProvider = ({ children }) => {
     setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
     
     if(checkProductInCart) {
-      const updatedCartItems = cartItems.map((cartProduct) => {
-        if(cartProduct._id === product._id) return {
-          ...cartProduct,
-          quantity: cartProduct.quantity + quantity
-        }
-      })
+        const updatedCartItems = cartItems.map((cartProduct) => {
+            if (cartProduct._id === product._id) {
+              return {
+                ...cartProduct,
+                quantity: cartProduct.quantity + quantity
+              };
+            } else {
+              return cartProduct;
+            }
+          });
+          
 
       setCartItems(updatedCartItems);
     } else {
@@ -41,7 +46,6 @@ export const CartProvider = ({ children }) => {
 
   const toggleCartItemQty = (id, value) => {
     foundProduct = cartItems.find((item) => item.productId === id);
-    index = cartItems.findIndex((product) => product.productId === id);
     let price = parseFloat(foundProduct.price)
   
     if (value === "add") {
@@ -118,7 +122,6 @@ export const CartProvider = ({ children }) => {
         onAdd,
         deleteFromCart,
         clearCart,
-        showCart,
         setShowCart,
         toggleCartItemQty,
         setQty

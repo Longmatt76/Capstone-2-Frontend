@@ -116,7 +116,7 @@ const ThemeSix = (currentStore) =>
       primary: {
         main: "#fff",
         light: "#e9e9e9",
-        dark: "#144839",
+        dark: "#9d9e9f",
         contrastText: "#000000",
       },
       secondary: {
