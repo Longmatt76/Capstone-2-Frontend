@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import StoreIcon from "@mui/icons-material/Store";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CategoryIcon from "@mui/icons-material/Category";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import ViewCarouselIcon from "@mui/icons-material/ViewCarousel";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import ShoppingCart from "../shoppingCart/ShoppingCart";
 import { CartContex } from "../contexts/CartContext";
+import { CarouselContext } from "../contexts/CarouselContext";
 import SearchBar from "./SearchBar";
 import { NavLink } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
@@ -25,14 +26,17 @@ import {
   Button,
   Drawer,
   Avatar,
-  Modal
+  Modal,
 } from "@mui/material";
+
 
 const Navbar = ({ logOut, handleCheckout }) => {
   const theme = useTheme();
   const { cartItems, showCart, setShowCart } = useContext(CartContex);
 
   const { currentUser, currentStore } = useContext(UserContext);
+
+  const {carousel}   = useContext(CarouselContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -45,7 +49,6 @@ const Navbar = ({ logOut, handleCheckout }) => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
 
   return (
     <AppBar
@@ -216,18 +219,21 @@ const Navbar = ({ logOut, handleCheckout }) => {
                           />
                           <Stack alignItems="center" direction="row">
                             <MenuItem>
-                              <LocalOfferIcon
+                              <ViewCarouselIcon
                                 sx={{
                                   color: theme.palette.primary.contrastText,
                                 }}
                               />{" "}
                               &nbsp;&nbsp;
-                              <NavLink to="/stores/promotions">
+                              <NavLink
+                                onClick={() => setIsDrawerOpen(false)}
+                                to={carousel.length > 0 ? `/stores/:ownerId/carousel-edit/:storeId` :  `/stores/:ownerId/carousel-add/:storeId` }
+                              >
                                 <Typography
                                   color={theme.palette.text.contrastText}
                                   variant="h6"
                                 >
-                                  Promotions
+                                  Carousel
                                 </Typography>
                               </NavLink>
                             </MenuItem>
@@ -461,17 +467,20 @@ const Navbar = ({ logOut, handleCheckout }) => {
             </>
           )}
 
-          <IconButton size="large" color="inherit" onClick={() => setShowCart(true)}>
+          <IconButton
+            size="large"
+            color="inherit"
+            onClick={() => setShowCart(true)}
+          >
             <Badge badgeContent={cartItems.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          {cartItems.length > 0 && showCart &&  <Modal 
-          open={showCart}
-          onClose={() => setShowCart(false)}>
-           <ShoppingCart handleCheckout={handleCheckout}/>
-          </Modal>}
-        
+          {cartItems.length > 0 && showCart && (
+            <Modal open={showCart} onClose={() => setShowCart(false)}>
+              <ShoppingCart handleCheckout={handleCheckout} />
+            </Modal>
+          )}
         </Stack>
       </Toolbar>
       <Divider />

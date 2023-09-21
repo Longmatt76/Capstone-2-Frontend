@@ -21,6 +21,7 @@ import ProductDetails from "../products/ProductDetails";
 import NotFound from "./NotFound";
 import CheckoutSuccess from "./CheckoutSuccess";
 import CheckoutCancel from "./CheckoutCancel";
+import AddCarousel from "../forms/AddCarousel";
 
 const AppRoutes = ({
   handleLogIn,
@@ -42,6 +43,8 @@ const AppRoutes = ({
   handleAddCategory, 
   handleEditCategory,
   handleDeleteCategory,
+  handleAddCarousel,
+  handleEditCarousel
 }) => {
   return (
     <Routes>
@@ -132,6 +135,14 @@ const AppRoutes = ({
         path="/stores/:storeId/categories/:categoryId"
         element={<CategoryProducts/>}
       />
+      <Route
+        path="/stores/:ownerId/carousel-add/:storeId"
+        element={<AddCarousel handleAddCarousel={handleAddCarousel}/>}
+      />
+      {/* <Route
+        path="/stores/:ownerId/carousel-edit/:storeId"
+        element={}
+      /> */}
       <Route
         path="/checkout-success"
         element={<CheckoutSuccess/>}

@@ -8,6 +8,7 @@ import {
   Button,
   Container,
   Divider,
+  alpha
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -42,21 +43,25 @@ const LogIn = ({ handleLogIn }) => {
   return (
     <>
       <Container maxWidth="sm" sx={{ marginTop: 20 }}>
-        <Card >
+        <Card elevation={0} sx={{backgroundColor: alpha('#fff', .9),  marginTop: 20, border: `1px solid black`}}>
           <CardContent>
             <Typography
               sx={{
-                color: theme.palette.primary.dark,
-                textShadow: ".5px .5px 1px black",
+                color: theme.palette.primary.main,
+                textShadow: "1px 1px 1px black",
+                backgroundColor: alpha(theme.palette.primary.light,.6),
+                padding: 2,
+                border: '1px solid black',
+                borderRadius: '5px'
               }}
               mt={2}
               gutterBottom
               variant="h4"
-              align="left"
+              align="center"
             >
               Login
             </Typography>
-            <Typography gutterBottom variant="subtitle2">
+            <Typography align="center" fontStyle="italic" gutterBottom variant="subtitle2">
               Welcome back
             </Typography>
             <Divider />
@@ -72,6 +77,7 @@ const LogIn = ({ handleLogIn }) => {
               <form onSubmit={formik.handleSubmit}>
   <TextField
     sx={{
+      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
       marginBottom: 1,
     }}
     label="username"
@@ -85,6 +91,10 @@ const LogIn = ({ handleLogIn }) => {
     autoComplete="username"
   />
   <TextField
+   sx={{
+    backgroundColor: alpha(theme.palette.primary.contrastText, 1),
+    marginBottom: 1,
+  }}
     label="password"
     type="password"
     placeholder="enter password"
@@ -97,7 +107,7 @@ const LogIn = ({ handleLogIn }) => {
     autoComplete="current-password"
   />
   <Button
-    color="primary"
+    color="secondary"
     fullWidth
     variant="contained"
     sx={{ marginTop: 3 }}
@@ -118,11 +128,11 @@ const LogIn = ({ handleLogIn }) => {
                     <Button
                     onClick={() => navigate('/register-user')}
                       fullWidth
-                      color="secondary"
+                      color="primary"
                       variant="outlined"
                       sx={{
                         marginTop: 2,
-                  
+                        backgroundColor: alpha(theme.palette.primary.contrastText, 1)
                       }}
                     >
                       Sign up

@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useTheme } from "@mui/material/styles";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import '../static/css/AddProducts.css'
+import "../static/css/AddProducts.css";
 import {
   Typography,
   Grid,
@@ -21,25 +23,50 @@ import {
   alpha,
   InputAdornment,
   Stack,
-  Link
+  Link,
 } from "@mui/material";
+
+const validationSchema = Yup.object({
+  productName: Yup.string().required("Product name is required"),
+  price: Yup.number()
+    .required("Price is required")
+    .positive("Price must be a positive number"),
+  qty: Yup.number()
+    .required("Quantity is required")
+    .integer("Quantity must be an integer"),
+});
 
 const AddProduct = ({ handleAddProduct }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { currentStore } = useContext(UserContext);
 
-  const INITIALSTATE = {
-    productName: "",
-    brand: "",
-    productDescription: "",
-    categoryName: "",
-    image: "",
-    price: "",
-    qty: "",
-  };
+  const formik = useFormik({
+    initialValues: {
+      productName: "",
+      brand: "",
+      productDescription: "",
+      categoryName: "",
+      image: "",
+      price: "",
+      qty: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: async (values) => {
+      const selectedCategoryName = categorySelected
+        ? values.categoryName
+        : values.createCategoryName;
 
-  const [formData, setFormData] = useState(INITIALSTATE);
+      await handleAddProduct(currentStore.ownerId, currentStore.storeId, {
+        ...values,
+        categoryName: selectedCategoryName,
+      });
+
+      formik.resetForm();
+      navigate("/");
+    },
+  });
+
   const [categorySelected, setCategorySelected] = useState(false);
 
   const handleChange = (e) => {
@@ -48,41 +75,7 @@ const AddProduct = ({ handleAddProduct }) => {
       setCategorySelected(value !== "");
     }
 
-    setFormData((fdata) => ({
-      ...fdata,
-      [name]: value,
-    }));
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-  
-      setFormData((fdata) => ({
-        ...fdata,
-        image: imageUrl,
-      }));
-    } else {
-      setFormData((fdata) => ({
-        ...fdata,
-        image: '', 
-      }));
-    }
-  };
-  
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const selectedCategoryName = categorySelected
-      ? formData.categoryName
-      : formData.createCategoryName;
-    await handleAddProduct(currentStore.ownerId, currentStore.storeId, {
-      ...formData,
-      categoryName: selectedCategoryName,
-    });
-    setFormData(INITIALSTATE);
-    navigate("/");
+    formik.handleChange(e);
   };
 
   return (
@@ -103,21 +96,20 @@ const AddProduct = ({ handleAddProduct }) => {
           }}
         >
           <CardContent>
-           
-            <Grid
-              container
-              spacing={1}
-              justifyContent="center"
-              alignItems="center"
-              mt={1}
-            >
+            <Grid container spacing={1} justifyContent="center" alignItems="center" mt={1}>
               <Grid xs={12} sm={12} item>
-                <form onSubmit={handleSubmit}>
-                  <Stack direction='row'>
-                <Link alignItems="center" onClick={() => navigate('/')}>
-                <ArrowBackIcon fontSize="large" sx={{ color: theme.palette.text, marginTop: 0}} />
-              </Link>  <Typography variant="h6" mb={1}>Product Details</Typography>
-              </Stack>
+                <form onSubmit={formik.handleSubmit}>
+                  <Stack direction="row">
+                    <Link alignItems="center" onClick={() => navigate("/")}>
+                      <ArrowBackIcon
+                        fontSize="large"
+                        sx={{ color: theme.palette.text, marginTop: 0 }}
+                      />
+                    </Link>{" "}
+                    <Typography variant="h6" mb={1}>
+                      Product Details
+                    </Typography>
+                  </Stack>
                   <TextField
                     sx={{
                       backgroundColor: alpha(
@@ -131,8 +123,10 @@ const AddProduct = ({ handleAddProduct }) => {
                     fullWidth
                     type="text"
                     name="productName"
-                    value={formData.productName}
+                    value={formik.values.productName}
                     onChange={handleChange}
+                    error={formik.touched.productName && Boolean(formik.errors.productName)}
+                    helperText={formik.touched.productName && formik.errors.productName}
                   />
                   <TextField
                     sx={{
@@ -147,8 +141,8 @@ const AddProduct = ({ handleAddProduct }) => {
                     fullWidth
                     type="text"
                     name="brand"
-                    value={formData.brand}
-                    onChange={handleChange}
+                    value={formik.values.brand}
+                    onChange={formik.handleChange}
                   />
                   <TextField
                     sx={{
@@ -165,10 +159,10 @@ const AddProduct = ({ handleAddProduct }) => {
                     fullWidth
                     type="text"
                     name="productDescription"
-                    value={formData.productDescription}
-                    onChange={handleChange}
+                    value={formik.values.productDescription}
+                    onChange={formik.handleChange}
                   />
-                          {currentStore?.categories[0] ? (
+                  {currentStore?.categories[0] ? (
                     <FormControl fullWidth>
                       <InputLabel id="catSelect">
                         select existing category
@@ -187,11 +181,15 @@ const AddProduct = ({ handleAddProduct }) => {
                         }}
                         label="select existing category"
                         name="categoryName"
-                        value={formData.categoryName}
+                        value={formik.values.categoryName}
                         onChange={handleChange}
+                        error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
+                        helperText={formik.touched.categoryName && formik.errors.categoryName}
                       >
                         {currentStore.categories.map((c) => (
-                          <MenuItem value={c.name}>{c.name}</MenuItem>
+                          <MenuItem value={c.name} key={c.name}>
+                            {c.name}
+                          </MenuItem>
                         ))}
                         <MenuItem
                           value=""
@@ -202,7 +200,7 @@ const AddProduct = ({ handleAddProduct }) => {
                       </Select>
                     </FormControl>
                   ) : null}
-                  {formData.categoryName === "" && (
+                  {formik.values.categoryName === "" && (
                     <TextField
                       sx={{
                         backgroundColor: alpha(
@@ -216,90 +214,82 @@ const AddProduct = ({ handleAddProduct }) => {
                       placeholder="enter category name"
                       type="text"
                       name="createCategoryName"
-                      value={formData.createCategoryName}
+                      value={formik.values.createCategoryName}
                       onChange={handleChange}
                     />
                   )}
-                    <Divider sx={{marginBottom: 2}}/>
-                    <Typography variant="h6">Media</Typography>
-                    <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                size="small"
-                fullWidth
-                className="custom-file-input"
-                style={{marginBottom: 0}}
-            
-              />
-                    <TextField
-                sx={{
-                  backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
-                }}
-                label="image URL or upload"
-                placeholder="enter image URL or choose file to upload"
-                fullWidth
-                type="text"
-                name="image"
-                value={formData.image}
-                onChange={handleChange}
-              />
-               <Divider sx={{marginBottom: 2, marginTop: 1}}/>
-
-              
-              <Typography variant="h6">Pricing and Inventory</Typography>
+                  <Divider sx={{ marginBottom: 2 }} />
+                  <Typography variant="h6">Media</Typography>
+                  <TextField
+                    sx={{
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        0.5
+                      ),
+                    }}
+                    label="image URL"
+                    placeholder="enter an image URL"
+                    fullWidth
+                    type="text"
+                    name="image"
+                    value={formik.values.image}
+                    onChange={formik.handleChange}
+                  />
+                  <Divider sx={{ marginBottom: 2, marginTop: 1 }} />
+                  <Typography variant="h6">Pricing and Inventory</Typography>
                   <Stack direction="row" spacing={0} justifyContent="space-around">
-                  <TextField
-                    id="input-with-icon-textfield"
-                    label="price"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    autoComplete="off"
-                    placeholder="0.00"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <AttachMoneyIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
+                    <TextField
+                      id="input-with-icon-textfield"
+                      label="price"
+                      name="price"
+                      value={formik.values.price}
+                      onChange={formik.handleChange}
+                      autoComplete="off"
+                      placeholder="0.00"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <AttachMoneyIcon />
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{
                         backgroundColor: alpha(
                           theme.palette.primary.contrastText,
                           0.5
                         ),
                         marginTop: 3
                       }}
-                      
-                    variant="outlined"
-                  />
-                  <TextField
-                    id="input-with-icon-textfield"
-                    label="quantity"
-                    name="qty"
-                    value={formData.qty}
-                    onChange={handleChange}
-                    placeholder="enter quantity in stock"
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                       
-                        </InputAdornment>
-                      ),
-                    }}
-                    autoComplete="off"
-                    variant="outlined"
-                    sx={{
+                      variant="outlined"
+                      error={formik.touched.price && Boolean(formik.errors.price)}
+                      helperText={formik.touched.price && formik.errors.price}
+                    />
+                    <TextField
+                      id="input-with-icon-textfield"
+                      label="quantity"
+                      name="qty"
+                      value={formik.values.qty}
+                      onChange={formik.handleChange}
+                      placeholder="enter quantity in stock"
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                          </InputAdornment>
+                        ),
+                      }}
+                      autoComplete="off"
+                      variant="outlined"
+                      sx={{
                         backgroundColor: alpha(
                           theme.palette.primary.contrastText,
                           0.5
                         ),
                         marginTop: 3
                       }}
-                  />
-               </Stack>
-
+                      error={formik.touched.qty && Boolean(formik.errors.qty)}
+                      helperText={formik.touched.qty && formik.errors.qty}
+                    />
+                  </Stack>
                   <Button
                     color="secondary"
                     fullWidth
@@ -319,4 +309,4 @@ const AddProduct = ({ handleAddProduct }) => {
   );
 };
 
-export default AddProduct;                                                     
+export default AddProduct;

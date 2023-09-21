@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
-import '../static/css/AddProducts.css'
 import {
   Typography,
   Grid,
@@ -19,26 +20,23 @@ const AddCategory = ({ handleAddCategory }) => {
   const navigate = useNavigate();
   const { currentStore } = useContext(UserContext);
 
-  const INITIALSTATE = {
-    categoryName: "",
-  };
-
-  const [formData, setFormData] = useState(INITIALSTATE);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((fdata) => ({
-      ...fdata,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await handleAddCategory(currentStore.ownerId, currentStore.storeId, formData);
-    setFormData(INITIALSTATE);
-    navigate("/");
-  };
+  const formik = useFormik({
+    initialValues: {
+      categoryName: "",
+    },
+    validationSchema: Yup.object({
+      categoryName: Yup.string().required("Category name is required"),
+    }),
+    onSubmit: async (values) => {
+      await handleAddCategory(
+        currentStore.ownerId,
+        currentStore.storeId,
+        values
+      );
+      formik.resetForm();
+      navigate("/");
+    },
+  });
 
   return (
     <>
@@ -58,7 +56,6 @@ const AddCategory = ({ handleAddCategory }) => {
           }}
         >
           <CardContent>
-           
             <Grid
               container
               spacing={1}
@@ -67,8 +64,10 @@ const AddCategory = ({ handleAddCategory }) => {
               mt={1}
             >
               <Grid xs={12} sm={12} item>
-                <form onSubmit={handleSubmit}>
-                    <Typography variant="h6" mb={1}>Create Category</Typography>
+                <form onSubmit={formik.handleSubmit}>
+                  <Typography variant="h6" mb={1}>
+                    Create Category
+                  </Typography>
                   <TextField
                     sx={{
                       backgroundColor: alpha(
@@ -77,13 +76,20 @@ const AddCategory = ({ handleAddCategory }) => {
                       ),
                       marginBottom: 1,
                     }}
-                    label="category name"
-                    placeholder="enter category name"
+                    label="Category Name"
+                    placeholder="Enter category name"
                     fullWidth
                     type="text"
                     name="categoryName"
-                    value={formData.categoryName}
-                    onChange={handleChange}
+                    value={formik.values.categoryName}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.categoryName &&
+                      Boolean(formik.errors.categoryName)
+                    }
+                    helperText={
+                      formik.touched.categoryName && formik.errors.categoryName
+                    }
                   />
                   <Button
                     color="secondary"
@@ -104,4 +110,5 @@ const AddCategory = ({ handleAddCategory }) => {
   );
 };
 
-export default AddCategory;                                                     
+export default AddCategory;
+                                                  

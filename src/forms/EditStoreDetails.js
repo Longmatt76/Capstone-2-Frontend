@@ -54,12 +54,12 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
   return (
     <>
       <Container maxWidth="sm" sx={{alignItems: 'center', justifyContent:'center', minHeight: '100vh'}}>
-        <Card sx={{backgroundColor: theme.palette.secondary.light,  marginTop: 20, border: `1px solid black` }}>
+        <Card elevation={0} sx={{backgroundColor: alpha('#fff', .9),  marginTop: 20, border: `1px solid black` }}>
           <CardContent>
             <Typography
               sx={{
                 color: theme.palette.primary.main,
-                textShadow: "2px 2px 1px black",
+                textShadow: "1px 1px 1px black",
                 backgroundColor: alpha(theme.palette.primary.light,.6),
                 padding: 2,
                 border: '1px solid black',
@@ -88,7 +88,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                 <form onSubmit={handleSubmit}>
                 <TextField
                     sx={{
-                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
                       marginBottom: 1
                     }}
                    
@@ -102,7 +102,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                   />
                   <TextField
                     sx={{
-                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
                       marginBottom: 1,
                     }}
                  
@@ -118,7 +118,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                     <InputLabel >theme</InputLabel>
                   <Select
                     sx={{
-                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
                       marginBottom: 1,
                     }}
                     InputLabelProps={{
@@ -143,7 +143,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                     <InputLabel  >site font</InputLabel>
                   <Select
                     sx={{
-                      backgroundColor: alpha(theme.palette.primary.contrastText, 0.5),
+                      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
                       marginBottom: 1, 
                     }}
                     label="site font"
@@ -175,7 +175,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                     
                     fullWidth
                     variant="outlined"
-                    sx={{ marginTop: 3, backgroundColor: alpha(theme.palette.primary.contrastText, 0.5) }}
+                    sx={{ marginTop: 3, backgroundColor: alpha(theme.palette.primary.contrastText, 1) }}
                     onClick={() => {
                       handleDeleteStore(currentStore.ownerId);
                       navigate('/');

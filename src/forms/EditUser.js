@@ -8,7 +8,7 @@ import {
   Button,
   Container,
   Divider,
-  Link,
+  alpha
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -55,22 +55,29 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
         }}
       >
         <Card
-          sx={{ marginTop: 20 }}
+          sx={{ backgroundColor: alpha('#fff', .9), 
+          marginTop: 20,
+          border: `1px solid black`}}
+          elevation={0}
         >
           <CardContent>
             <Typography
               sx={{
-                color: theme.palette.primary.dark,
-                textShadow: ".5px .5px 1px black",
+                color: theme.palette.primary.main,
+                textShadow: "1px 1px 1px black",
+                backgroundColor: alpha(theme.palette.primary.light, 0.6),
+                padding: 2,
+                border: "1px solid black",
+                borderRadius: "5px",
               }}
               mt={2}
               gutterBottom
               variant="h4"
-              align="left"
+              align="center"
             >
               Edit Profile
             </Typography>
-            <Typography gutterBottom variant="subtitle2">
+            <Typography align="center" fontStyle="italic" gutterBottom variant="subtitle2">
               Update basic account settings
             </Typography>
             <Divider />
@@ -86,7 +93,10 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                    
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
                       marginBottom: 1,
                     }}
                     label="first name"
@@ -99,7 +109,10 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   />
                   <TextField
                     sx={{
-                     
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
                       marginBottom: 1,
                     }}
                     label="last name"
@@ -112,7 +125,10 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   />
                   <TextField
                     sx={{
-                     
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
                       marginBottom: 1,
                     }}
                     label="email"
@@ -125,7 +141,10 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   />
                   <TextField
                     sx={{
-                   
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
                       marginBottom: 1,
                     }}
                     label="username"
@@ -138,7 +157,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   />
 
                   <Button
-                    color="primary"
+                    color="secondary"
                     fullWidth
                     variant="contained"
                     sx={{ marginTop: 3 }}
@@ -149,10 +168,13 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                 </form>
                 
                 <Button
-                    color="error"
+                    color="primary"
                     fullWidth
                     variant="outlined"
-                    sx={{ marginTop: 3 }}
+                    sx={{ marginTop: 3, marginBottom:1,  backgroundColor: alpha(
+                      theme.palette.primary.contrastText,
+                      1
+                    ), }}
                     onClick={()=> {
                       handleDeleteUserProfile(currentUser.userId);
                       navigate('/');
@@ -161,17 +183,7 @@ const EditUser = ({ handleEditUserProfile, handleDeleteUserProfile }) => {
                   >
                     Delete Profile
                   </Button>
-                <Typography
-                  mt={2}
-                  align="center"
-                  gutterBottom
-                  variant="subtitle2"
-                >
-                  <Divider>
-                    {" "}
-                    or return <Link sx={{textDecoration: 'none'}} href="/">home</Link>{" "}
-                  </Divider>
-                </Typography>
+            
               </Grid>
             </Grid>
           </CardContent>

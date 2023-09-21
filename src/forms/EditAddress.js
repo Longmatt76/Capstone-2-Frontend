@@ -12,11 +12,11 @@ import {
   Button,
   Container,
   Divider,
-  Link,
   Select,
   FormControl,
   InputLabel,
   MenuItem,
+  alpha
 } from "@mui/material";
 
 const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
@@ -59,22 +59,29 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
         }}
       >
         <Card
-          sx={{marginTop: 20 }}
+           sx={{ backgroundColor: alpha('#fff', .9), 
+           marginTop: 20,
+           border: `1px solid black`}}
+           elevation={0}
         >
           <CardContent>
             <Typography
               sx={{
-                color: theme.palette.primary.dark,
-                textShadow: ".5px .5px 1px black",
+                color: theme.palette.primary.main,
+                textShadow: "1px 1px 1px black",
+                backgroundColor: alpha(theme.palette.primary.light, 0.6),
+                padding: 2,
+                border: "1px solid black",
+                borderRadius: "5px",
               }}
               mt={2}
               gutterBottom
               variant="h4"
-              align="left"
+              align="center"
             >
               Address
             </Typography>
-            <Typography gutterBottom variant="subtitle2">
+            <Typography align="center" fontStyle="italic" gutterBottom variant="subtitle2">
               Save an address to your account for expidited checkout
             </Typography>
             <Divider />
@@ -90,7 +97,10 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     sx={{
-                   
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
                       marginBottom: 1,
                     }}
                     label="street address"
@@ -103,7 +113,10 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                   />
                   <TextField
                     sx={{
-                     
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
                       marginBottom: 1,
                     }}
                     label="city"
@@ -118,7 +131,10 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                     <InputLabel>State</InputLabel>
                     <Select
                       sx={{
-                      
+                        backgroundColor: alpha(
+                          theme.palette.primary.contrastText,
+                          1
+                        ),
                         marginBottom: 1,
                       }}
                       label="state"
@@ -138,7 +154,10 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
 
                   <TextField
                     sx={{
-                    
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
                       marginBottom: 1,
                     }}
                     label="zip code"
@@ -150,7 +169,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                   />
 
                   <Button
-                    color="primary"
+                    color="secondary"
                     fullWidth
                     variant="contained"
                     sx={{ marginTop: 3 }}
@@ -160,10 +179,13 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                   </Button>
                 </form>
                 <Button
-                  color="error"
+                  color="primary"
                   fullWidth
                   variant="outlined"
-                  sx={{ marginTop: 3 }}
+                  sx={{ marginTop: 3,   backgroundColor: alpha(
+                    theme.palette.primary.contrastText,
+                    1
+                  ) }}
                   onClick={() => {
                     handleUserDeleteAddress(currentUser.userId);
                     navigate("/");
@@ -171,20 +193,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
                 >
                   Delete Address
                 </Button>
-                <Typography
-                  mt={2}
-                  align="center"
-                  gutterBottom
-                  variant="subtitle2"
-                >
-                  <Divider>
-                    {" "}
-                    or return{" "}
-                    <Link sx={{ textDecoration: "none" }} href="/">
-                      home
-                    </Link>{" "}
-                  </Divider>
-                </Typography>
+              
               </Grid>
             </Grid>
           </CardContent>

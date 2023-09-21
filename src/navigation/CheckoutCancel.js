@@ -8,7 +8,7 @@ const CheckoutCancel = () => {
            <Container sx={{ marginTop: 30 }}>
         <Stack py={3}>
           <Typography textAlign="center" variant="h2">
-            Checkout canceled! Track your past orders in the orders tab
+            Checkout successfully canceled.
           </Typography>
           <Button sx={{marginTop: 2}} onClick={() => navigate("/")}>Continue Shopping</Button>
         </Stack>

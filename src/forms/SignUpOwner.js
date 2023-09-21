@@ -8,7 +8,7 @@ import {
   Button,
   Container,
   Divider,
-  Link,
+  alpha
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -51,22 +51,26 @@ const SignUpOwner = ({handleOwnerSignup}) => {
 
   return (
     <>
-      <Container maxWidth="sm" sx={{alignItems: 'center', justifyContent:'center', minHeight: '100vh'}}>
-        <Card sx={{ marginTop: 20 }}>
+      <Container  maxWidth="sm" sx={{alignItems: 'center', justifyContent:'center', minHeight: '100vh'}}>
+        <Card elevation={0} sx={{backgroundColor: alpha('#fff', .9), marginTop: 20, border: `1px solid black` }}>
           <CardContent>
             <Typography
               sx={{
-                color: theme.palette.primary.dark,
-                textShadow: ".5px .5px 1px black",
+                color: theme.palette.primary.main,
+                textShadow: "1px 1px 1px black",
+                backgroundColor: alpha(theme.palette.primary.light,.6),
+                padding: 2,
+                border: '1px solid black',
+                borderRadius: '5px'
               }}
               mt={2}
               gutterBottom
               variant="h4"
-              align="left"
+              align="center"
             >
              Register 
             </Typography>
-            <Typography gutterBottom variant="subtitle2">Sign up as a store owner to start creating YourStore</Typography>
+            <Typography align="center" fontStyle='italic' gutterBottom variant="subtitle2">Sign up as a store owner to start creating YourStore</Typography>
             <Divider />
 
             <Grid
@@ -80,6 +84,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
               <form onSubmit={formik.handleSubmit}>
   <TextField
     sx={{
+      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
       marginBottom: 1,
     }}
     label="first name"
@@ -94,6 +99,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
   />
   <TextField
     sx={{
+      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
       marginBottom: 1,
     }}
     label="last name"
@@ -108,6 +114,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
   />
   <TextField
     sx={{
+      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
       marginBottom: 1,
     }}
     label="email"
@@ -122,6 +129,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
   />
   <TextField
     sx={{
+      backgroundColor: alpha(theme.palette.primary.contrastText, 1),
       marginBottom: 1,
     }}
     label="username"
@@ -135,6 +143,10 @@ const SignUpOwner = ({handleOwnerSignup}) => {
     autoComplete="username"
   />
   <TextField
+   sx={{
+    backgroundColor: alpha(theme.palette.primary.contrastText, 1),
+    marginBottom: 1,
+  }}
     label="password"
     type="password"
     placeholder="create a password with at least 6 characters"
@@ -148,7 +160,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
   />
 
   <Button
-    color="primary"
+    color="secondary"
     fullWidth
     variant="contained"
     sx={{ marginTop: 3 }}
@@ -169,9 +181,10 @@ const SignUpOwner = ({handleOwnerSignup}) => {
                     <Button
                     onClick={() => navigate('/login')}
                     variant="outlined"
-                    color="secondary"
+                    color="primary"
                       fullWidth
                       sx={{
+                        backgroundColor: alpha(theme.palette.primary.contrastText, 1),
                         marginTop: 2,
                 
                       }}

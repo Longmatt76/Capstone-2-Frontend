@@ -10,6 +10,7 @@ import UserContext from "./contexts/UserContext";
 import { ThemeProvider } from "@emotion/react";
 import themes from "./themes";
 import CartProvider from "./contexts/CartContext";
+import CarouselProvider from "./contexts/CarouselContext";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
             );
             setCurrentStore(currentStoreData);
           } catch (error) {
-            console.log(error);
+            setCurrentStore(undefined);
           }
         }
       }
@@ -203,6 +204,20 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  async function handleAddCarousel(ownerId, storeId, data) {
+    const carousel = await YourStoreAPI.createCarousel(ownerId, storeId, data);
+    return carousel
+  }
+
+  async function handleEditCarousel(ownerId, storeId, updatedData) {
+    const carousel = await YourStoreAPI.updateCarousel(
+      ownerId,
+      storeId,
+      updatedData
+    );
+    return carousel;
+  }
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -216,29 +231,33 @@ function App() {
             }}
           >
             <CartProvider>
-              <Navbar logOut={handleLogOut} handleCheckout={handleCheckout} />
-              <Toaster />
-              <AppRoutes
-                handleLogIn={handleLogIn}
-                handleUserSignUp={handleUserSignUp}
-                handleEditUserProfile={handleEditUserProfile}
-                handleEditOwnerProfile={handleEditOwnerProfile}
-                handleOwnerSignup={handleOwnerSignup}
-                handleUserAddress={handleUserAddress}
-                handleUserEditAddress={handleUserEditAddress}
-                handleUserDeleteAddress={handleUserDeleteAddress}
-                handleDeleteUserProfile={handleDeleteUserProfile}
-                handleDeleteOwnerProfile={handleDeleteOwnerProfile}
-                handleAddStoreDetails={handleAddStoreDetails}
-                handleEditStoreDetails={handleEditStoreDetails}
-                handleDeleteStore={handleDeleteStore}
-                handleAddProduct={handleAddProduct}
-                handleEditProduct={handleEditProduct}
-                handleDeleteProduct={handleDeleteProduct}
-                handleAddCategory={handleAddCategory}
-                handleEditCategory={handleEditCategory}
-                handleDeleteCategory={handleDeleteCategory}
-              />
+              <CarouselProvider>
+                <Navbar logOut={handleLogOut} handleCheckout={handleCheckout} />
+                <Toaster />
+                <AppRoutes
+                  handleLogIn={handleLogIn}
+                  handleUserSignUp={handleUserSignUp}
+                  handleEditUserProfile={handleEditUserProfile}
+                  handleEditOwnerProfile={handleEditOwnerProfile}
+                  handleOwnerSignup={handleOwnerSignup}
+                  handleUserAddress={handleUserAddress}
+                  handleUserEditAddress={handleUserEditAddress}
+                  handleUserDeleteAddress={handleUserDeleteAddress}
+                  handleDeleteUserProfile={handleDeleteUserProfile}
+                  handleDeleteOwnerProfile={handleDeleteOwnerProfile}
+                  handleAddStoreDetails={handleAddStoreDetails}
+                  handleEditStoreDetails={handleEditStoreDetails}
+                  handleDeleteStore={handleDeleteStore}
+                  handleAddProduct={handleAddProduct}
+                  handleEditProduct={handleEditProduct}
+                  handleDeleteProduct={handleDeleteProduct}
+                  handleAddCategory={handleAddCategory}
+                  handleEditCategory={handleEditCategory}
+                  handleDeleteCategory={handleDeleteCategory}
+                  handleAddCarousel={handleAddCarousel}
+                  handleEditCarousel={handleEditCarousel}
+                />
+              </CarouselProvider>
             </CartProvider>
           </UserContext.Provider>
         </BrowserRouter>

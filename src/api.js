@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 class YourStoreAPI {
@@ -186,6 +185,29 @@ class YourStoreAPI {
       "post"
     );
     return res;
+  }
+
+  static async createCarousel(ownerId, storeId, data) {
+    let res = await this.request(
+      `stores/${ownerId}/carousel/${storeId}`,
+      data,
+      "post"
+    );
+    return res.carousel;
+  }
+
+  static async getCarousel(ownerId, storeId) {
+    let res = await this.request(`stores/${ownerId}/carousel/${storeId}`);
+    return res.carousel;
+  }
+
+  static async updateCarousel(ownerId, storeId, updatedData) {
+    let res = await this.request(
+      `stores/${ownerId}/carousel/${storeId}`,
+      updatedData,
+      "put"
+    );
+    return res.updatedCarousel;
   }
 }
 

@@ -2,13 +2,18 @@ import { Container, Paper, Typography, Grid, alpha, } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import Carousel from "./Carousel";
 import ProductList from "./products/ProductList";
+import { CarouselContext } from "./contexts/CarouselContext";
+import { useContext } from "react";
 
 const Home = () => {
   const theme = useTheme();
+  const { isCarousel} = useContext(CarouselContext);
+  const marginTop = isCarousel ? 5 : 15;
+
   return (
     <>
-      <Carousel />
-      <Container sx={{ marginTop: 5 }} maxWidth="lg">
+      {isCarousel && <Carousel />}
+      <Container sx={{ marginTop}} maxWidth="lg">
         <Paper sx={{ padding: 0 }}>
           <Grid container>
             <Grid
@@ -31,9 +36,7 @@ const Home = () => {
         </Paper>
       </Container>
       <ProductList />
-    
     </>
   );
 };
-
 export default Home;

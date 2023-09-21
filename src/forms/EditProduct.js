@@ -62,22 +62,7 @@ const EditProduct = ({ handleEditProduct, handleDeleteProduct }) => {
       }));
     }
   };
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
 
-      setFormData((fdata) => ({
-        ...fdata,
-        image: imageUrl,
-      }));
-    } else {
-      setFormData((fdata) => ({
-        ...fdata,
-        image: "",
-      }));
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -190,27 +175,19 @@ const EditProduct = ({ handleEditProduct, handleDeleteProduct }) => {
              
               </Grid>
               <Grid item xs={5}>
-                <Typography variant="h5" mt={2}>
+                <Typography variant="h5" mt={2} mb={1}>
                   Media
                 </Typography>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  size="small"
-                  fullWidth
-                  className="custom-file-input"
-                  style={{ marginBottom: 0 }}
-                />
+           
                 <TextField
                   sx={{
                     backgroundColor: alpha(
                       theme.palette.primary.contrastText,
-                      0.6
+                      0.6,
                     ),
                   }}
-                  label="image URL or upload"
-                  placeholder="enter image URL or choose file to upload"
+                  label="image URL"
+                  placeholder="enter an image URL"
                   fullWidth
                   type="text"
                   name="image"

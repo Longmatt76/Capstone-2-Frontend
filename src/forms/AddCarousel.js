@@ -1,4 +1,8 @@
 import React, { useContext, useState } from "react";
+import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext";
+import { CarouselContext } from "../contexts/CarouselContext";
 import {
   Typography,
   Grid,
@@ -9,21 +13,23 @@ import {
   Container,
   Divider,
   alpha,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
-import UserContext from "../contexts/UserContext";
 
-const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
-  const { currentUser } = useContext(UserContext);
+const AddCarousel = ({ handleAddCarousel}) => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { currentStore } = useContext(UserContext);
+  const { isCarousel, setIsCarousel} = useContext(CarouselContext);
 
   const INITIALSTATE = {
-    firstName: currentUser.firstName,
-    lastName: currentUser.lastName,
-    email: currentUser.email,
-    username: currentUser.username,
+    imageOne: "",
+    imageOneHeader: "",
+    imageOneText: "",
+    imageTwo: "",
+    imageTwoHeader: "",
+    imageTwoText: "",
   };
 
   const [formData, setFormData] = useState(INITIALSTATE);
@@ -38,7 +44,7 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await handleEditOwnerProfile(currentUser.ownerId, formData);
+    await handleAddCarousel(currentStore.ownerId, currentStore.storeId, formData);
     setFormData(INITIALSTATE);
     navigate("/");
   };
@@ -54,10 +60,10 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
         }}
       >
         <Card
-        elevation={0}
+          elevation={0}
           sx={{
-            backgroundColor: alpha('#fff', .9), 
             marginTop: 20,
+            backgroundColor: alpha("#fff", 0.9),
             border: `1px solid black`,
           }}
         >
@@ -76,24 +82,31 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
               variant="h4"
               align="center"
             >
-              Edit Profile
+              Customize Carousel
             </Typography>
             <Typography
-              textAlign="center"
-              fontStyle="italic"
               gutterBottom
-              variant="body2"
+              variant="subtitle2"
+              align="center"
+              fontStyle="italic"
             >
-              Update basic store owner account settings
+              Add images and captions to the home screen carousel!
             </Typography>
             <Divider />
+            <FormControlLabel
+              sx={{ marginTop: 2, marginBottom: 0 }}
+              control={<Switch checked={isCarousel ? true : false} onClick={() => setIsCarousel(!isCarousel)} />}
+              label={
+                <Typography variant="subtitle2">disable / enable </Typography>
+              }
+            />
 
             <Grid
               container
               spacing={1}
               justifyContent="center"
               alignItems="center"
-              mt={5}
+              mt={1}
             >
               <Grid xs={12} sm={12} item>
                 <form onSubmit={handleSubmit}>
@@ -105,12 +118,12 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                       ),
                       marginBottom: 1,
                     }}
-                    label="first name"
-                    placeholder="enter first name"
+                    label="image one"
+                    placeholder="enter url for image one"
                     fullWidth
                     type="text"
-                    name="firstName"
-                    value={formData.firstName}
+                    name="imageOne"
+                    value={formData.imageOne}
                     onChange={handleChange}
                   />
                   <TextField
@@ -121,12 +134,12 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                       ),
                       marginBottom: 1,
                     }}
-                    label="last name"
-                    placeholder="enter last name"
+                    label="image one header caption"
+                    placeholder="enter caption for header of image one"
                     fullWidth
                     type="text"
-                    name="lastName"
-                    value={formData.lastName}
+                    name="imageOneHeader"
+                    value={formData.imageOneHeader}
                     onChange={handleChange}
                   />
                   <TextField
@@ -137,12 +150,12 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                       ),
                       marginBottom: 1,
                     }}
-                    label="email"
-                    placeholder="enter email"
+                    label="image one body caption"
+                    placeholder="enter caption for body of image one"
                     fullWidth
-                    type="email"
-                    name="email"
-                    value={formData.email}
+                    type="text"
+                    name="imageOneText"
+                    value={formData.imageOneText}
                     onChange={handleChange}
                   />
                   <TextField
@@ -153,13 +166,45 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                       ),
                       marginBottom: 1,
                     }}
-                    label="username"
-                    placeholder="create a unique username"
+                    label="image two"
+                    placeholder="enter url for image two"
                     fullWidth
-                    name="username"
-                    value={formData.username}
+                    type="text"
+                    name="imageTwo"
+                    value={formData.imageTwo}
                     onChange={handleChange}
-                    autoComplete="username"
+                  />
+                  <TextField
+                    sx={{
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
+                      marginBottom: 1,
+                    }}
+                    label="image two header caption"
+                    placeholder="enter caption for image two header"
+                    fullWidth
+                    type="text"
+                    name="imageTwoHeader"
+                    value={formData.imageTwoHeader}
+                    onChange={handleChange}
+                  />
+                  <TextField
+                    sx={{
+                      backgroundColor: alpha(
+                        theme.palette.primary.contrastText,
+                        1
+                      ),
+                      marginBottom: 1,
+                    }}
+                    label="image two body caption"
+                    placeholder="enter caption for body of image two"
+                    fullWidth
+                    type="text"
+                    name="imageTwoText"
+                    value={formData.imageTwoText}
+                    onChange={handleChange}
                   />
 
                   <Button
@@ -169,27 +214,9 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
                     sx={{ marginTop: 3 }}
                     type="submit"
                   >
-                    Update
+                    Submit
                   </Button>
                 </form>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  sx={{
-                    marginTop: 3,
-                    marginBottom: 2,
-                    backgroundColor: alpha(
-                      theme.palette.primary.contrastText,
-                      1
-                    ),
-                  }}
-                  onClick={() => {
-                    handleDeleteOwnerProfile(currentUser.ownerId);
-                    navigate("/");
-                  }}
-                >
-                  Delete Profile
-                </Button>
               </Grid>
             </Grid>
           </CardContent>
@@ -199,4 +226,4 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
   );
 };
 
-export default EditOwner;
+export default AddCarousel;
