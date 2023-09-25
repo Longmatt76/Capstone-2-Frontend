@@ -63,7 +63,7 @@ const AddCarousel = ({ handleAddCarousel}) => {
           elevation={0}
           sx={{
             marginTop: 20,
-            backgroundColor: alpha("#fff", 0.9),
+            backgroundColor: alpha(theme.palette.primary.contrastText, .9),
             border: `1px solid black`,
           }}
         >

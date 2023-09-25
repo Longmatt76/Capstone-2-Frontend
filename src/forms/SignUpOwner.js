@@ -52,7 +52,7 @@ const SignUpOwner = ({handleOwnerSignup}) => {
   return (
     <>
       <Container  maxWidth="sm" sx={{alignItems: 'center', justifyContent:'center', minHeight: '100vh'}}>
-        <Card elevation={0} sx={{backgroundColor: alpha('#fff', .9), marginTop: 20, border: `1px solid black` }}>
+        <Card elevation={0} sx={{backgroundColor: alpha(theme.palette.primary.contrastText, .9), marginTop: 20, border: `1px solid black` }}>
           <CardContent>
             <Typography
               sx={{

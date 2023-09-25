@@ -150,9 +150,10 @@ const ShoppingCart = ({ handleCheckout }) => {
                   direction="row"
                   alignItems="center"
                   justifyContent="space-between"
+                  p={1}
                 >
                   <Button
-                    variant="outlined"
+                    variant="default"
                     onClick={() => {
                       clearCart();
                       setShowCart(false);

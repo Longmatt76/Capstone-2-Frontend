@@ -209,6 +209,11 @@ class YourStoreAPI {
     );
     return res.updatedCarousel;
   }
+
+  static async getOrders(ownerId, storeId) {
+    let res = await this.request(`stores/${ownerId}/orders/all/${storeId}`);
+    return res.orders;
+  }
 }
 
 export default YourStoreAPI;

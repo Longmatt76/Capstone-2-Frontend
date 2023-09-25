@@ -43,7 +43,7 @@ const LogIn = ({ handleLogIn }) => {
   return (
     <>
       <Container maxWidth="sm" sx={{ marginTop: 20 }}>
-        <Card elevation={0} sx={{backgroundColor: alpha('#fff', .9),  marginTop: 20, border: `1px solid black`}}>
+        <Card elevation={0} sx={{backgroundColor: alpha(theme.palette.primary.contrastText, .9), marginTop: 20, border: `1px solid black`}}>
           <CardContent>
             <Typography
               sx={{

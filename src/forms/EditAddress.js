@@ -59,7 +59,7 @@ const EditAddress = ({ handleUserEditAddress, handleUserDeleteAddress }) => {
         }}
       >
         <Card
-           sx={{ backgroundColor: alpha('#fff', .9), 
+           sx={{ backgroundColor: alpha(theme.palette.primary.contrastText, .9),
            marginTop: 20,
            border: `1px solid black`}}
            elevation={0}

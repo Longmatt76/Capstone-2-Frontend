@@ -1,6 +1,6 @@
 import { Container, Paper, Typography, Grid, alpha, } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import Carousel from "./Carousel";
+import Carousel from "./storeManagement/Carousel";
 import ProductList from "./products/ProductList";
 import { CarouselContext } from "./contexts/CarouselContext";
 import { useContext } from "react";

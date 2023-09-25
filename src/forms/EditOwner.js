@@ -56,7 +56,7 @@ const EditOwner = ({ handleEditOwnerProfile, handleDeleteOwnerProfile }) => {
         <Card
         elevation={0}
           sx={{
-            backgroundColor: alpha('#fff', .9), 
+            backgroundColor: alpha(theme.palette.primary.contrastText, .9), 
             marginTop: 20,
             border: `1px solid black`,
           }}

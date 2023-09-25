@@ -58,7 +58,7 @@ const AddAddress = ({ handleUserAddress }) => {
       >
         <Card
           sx={{
-            backgroundColor: alpha("#fff", 0.9),
+            backgroundColor: alpha(theme.palette.primary.contrastText, .9),
             marginTop: 20,
             border: `1px solid black`,
           }}

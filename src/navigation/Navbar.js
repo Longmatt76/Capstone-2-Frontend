@@ -5,6 +5,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import ViewCarouselIcon from "@mui/icons-material/ViewCarousel";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AssessmentIcon from '@mui/icons-material/Assessment';
 import ShoppingCart from "../shoppingCart/ShoppingCart";
 import { CartContex } from "../contexts/CartContext";
 import { CarouselContext } from "../contexts/CarouselContext";
@@ -144,7 +145,7 @@ const Navbar = ({ logOut, handleCheckout }) => {
                               />{" "}
                               &nbsp;&nbsp;{" "}
                               <Typography
-                                color={theme.palette.text.contrastText}
+                                color={theme.palette.primary.contrastText}
                                 mt={3}
                                 variant="h6"
                               >
@@ -176,7 +177,7 @@ const Navbar = ({ logOut, handleCheckout }) => {
                                 onClick={() => setIsDrawerOpen(false)}
                               >
                                 <Typography
-                                  color={theme.palette.text.contrastText}
+                                  color={theme.palette.primary.contrastText}
                                   variant="h6"
                                 >
                                   Products
@@ -203,7 +204,7 @@ const Navbar = ({ logOut, handleCheckout }) => {
                                 onClick={() => setIsDrawerOpen(false)}
                               >
                                 <Typography
-                                  color={theme.palette.text.contrastText}
+                                  color={theme.palette.primary.contrastText}
                                   variant="h6"
                                 >
                                   Categories
@@ -225,12 +226,13 @@ const Navbar = ({ logOut, handleCheckout }) => {
                                 }}
                               />{" "}
                               &nbsp;&nbsp;
+          
                               <NavLink
                                 onClick={() => setIsDrawerOpen(false)}
-                                to={carousel.length > 0 ? `/stores/:ownerId/carousel-edit/:storeId` :  `/stores/:ownerId/carousel-add/:storeId` }
+                                to={carousel !== undefined ? `/stores/:ownerId/carousel-edit/:storeId` :  `/stores/:ownerId/carousel-add/:storeId` }
                               >
                                 <Typography
-                                  color={theme.palette.text.contrastText}
+                                  color={theme.palette.primary.contrastText}
                                   variant="h6"
                                 >
                                   Carousel
@@ -252,12 +254,38 @@ const Navbar = ({ logOut, handleCheckout }) => {
                                 }}
                               />{" "}
                               &nbsp;&nbsp;
-                              <NavLink to="/stores/orders">
+                              
+                              <NavLink onClick={() => setIsDrawerOpen(false)} to={`/stores/${currentStore?.ownerId}/orders/${currentStore?.storeId}`}>
                                 <Typography
-                                  color={theme.palette.text.contrastText}
+                                  color={theme.palette.primary.contrastText}
                                   variant="h6"
                                 >
                                   Orders
+                                </Typography>
+                              </NavLink>
+                            </MenuItem>
+                          </Stack>
+                          <Divider
+                            sx={{
+                              backgroundColor:
+                                theme.palette.primary.contrastText,
+                            }}
+                          />
+                          <Stack alignItems="center" direction="row">
+                            <MenuItem>
+                              <AssessmentIcon
+                                sx={{
+                                  color: theme.palette.primary.contrastText,
+                                }}
+                              />{" "}
+                              &nbsp;&nbsp;
+                              
+                              <NavLink onClick={() => setIsDrawerOpen(false)} to={`/stores/${currentStore?.ownerId}/inventory/${currentStore?.storeId}`}>
+                                <Typography
+                                  color={theme.palette.primary.contrastText}
+                                  variant="h6"
+                                >
+                                  Inventory
                                 </Typography>
                               </NavLink>
                             </MenuItem>

@@ -59,7 +59,7 @@ const AddStoreDetails = ({ handleAddStoreDetails }) => {
   return (
     <>
       <Container maxWidth="sm" sx={{ alignItems: "center", justifyContent: "center", minHeight: "100vh" }}>
-        <Card elevation={0} sx={{ marginTop: 20, backgroundColor: alpha("#fff", 0.9), border: `1px solid black` }}>
+        <Card elevation={0} sx={{ marginTop: 20, backgroundColor: alpha(theme.palette.primary.contrastText, .9), border: `1px solid black` }}>
           <CardContent>
             <Typography
               sx={{

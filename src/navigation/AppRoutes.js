@@ -12,7 +12,7 @@ import EditAddress from "../forms/EditAddress";
 import EditOwner from "../forms/EditOwner";
 import Products from "../products/Products";
 import AddProduct from "../forms/AddProduct";
-import Categories from "../Categories";
+import Categories from "../storeManagement/Categories";
 import AddCategory from "../forms/AddCategory";
 import EditCategory from "../forms/EditCategory";
 import EditProduct from "../forms/EditProduct";
@@ -22,6 +22,9 @@ import NotFound from "./NotFound";
 import CheckoutSuccess from "./CheckoutSuccess";
 import CheckoutCancel from "./CheckoutCancel";
 import AddCarousel from "../forms/AddCarousel";
+import EditCarousel from "../forms/EditCarousel";
+import StoreOrders from "../storeManagement/StoreOrders";
+import StoreInventory from "../storeManagement/StoreInventory";
 
 const AppRoutes = ({
   handleLogIn,
@@ -139,10 +142,18 @@ const AppRoutes = ({
         path="/stores/:ownerId/carousel-add/:storeId"
         element={<AddCarousel handleAddCarousel={handleAddCarousel}/>}
       />
-      {/* <Route
+      <Route
         path="/stores/:ownerId/carousel-edit/:storeId"
-        element={}
-      /> */}
+        element={<EditCarousel handleEditCarousel={handleEditCarousel}/>}
+      />
+      <Route
+        path="/stores/:ownerId/orders/:storeId"
+        element={<StoreOrders/>}
+      />
+      <Route
+        path="/stores/:ownerId/inventory/:storeId"
+        element={<StoreInventory/>}
+      />
       <Route
         path="/checkout-success"
         element={<CheckoutSuccess/>}
