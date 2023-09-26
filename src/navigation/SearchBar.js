@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import YourStoreAPI from "../api";
 const Search = styled("div")(({ theme }) => ({
@@ -29,8 +29,9 @@ const Search = styled("div")(({ theme }) => ({
 }));
 
 const SearchBar = () => {
-  const { currentStore } = useContext(UserContext);
-  
+  const navigate = useNavigate()
+  const { currentStore, setProductSearch } = useContext(UserContext);
+  const [searchQuery, setSearchQuery] = useState('')
   const [categories, setCategories] = useState([]);
 
   async function mountCategories(ownerId, storeId) {
@@ -44,24 +45,39 @@ const SearchBar = () => {
     }
   }, [currentStore]);
 
+const handleChange = (e) => {
+  setSearchQuery(e.target.value)
+}
+
+ const handleSubmit = (e) => {
+  e.preventDefault();
+ searchQuery === '' ? setProductSearch(undefined) : setProductSearch(searchQuery);
+  setSearchQuery('')
+  navigate('/')
+ }
+
   return (
     <Container maxWidth="md" sx={{ marginTop: 1 }}>
       <Search>
+        <form onSubmit={handleSubmit}>
         <TextField
           fullWidth
           type="text"
           placeholder="Search products"
           size="small"
+          value={searchQuery}
+          onChange={handleChange}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <Button>
+                <Button type="submit">
                   <SearchIcon style={{ color: "white" }} />
                 </Button>
               </InputAdornment>
             ),
           }}
         />
+        </form>
       </Search>
       {categories && (
         <Stack direction="row" spacing={3} my={0.5} alignContent="flex-start">

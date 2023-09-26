@@ -119,8 +119,8 @@ class YourStoreAPI {
     return res.product;
   }
 
-  static async getProducts(ownerId, storeId) {
-    let res = await this.request(`stores/${ownerId}/products/all/${storeId}`);
+  static async getProducts(ownerId, storeId, productSearch) {
+    let res = await this.request(`stores/${ownerId}/products/all/${storeId}`, {productSearch});
     return res.products;
   }
 

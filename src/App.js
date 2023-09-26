@@ -17,6 +17,7 @@ function App() {
   const [token, setToken] = useLocalStorage("token", "app");
   const [currentUser, setCurrentUser] = useState();
   const [currentStore, setCurrentStore] = useState();
+  const [productSearch, setProductSearch] = useState();
 
   const currentThemeKey = currentStore?.theme || "ThemeOne";
   const currentTheme = themes[currentThemeKey];
@@ -228,6 +229,8 @@ function App() {
               setCurrentUser,
               currentStore: currentStore,
               setCurrentStore,
+              productSearch: productSearch,
+              setProductSearch
             }}
           >
             <CartProvider>

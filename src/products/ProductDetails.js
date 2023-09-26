@@ -4,7 +4,7 @@ import { CartContex } from "../contexts/CartContext";
 import { useTheme } from "@mui/material/styles";
 import { useParams } from "react-router-dom";
 import YourStoreAPI from "../api";
-import Loading from "../helpers/Loading";
+import { ThreeDots} from "react-loader-spinner";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -41,7 +41,18 @@ const ProductDetails = () => {
     if (currentStore) mountProduct(currentStore.ownerId, productId);
   }, [currentStore, productId]);
 
-  if (!product) return <Loading />;
+  if (product.length === 0 && currentStore.products[0])
+    return (
+      <Container sx={{marginTop: 50}}>
+        <Grid container justifyContent="center">
+          <ThreeDots
+            color={theme.palette.primary.main}
+            width={125}
+            height={125}
+          />
+        </Grid>
+      </Container>
+    );
   return (
     <>
       <Container maxWidth="lg" sx={{ marginTop: 25 }}>

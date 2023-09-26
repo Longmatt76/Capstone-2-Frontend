@@ -1,28 +1,45 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
 import { Grid } from "@mui/material";
-import Loading from "../helpers/Loading";
 import ProductCard from "./ProductCard";
 import { v4 as uuid } from "uuid";
 import { Container } from "@mui/material";
 import YourStoreAPI from "../api";
+import { ThreeDots} from "react-loader-spinner";
+import { useTheme } from "@mui/material/styles";
 
 const ProductList = () => {
-  const { currentStore } = useContext(UserContext);
+  const { currentStore, productSearch } = useContext(UserContext);
   const [storeProducts, setStoreProducts] = useState([]);
+  const theme = useTheme();
 
-  async function searchProducts(ownerId, storeId) {
-    let storeProducts = await YourStoreAPI.getProducts(ownerId, storeId);
+  async function searchProducts(ownerId, storeId, productSearch) {
+    let storeProducts = await YourStoreAPI.getProducts(
+      ownerId,
+      storeId,
+      productSearch || null
+    );
     setStoreProducts(storeProducts);
   }
 
   useEffect(() => {
     if (currentStore) {
-      searchProducts(currentStore.ownerId, currentStore.storeId);
+      searchProducts(currentStore.ownerId, currentStore.storeId, productSearch);
     }
-  }, [currentStore]);
+  }, [currentStore, productSearch]);
 
-  if (!storeProducts) return <Loading />;
+  if (storeProducts.length === 0 && currentStore.products[0])
+    return (
+      <Container>
+        <Grid container justifyContent="center">
+          <ThreeDots
+            color={theme.palette.primary.main}
+            width={125}
+            height={125}
+          />
+        </Grid>
+      </Container>
+    );
 
   return (
     <>

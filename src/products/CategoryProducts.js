@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
 import { Grid } from "@mui/material";
-import Loading from "../helpers/Loading";
 import ProductCard from "./ProductCard";
 import { v4 as uuid } from "uuid";
 import { Container, Paper, alpha, Typography } from "@mui/material";
@@ -12,7 +11,7 @@ import { useParams } from "react-router-dom";
 const CategoryProducts = () => {
   const theme = useTheme();
   const { categoryId } = useParams();
-  const { currentStore } = useContext(UserContext);
+  const { currentStore} = useContext(UserContext);
 
   const [category, setCategory] = useState([]);
 
@@ -26,7 +25,6 @@ const CategoryProducts = () => {
     mountCategory(currentStore.ownerId, categoryId);
   }, [currentStore, categoryId]);
 
-  if (!category) return <Loading />;
 
   return (
     <>
