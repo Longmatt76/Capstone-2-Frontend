@@ -26,7 +26,8 @@ import {
 const ProductDetails = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const { productId } = useParams();
+  const { productId, storeId } = useParams();
+  console.log("storeid", storeId)
   const { currentStore } = useContext(UserContext);
   const { qty, setQty, addQty, subQty, onAdd } = useContext(CartContex);
 
@@ -197,7 +198,7 @@ const ProductDetails = () => {
                   onClick={async function () {
                     await onAdd(product, qty);
                     setQty(0);
-                    navigate("/");
+                    navigate(`/${currentStore.storeId}`);
                   }}
                 >
                   Add to Cart

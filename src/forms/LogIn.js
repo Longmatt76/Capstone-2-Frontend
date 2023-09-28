@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Typography,
   Grid,
@@ -14,10 +14,12 @@ import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import UserContext from "../contexts/UserContext";
 
 
 
 const LogIn = ({ handleLogIn }) => {
+  const { currentStore } = useContext(UserContext);
   const theme = useTheme();
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
@@ -35,7 +37,7 @@ const LogIn = ({ handleLogIn }) => {
     onSubmit: async (values) => {
       await handleLogIn(values);
       formik.resetForm();
-      navigate('/');
+      navigate("/");
     },
   });
   

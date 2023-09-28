@@ -1,16 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserContext from "../contexts/UserContext";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material"; // Import Typography for displaying "No products found" message
 import ProductCard from "./ProductCard";
 import { v4 as uuid } from "uuid";
 import { Container } from "@mui/material";
 import YourStoreAPI from "../api";
-import { ThreeDots} from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 import { useTheme } from "@mui/material/styles";
 
 const ProductList = () => {
   const { currentStore, productSearch } = useContext(UserContext);
   const [storeProducts, setStoreProducts] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const theme = useTheme();
 
   async function searchProducts(ownerId, storeId, productSearch) {
@@ -20,6 +21,7 @@ const ProductList = () => {
       productSearch || null
     );
     setStoreProducts(storeProducts);
+    setLoading(false); 
   }
 
   useEffect(() => {
@@ -28,7 +30,19 @@ const ProductList = () => {
     }
   }, [currentStore, productSearch]);
 
-  if (storeProducts.length === 0 && currentStore.products[0])
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (loading) {
+        setLoading(false); 
+      }
+    }, 5000);
+
+    return () => {
+      clearTimeout(timeoutId); 
+    };
+  }, [loading]);
+
+  if (loading) {
     return (
       <Container>
         <Grid container justifyContent="center">
@@ -40,6 +54,15 @@ const ProductList = () => {
         </Grid>
       </Container>
     );
+  }
+
+  if (storeProducts.length === 0 && currentStore?.products[0]) {
+    return (
+      <Container>
+        <Typography sx={{marginTop: 3}} textAlign='center' variant="h6">No products found</Typography>
+      </Container>
+    );
+  }
 
   return (
     <>

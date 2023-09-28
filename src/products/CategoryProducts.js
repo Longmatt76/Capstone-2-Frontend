@@ -56,6 +56,7 @@ const CategoryProducts = () => {
             <Grid item key={uuid()} xs={3}>
               <ProductCard
                 key={p.productName}
+                storeId={p.storeId}
                 productId={p.id}
                 brand={p.brand}
                 title={p.name}

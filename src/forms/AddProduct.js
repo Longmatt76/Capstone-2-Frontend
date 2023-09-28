@@ -57,9 +57,15 @@ const AddProduct = ({ handleAddProduct }) => {
         ? values.categoryName
         : values.createCategoryName;
 
+      const imageValue =
+        values.image.trim() === ""
+          ? "https://media.istockphoto.com/id/1452662817/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=bGI_FngX0iexE3EBANPw9nbXkrJJA4-dcEJhCrP8qMw="
+          : values.image;
+
       await handleAddProduct(currentStore.ownerId, currentStore.storeId, {
         ...values,
         categoryName: selectedCategoryName,
+        image: imageValue,
       });
 
       formik.resetForm();
@@ -96,7 +102,13 @@ const AddProduct = ({ handleAddProduct }) => {
           }}
         >
           <CardContent>
-            <Grid container spacing={1} justifyContent="center" alignItems="center" mt={1}>
+            <Grid
+              container
+              spacing={1}
+              justifyContent="center"
+              alignItems="center"
+              mt={1}
+            >
               <Grid xs={12} sm={12} item>
                 <form onSubmit={formik.handleSubmit}>
                   <Stack direction="row">
@@ -125,8 +137,13 @@ const AddProduct = ({ handleAddProduct }) => {
                     name="productName"
                     value={formik.values.productName}
                     onChange={handleChange}
-                    error={formik.touched.productName && Boolean(formik.errors.productName)}
-                    helperText={formik.touched.productName && formik.errors.productName}
+                    error={
+                      formik.touched.productName &&
+                      Boolean(formik.errors.productName)
+                    }
+                    helpertext={
+                      formik.touched.productName && formik.errors.productName
+                    }
                   />
                   <TextField
                     sx={{
@@ -183,8 +200,14 @@ const AddProduct = ({ handleAddProduct }) => {
                         name="categoryName"
                         value={formik.values.categoryName}
                         onChange={handleChange}
-                        error={formik.touched.categoryName && Boolean(formik.errors.categoryName)}
-                        helperText={formik.touched.categoryName && formik.errors.categoryName}
+                        error={
+                          formik.touched.categoryName &&
+                          Boolean(formik.errors.categoryName)
+                        }
+                        helpertext={
+                          formik.touched.categoryName &&
+                          formik.errors.categoryName
+                        }
                       >
                         {currentStore.categories.map((c) => (
                           <MenuItem value={c.name} key={c.name}>
@@ -237,7 +260,11 @@ const AddProduct = ({ handleAddProduct }) => {
                   />
                   <Divider sx={{ marginBottom: 2, marginTop: 1 }} />
                   <Typography variant="h6">Pricing and Inventory</Typography>
-                  <Stack direction="row" spacing={0} justifyContent="space-around">
+                  <Stack
+                    direction="row"
+                    spacing={0}
+                    justifyContent="space-around"
+                  >
                     <TextField
                       id="input-with-icon-textfield"
                       label="price"
@@ -258,11 +285,13 @@ const AddProduct = ({ handleAddProduct }) => {
                           theme.palette.primary.contrastText,
                           0.5
                         ),
-                        marginTop: 3
+                        marginTop: 3,
                       }}
                       variant="outlined"
-                      error={formik.touched.price && Boolean(formik.errors.price)}
-                      helperText={formik.touched.price && formik.errors.price}
+                      error={
+                        formik.touched.price && Boolean(formik.errors.price)
+                      }
+                      helpertext={formik.touched.price && formik.errors.price}
                     />
                     <TextField
                       id="input-with-icon-textfield"
@@ -273,8 +302,7 @@ const AddProduct = ({ handleAddProduct }) => {
                       placeholder="enter quantity in stock"
                       InputProps={{
                         startAdornment: (
-                          <InputAdornment position="start">
-                          </InputAdornment>
+                          <InputAdornment position="start"></InputAdornment>
                         ),
                       }}
                       autoComplete="off"
@@ -284,10 +312,10 @@ const AddProduct = ({ handleAddProduct }) => {
                           theme.palette.primary.contrastText,
                           0.5
                         ),
-                        marginTop: 3
+                        marginTop: 3,
                       }}
                       error={formik.touched.qty && Boolean(formik.errors.qty)}
-                      helperText={formik.touched.qty && formik.errors.qty}
+                      helpertext={formik.touched.qty && formik.errors.qty}
                     />
                   </Stack>
                   <Button

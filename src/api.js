@@ -90,8 +90,8 @@ class YourStoreAPI {
     return res.store;
   }
 
-  static async getStore(ownerId) {
-    let res = await this.request(`stores/${ownerId}`);
+  static async getStore(storeId) {
+    let res = await this.request(`stores/${storeId}`);
     return res.store;
   }
 

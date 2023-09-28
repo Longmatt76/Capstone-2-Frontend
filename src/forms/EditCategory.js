@@ -116,7 +116,7 @@ const EditCategory = ({ handleEditCategory, handleDeleteCategory }) => {
                         onChange={handleCategorySelect}
                       >
                         {currentStore.categories.map((c) => (
-                          <MenuItem value={c.id}>{c.name}</MenuItem>
+                          <MenuItem key={c.id} value={c.id}>{c.name}</MenuItem>
                         ))}
                         <MenuItem
                           value=""

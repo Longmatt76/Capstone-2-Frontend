@@ -91,15 +91,31 @@ const ProductCard = ({
                 ${price}
               </Typography>
             </Stack>
-            <Typography
-              my={1}
-              fontStyle="italic"
-              textAlign="center"
-              color={theme.palette.primary.main}
-              variant="body2"
-            >
-              Only {qty} left!
-            </Typography>
+
+            {qty === 0 ? (
+              <>
+                <Typography
+                  my={1}
+                  fontStyle="italic"
+                  textAlign="center"
+                  sx={{color: theme.palette.error.main}}
+                  variant="body2"
+                >
+                  "Item out of stock"
+                </Typography>
+              </>
+            ) : (
+              <Typography
+                my={1}
+                fontStyle="italic"
+                textAlign="center"
+                color={theme.palette.primary.main}
+                variant="body2"
+              >
+                Only {qty} left!
+              </Typography>
+            )}
+
             <Divider
               sx={{
                 backgroundColor: theme.palette.primary.main,

@@ -23,6 +23,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import {v4 as uuid} from 'uuid';
+import { isEmptyArray } from "formik";
 
 const ShoppingCart = ({ handleCheckout }) => {
   const theme = useTheme();
@@ -71,7 +73,7 @@ const ShoppingCart = ({ handleCheckout }) => {
               <TableBody>
                 {cartItems.map((item, idx) => (
                   <TableRow
-                    key={item.productName}
+                    key={item.productId}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row">

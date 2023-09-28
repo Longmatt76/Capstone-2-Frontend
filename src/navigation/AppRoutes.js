@@ -43,20 +43,20 @@ const AppRoutes = ({
   handleAddProduct,
   handleEditProduct,
   handleDeleteProduct,
-  handleAddCategory, 
+  handleAddCategory,
   handleEditCategory,
   handleDeleteCategory,
   handleAddCarousel,
-  handleEditCarousel
+  handleEditCarousel,
 }) => {
   return (
     <Routes>
-      <Route path="/" element={<Home/>} />
       <Route path="/login" element={<LogIn handleLogIn={handleLogIn} />} />
       <Route
         path="/register-user"
         element={<SignUpUser handleUserSignUp={handleUserSignUp} />}
       />
+
       <Route
         path="/edit-user/:username"
         element={
@@ -114,58 +114,63 @@ const AppRoutes = ({
       />
       <Route
         path="/stores/:ownerId/edit-products/:storeId"
-        element={<EditProduct
-           handleEditProduct={handleEditProduct} 
-           handleDeleteProduct={handleDeleteProduct} />}
+        element={
+          <EditProduct
+            handleEditProduct={handleEditProduct}
+            handleDeleteProduct={handleDeleteProduct}
+          />
+        }
       />
 
       <Route path="/stores/categories" element={<Categories />} />
       <Route
         path="/stores/:ownerId/add-categories/:storeId"
-        element={<AddCategory handleAddCategory={handleAddCategory}/>}
+        element={<AddCategory handleAddCategory={handleAddCategory} />}
       />
       <Route
         path="/stores/:ownerId/edit-categories/:storeId"
-        element={<EditCategory
-           handleEditCategory={handleEditCategory}
-           handleDeleteCategory={handleDeleteCategory}/>}
+        element={
+          <EditCategory
+            handleEditCategory={handleEditCategory}
+            handleDeleteCategory={handleDeleteCategory}
+          />
+        }
       />
       <Route
         path="/stores/:storeId/product-details/:productId"
-        element={<ProductDetails/>}
+        element={<ProductDetails />}
       />
       <Route
         path="/stores/:storeId/categories/:categoryId"
-        element={<CategoryProducts/>}
+        element={<CategoryProducts />}
       />
       <Route
         path="/stores/:ownerId/carousel-add/:storeId"
-        element={<AddCarousel handleAddCarousel={handleAddCarousel}/>}
+        element={<AddCarousel handleAddCarousel={handleAddCarousel} />}
       />
       <Route
         path="/stores/:ownerId/carousel-edit/:storeId"
-        element={<EditCarousel handleEditCarousel={handleEditCarousel}/>}
+        element={<EditCarousel handleEditCarousel={handleEditCarousel} />}
       />
       <Route
         path="/stores/:ownerId/orders/:storeId"
-        element={<StoreOrders/>}
+        element={<StoreOrders />}
       />
       <Route
         path="/stores/:ownerId/inventory/:storeId"
-        element={<StoreInventory/>}
+        element={<StoreInventory />}
       />
+      <Route path="/" element={<Home />} />
+
+      <Route path="/:storeId" element={<Home />} />
+
       <Route
-        path="/checkout-success"
-        element={<CheckoutSuccess/>}
+        path={`/:storeId/checkout-success`}
+        element={<CheckoutSuccess />}
       />
-      <Route
-        path="/checkout-cancel"
-        element={<CheckoutCancel/>}
-      />
-      <Route
-        path="*"
-        element={<NotFound/>}
-      />
+      <Route path={`/:storeId/checkout-cancel`} element={<CheckoutCancel />} />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

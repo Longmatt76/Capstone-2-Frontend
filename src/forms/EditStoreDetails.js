@@ -121,9 +121,7 @@ const EditStoreDetails = ({handleEditStoreDetails, handleDeleteStore}) => {
                       backgroundColor: alpha(theme.palette.primary.contrastText, 1),
                       marginBottom: 1,
                     }}
-                    InputLabelProps={{
-                      style: {color: 'black'}
-                    }}
+          
                     label="theme"
                     placeholder="choose a color scheme"
                     type="select"

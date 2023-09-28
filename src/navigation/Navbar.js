@@ -1,12 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, forwardRef } from "react";
 import StoreIcon from "@mui/icons-material/Store";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import CategoryIcon from "@mui/icons-material/Category";
 import ViewCarouselIcon from "@mui/icons-material/ViewCarousel";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import ShoppingCart from "../shoppingCart/ShoppingCart";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 import { CartContex } from "../contexts/CartContext";
 import { CarouselContext } from "../contexts/CarouselContext";
 import SearchBar from "./SearchBar";
@@ -14,6 +13,10 @@ import { NavLink } from "react-router-dom";
 import UserContext from "../contexts/UserContext";
 import "../static/css/Navbar.css";
 import { useTheme } from "@mui/material/styles";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import RemoveIcon from "@mui/icons-material/Remove";
 import {
   AppBar,
   Toolbar,
@@ -28,16 +31,213 @@ import {
   Drawer,
   Avatar,
   Modal,
+  Container,
+  Paper,
+  TableContainer,
+  Table,
+  TableHead,
+  TableCell,
+  TableBody,
+  TableRow,
+  Box,
+  Tooltip,
 } from "@mui/material";
 
+const ShoppingCartModal = forwardRef(({ handleCheckout }, ref) => {
+  const checkoutTooltip = (
+    <Typography p={1} variant="subtitle2">
+      Clicking "Checkout" will redirect you to a Stripe test checkout page. Fill
+      out your payment form with test data. Enter any email. Enter 4242 4242 4242 4242 as the
+      card number. Enter any future date for card expiry. Enter any 3-digit
+      number for CVV. Enter any billing postal code
+    </Typography>
+  );
+  const theme = useTheme();
+  const { currentUser, currentStore } = useContext(UserContext);
+  const {
+    totalPrice,
+    totalQuantities,
+    cartItems,
+    deleteFromCart,
+    clearCart,
+    setShowCart,
+    toggleCartItemQty,
+  } = useContext(CartContex);
+  return (
+    <>
+      <Container maxWidth="md" sx={{ marginTop: 20 }}>
+        <Paper sx={{ padding: 2 }} elevation={10}>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.primary.contrastText,
+              padding: 1,
+              borderRadius: 3,
+            }}
+          >
+            <ShoppingCartIcon />{" "}
+            <Typography variant="h5" textAlign="center">
+              Shopping Cart
+            </Typography>
+          </Stack>
+          <Divider sx={{ marginTop: 2 }} />
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">#</TableCell>
+                  <TableCell align="right">Image</TableCell>
+                  <TableCell align="center">Product</TableCell>
+                  <TableCell align="center">Unit Price</TableCell>
+                  <TableCell align="center">Quantity</TableCell>
+                  <TableCell align="center">Total Price</TableCell>
+                  <TableCell align="center">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cartItems.map((item, idx) => (
+                  <TableRow
+                    key={item.productId}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {idx + 1}
+                    </TableCell>
+                    <TableCell align="right">
+                      <img
+                        alt={item.productName}
+                        src={`${item.image}`}
+                        height="40"
+                      ></img>
+                    </TableCell>
+                    <TableCell align="center">{item.productName}</TableCell>
+                    <TableCell align="center">${item.price}</TableCell>
+                    <TableCell align="right">
+                      {" "}
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="center"
+                      >
+                        <IconButton
+                          sx={{
+                            border: "1px solid black",
+                            borderRadius: 0,
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                          }}
+                          color="inherit"
+                          onClick={() =>
+                            toggleCartItemQty(item.productId, "sub")
+                          }
+                          size="small"
+                        >
+                          <RemoveIcon fontSize="small" />
+                        </IconButton>
+                        <Box
+                          px={2}
+                          sx={{
+                            border: "1px solid black",
+                            color: theme.palette.primary.main,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {item.quantity > 0 ? item.quantity : 0}
+                        </Box>
+                        <IconButton
+                          sx={{
+                            border: "1px solid black",
+                            borderRadius: 0,
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                          }}
+                          color="inherit"
+                          onClick={() =>
+                            toggleCartItemQty(item.productId, "add")
+                          }
+                          size="small"
+                        >
+                          <AddIcon fontSize="small" />
+                        </IconButton>
+                      </Stack>
+                    </TableCell>
+                    <TableCell align="center">
+                      {(item.price * item.quantity).toFixed(2)}
+                    </TableCell>
+                    <TableCell align="center">
+                      <Button onClick={() => deleteFromCart(item)}>
+                        delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Divider />
+            <Box mt={2}>
+              <Paper>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  p={1}
+                >
+                  <Button
+                    variant="default"
+                    onClick={() => {
+                      clearCart();
+                      setShowCart(false);
+                    }}
+                    startIcon={<DeleteIcon />}
+                    size="large"
+                    sx={{ marginTop: 4 }}
+                  >
+                    Clear Cart
+                  </Button>
+                  <Stack>
+                    <Typography variant="h6" fontWeight="bold">
+                      Total ({totalQuantities} items):{" "}
+                      <span style={{ color: theme.palette.primary.main }}>
+                        {totalPrice.toFixed(2)}
+                      </span>{" "}
+                    </Typography>
+                    <Tooltip title={checkoutTooltip} arrow>
+                    <Button
+                      onClick={() =>
+                        handleCheckout(
+                          currentStore.ownerId,
+                          currentUser?.userId ? currentUser.userId : undefined,
+                          { cartItems }
+                        )
+                      }
+                      variant="contained"
+                      startIcon={<PointOfSaleIcon />}
+                    >
+                      Checkout
+                    </Button>
+                    </Tooltip>
+                  </Stack>
+                </Stack>
+              </Paper>
+            </Box>
+          </TableContainer>
+        </Paper>
+      </Container>
+    </>
+  );
+});
 
 const Navbar = ({ logOut, handleCheckout }) => {
   const theme = useTheme();
-  const { cartItems, showCart, setShowCart } = useContext(CartContex);
+  const { cartItems, showCart, setShowCart, clearCart } =
+    useContext(CartContex);
 
   const { currentUser, currentStore } = useContext(UserContext);
 
-  const {carousel}   = useContext(CarouselContext);
+  const { carousel } = useContext(CarouselContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -73,7 +273,7 @@ const Navbar = ({ logOut, handleCheckout }) => {
           )}
 
           {!currentStore ? (
-            <NavLink to="/" className="homeTitle">
+            <NavLink to={"/"} className="homeTitle">
               <Typography
                 variant="h5"
                 component="div"
@@ -86,7 +286,7 @@ const Navbar = ({ logOut, handleCheckout }) => {
               </Typography>
             </NavLink>
           ) : (
-            <NavLink to="/" className="homeTitle">
+            <NavLink to={`/${currentStore?.storeId}`} className="homeTitle">
               <Typography
                 variant="h5"
                 component="div"
@@ -226,10 +426,13 @@ const Navbar = ({ logOut, handleCheckout }) => {
                                 }}
                               />{" "}
                               &nbsp;&nbsp;
-          
                               <NavLink
                                 onClick={() => setIsDrawerOpen(false)}
-                                to={carousel !== undefined ? `/stores/:ownerId/carousel-edit/:storeId` :  `/stores/:ownerId/carousel-add/:storeId` }
+                                to={
+                                  carousel !== undefined
+                                    ? `/stores/:ownerId/carousel-edit/:storeId`
+                                    : `/stores/:ownerId/carousel-add/:storeId`
+                                }
                               >
                                 <Typography
                                   color={theme.palette.primary.contrastText}
@@ -254,8 +457,10 @@ const Navbar = ({ logOut, handleCheckout }) => {
                                 }}
                               />{" "}
                               &nbsp;&nbsp;
-                              
-                              <NavLink onClick={() => setIsDrawerOpen(false)} to={`/stores/${currentStore?.ownerId}/orders/${currentStore?.storeId}`}>
+                              <NavLink
+                                onClick={() => setIsDrawerOpen(false)}
+                                to={`/stores/${currentStore?.ownerId}/orders/${currentStore?.storeId}`}
+                              >
                                 <Typography
                                   color={theme.palette.primary.contrastText}
                                   variant="h6"
@@ -279,8 +484,10 @@ const Navbar = ({ logOut, handleCheckout }) => {
                                 }}
                               />{" "}
                               &nbsp;&nbsp;
-                              
-                              <NavLink onClick={() => setIsDrawerOpen(false)} to={`/stores/${currentStore?.ownerId}/inventory/${currentStore?.storeId}`}>
+                              <NavLink
+                                onClick={() => setIsDrawerOpen(false)}
+                                to={`/stores/${currentStore?.ownerId}/inventory/${currentStore?.storeId}`}
+                              >
                                 <Typography
                                   color={theme.palette.primary.contrastText}
                                   variant="h6"
@@ -489,7 +696,13 @@ const Navbar = ({ logOut, handleCheckout }) => {
                   ) : null}
                 </MenuItem>
               </Menu>
-              <NavLink onClick={logOut} to="/">
+              <NavLink
+                onClick={() => {
+                  logOut();
+                  clearCart();
+                }}
+                to="/"
+              >
                 <Typography>Logout</Typography>
               </NavLink>
             </>
@@ -506,7 +719,7 @@ const Navbar = ({ logOut, handleCheckout }) => {
           </IconButton>
           {cartItems.length > 0 && showCart && (
             <Modal open={showCart} onClose={() => setShowCart(false)}>
-              <ShoppingCart handleCheckout={handleCheckout} />
+              <ShoppingCartModal handleCheckout={handleCheckout} ref={null} />
             </Modal>
           )}
         </Stack>
