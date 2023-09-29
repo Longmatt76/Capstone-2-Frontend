@@ -14,7 +14,7 @@ import YourStoreAPI from "../api";
 const Carousel = () => {
   const theme = useTheme();
   const { currentStore } = useContext(UserContext);
-  const { carousel, setCarousel } =
+  const { carousel, setCarousel, isDarkText } =
     useContext(CarouselContext);
 
   const mountCarousel = useCallback(async function (ownerId, storeId) {
@@ -27,7 +27,6 @@ const Carousel = () => {
       mountCarousel(currentStore.ownerId, currentStore.storeId);
     }
   }, [currentStore, mountCarousel]);
-
 
   return (
     <>
@@ -44,7 +43,7 @@ const Carousel = () => {
           {" "}
           <Grid container justifyContent="center">
             <Grid item xs={8}>
-              <CCarousel controls >
+              <CCarousel controls dark={isDarkText}>
                 <CCarouselItem>
                   <CImage
                     className="d-block w-100"

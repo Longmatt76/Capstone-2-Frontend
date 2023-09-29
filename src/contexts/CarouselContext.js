@@ -4,6 +4,7 @@ export const CarouselContext = createContext();
 
 export const CarouselProvider = ({ children }) => {
   const [isCarousel, setIsCarousel] = useState(true);
+  const [isDarkText, setIsDarkText] = useState(false);
   const [carousel, setCarousel] = useState([]);
 
   return (
@@ -13,6 +14,8 @@ export const CarouselProvider = ({ children }) => {
         setIsCarousel,
         carousel,
         setCarousel,
+        isDarkText,
+        setIsDarkText
       }}
     >
       {children}

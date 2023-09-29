@@ -16,13 +16,14 @@ import {
   alpha,
   Switch,
   FormControlLabel,
+  Stack,
 } from "@mui/material";
 
 const EditCarousel = ({ handleEditCarousel}) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { currentStore } = useContext(UserContext);
-  const {carousel, setCarousel ,isCarousel, setIsCarousel} = useContext(CarouselContext);
+  const {carousel, setCarousel ,isCarousel, setIsCarousel, isDarkText, setIsDarkText} = useContext(CarouselContext);
 
   const mountCarousel = useCallback(async function (ownerId, storeId) {
     const carousel = await YourStoreAPI.getCarousel(ownerId, storeId);
@@ -105,6 +106,7 @@ const EditCarousel = ({ handleEditCarousel}) => {
               Add images and captions to the home screen carousel!
             </Typography>
             <Divider />
+            <Stack direction="row" spacing={3} justifyContent='space-around'>
             <FormControlLabel
               sx={{ marginTop: 2, marginBottom: 0 }}
               control={<Switch checked={isCarousel ? true : false} onClick={() => setIsCarousel(!isCarousel)} />}
@@ -112,7 +114,14 @@ const EditCarousel = ({ handleEditCarousel}) => {
                 <Typography variant="subtitle2">disable / enable </Typography>
               }
             />
-
+            <FormControlLabel
+              sx={{ marginTop: 2, marginBottom: 0 }}
+              control={<Switch checked={isDarkText ? false : true} onClick={() => setIsDarkText(!isDarkText)} />}
+              label={
+                <Typography variant="subtitle2">dark text / light text </Typography>
+              }
+            />
+            </Stack>
             <Grid
               container
               spacing={1}

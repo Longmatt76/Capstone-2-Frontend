@@ -15,13 +15,14 @@ import {
   alpha,
   Switch,
   FormControlLabel,
+  Stack
 } from "@mui/material";
 
 const AddCarousel = ({ handleAddCarousel}) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const { currentStore } = useContext(UserContext);
-  const { isCarousel, setIsCarousel} = useContext(CarouselContext);
+  const { isCarousel, setIsCarousel, isDarkText, setIsDarkText} = useContext(CarouselContext);
 
   const INITIALSTATE = {
     imageOne: "",
@@ -93,6 +94,7 @@ const AddCarousel = ({ handleAddCarousel}) => {
               Add images and captions to the home screen carousel!
             </Typography>
             <Divider />
+            <Stack direction="row" spacing={3} justifyContent='space-around'>
             <FormControlLabel
               sx={{ marginTop: 2, marginBottom: 0 }}
               control={<Switch checked={isCarousel ? true : false} onClick={() => setIsCarousel(!isCarousel)} />}
@@ -100,7 +102,14 @@ const AddCarousel = ({ handleAddCarousel}) => {
                 <Typography variant="subtitle2">disable / enable </Typography>
               }
             />
-
+            <FormControlLabel
+              sx={{ marginTop: 2, marginBottom: 0 }}
+              control={<Switch checked={isDarkText ? false : true} onClick={() => setIsDarkText(!isDarkText)} />}
+              label={
+                <Typography variant="subtitle2">dark text / light text </Typography>
+              }
+            />
+            </Stack>
             <Grid
               container
               spacing={1}

@@ -6,7 +6,6 @@ class YourStoreAPI {
   static token;
 
   static async request(endpoint, data = {}, method = "get") {
-    console.log("API CALL:", endpoint, data, method);
 
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {
