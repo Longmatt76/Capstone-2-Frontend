@@ -15,7 +15,6 @@ import { NavLink } from "react-router-dom";
 const ProductCard = ({
   productId,
   title,
-
   price,
   qty,
   image,
