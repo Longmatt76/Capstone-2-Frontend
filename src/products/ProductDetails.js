@@ -27,7 +27,6 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const { productId, storeId } = useParams();
-  console.log("storeid", storeId)
   const { currentStore } = useContext(UserContext);
   const { qty, setQty, addQty, subQty, onAdd } = useContext(CartContex);
 

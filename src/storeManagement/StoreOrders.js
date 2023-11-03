@@ -24,8 +24,6 @@ const StoreOrders = () => {
     setOrders(orders);
   }
 
-  console.log(orders);
-
   useEffect(() => {
     if (currentStore) {
       getOrders(currentStore?.ownerId, currentStore?.storeId);

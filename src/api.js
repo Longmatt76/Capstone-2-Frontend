@@ -1,13 +1,12 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 class YourStoreAPI {
   static token;
 
   static async request(endpoint, data = {}, method = "get") {
 
-    const url = `${BASE_URL}/${endpoint}`;
+    const url = `/api/${endpoint}`;
     const headers = {
       Authorization: `Bearer ${YourStoreAPI.token}`,
       "Content-Type": "application/json",
